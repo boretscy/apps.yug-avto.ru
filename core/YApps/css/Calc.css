@@ -1,0 +1,276 @@
+.YApps_Calc--container {
+    width: 100%;
+    display: block;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    font-family: 'PT Sans', sans-serif;
+    color: %CALC.BLACK%
+}
+
+.YApps_Calc--description,
+.YApps_Calc--title {
+    text-align: center;
+    padding: 5px 15px;
+    display: block
+}
+
+.YApps_Calc--Icon {
+    fill: %CALC.GRAY%;
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    transition: .5s
+}
+
+.YApps_Calc--Icon.active {
+    fill: %CALC.COLOR%;
+    transition: .5s
+}
+
+.YApps_Calc--title {
+    width: 100%;
+    font-size: 32px;
+    color: %CALC.COLOR%
+}
+
+.YApps_Calc--description {
+    width: 100%;
+    font-size: 20px
+}
+
+.YApps_Calc--row {
+    width: 100%;
+    display: block;
+    padding: 0;
+    margin: 0
+}
+
+.YApps_Calc--col {
+    display: inline-block;
+    margin: 5px 15px
+}
+
+.YApps_Calc--col50 {
+    width: calc(50% - 33px)
+}
+
+@media (max-width:479px) {
+    .YApps_Calc--col50 {
+        width: calc(100% - 30px);
+        display: block
+    }
+    .YApps_Calc--col70 {
+        width: calc(70% - 34px)
+    }
+    .YApps_Calc--col30 {
+        width: calc(30% - 34px)
+    }
+    .YApps_Calc--col-top30 {
+        margin-top: 30px
+    }
+    .YApps_Calc--slider_label {
+        width: 100%;
+        padding: 5px 15px
+    }
+    input.YApps_Calc--Form_Text,
+    select.YApps_Calc--input_select {
+        width: 100%;
+        padding: 20px;
+        font-size: 18px;
+        border-radius: 0;
+        border: 1px solid #dedede;
+        position: relative
+    }
+    .YApps_Calc--Form_Submit,
+    .YApps_Calc--Form_Submit:active,
+    .YApps_Calc--Form_Submit:focus,
+    .YApps_Calc--Form_Submit:hover,
+    .YApps_Calc--Form_Submit:visited {
+        padding: 15px 20px;
+        background-color: %CALC.COLOR%;
+        color: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+        margin-top: 30px
+    }
+}
+
+@media (max-width:479px) {
+    .YApps_Calc--slider_container {
+        width: calc(100% - 30px);
+        display: block
+    }
+    .YApps_Calc--input_slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 25px;
+        background: %CALC.GRAY%;
+        outline: 0;
+        opacity: .7;
+        -webkit-transition: .2s;
+        transition: opacity .2s
+    }
+    .YApps_Calc--input_slider:hover {
+        opacity: 1
+    }
+    .YApps_Calc--input_slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        background: %CALC.COLOR%;
+        cursor: pointer
+    }
+    .YApps_Calc--input_slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        background: #4CAF50;
+        cursor: pointer
+    }
+    .YApps_Calc--col[role=YApps_Calc--input_slider-caption] {
+        display: none;
+        font-weight: 700;
+        color: %CALC.COLOR%;
+        padding: 15px 25px;
+        font-size: 24px;
+        position: absolute;
+        margin-top: -15px;
+        text-align: right;
+        right: 0
+    }
+}
+
+@media (max-width:479px) {
+    .YApps_Calc--col[role=YApps_Calc--input_slider-caption] {
+        position: inherit;
+        text-align: left;
+        right: unset;
+        padding-left: 0%
+    }
+}
+
+.YApps_Calc--col[role=YApps_Calc--input_slider-caption].active {
+    display: inline-block
+}
+
+.YApps_Calc--price_title {
+    padding: 15px 25px 15px 70px;
+    margin: 15px;
+    width: calc(100% - 30px);
+    border: 1px solid %CALC.COLOR%;
+    border-radius: 0;
+    font-size: 24px;
+    position: relative
+}
+
+.YApps_Calc--price_title[data-expand="Y"] {
+    cursor: pointer
+}
+
+.YApps_Calc--price_title span.triangle-down,
+.YApps_Calc--price_title span.triangle-up {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    cursor: pointer;
+    transition: .5s
+}
+
+.YApps_Calc--price_title span {
+    float: right;
+    font-weight: 700;
+    color: %CALC.COLOR%
+}
+
+
+}
+@media (max-width:479px) {
+    .YApps_Calc--price_title span {
+        float: none;
+        display: block
+    }
+    
+    .YApps_Calc--price_title span.triangle-down {
+        border-width: 12px 6px 0;
+        border-color: %CALC.COLOR% transparent transparent
+    }
+    
+    .YApps_Calc--price_title span.triangle-up {
+        border-width: 0 6px 12px;
+        border-color: transparent transparent #007bff
+    }
+    
+    .YApps_Calc--price-container {
+        display: none
+    }
+    
+    .YApps_Calc--price-container[role=YApps_Calc--Form] {
+        display: block
+    }
+    
+    .Yapps_Calc--price_name {
+        padding-left: 15px
+    }
+    
+    .Yapps_Calc--price_value {
+        text-align: right;
+        font-weight: 700;
+        padding-right: 15px
+    }
+    
+    .YApps_Calc--disclamer {
+        color: #888;
+        font-size: 14px;
+        padding: 30px 15px
+    }
+    
+    .YApps_Calc--hr {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        height: 1px;
+        background-color: #ccc
+    }
+    
+    .flatpickr-calendar,
+    .flatpickr-day {
+        border-radius: 0
+    }
+    
+    .flatpickr-day.today {
+        border-color: %CALC.GRAY%
+    }
+    
+    .flatpickr-day.endRange,
+    .flatpickr-day.endRange.inRange,
+    .flatpickr-day.endRange.nextMonthDay,
+    .flatpickr-day.endRange.prevMonthDay,
+    .flatpickr-day.endRange:focus,
+    .flatpickr-day.endRange:hover,
+    .flatpickr-day.selected,
+    .flatpickr-day.selected.inRange,
+    .flatpickr-day.selected.nextMonthDay,
+    .flatpickr-day.selected.prevMonthDay,
+    .flatpickr-day.selected:focus,
+    .flatpickr-day.selected:hover,
+    .flatpickr-day.startRange,
+    .flatpickr-day.startRange.inRange,
+    .flatpickr-day.startRange.nextMonthDay,
+    .flatpickr-day.startRange.prevMonthDay,
+    .flatpickr-day.startRange:focus,
+    .flatpickr-day.startRange:hover {
+        background: %CALC.COLOR%;
+        border-color: %CALC.COLOR%
+    }
+    
+    .YApps_Calc--Form_Text.error {
+        border-color: red
+    }
+}

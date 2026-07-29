@@ -1,0 +1,23 @@
+.YApps_Widget--Callback_Container,
+.YApps_Widget--Feedback_Container,
+.YApps_Widget--Leadgen_Container,
+.YApps_Widget--Messengers_Container,
+.YApps_Widget--Navigator_Container,
+.YApps_Widget--Quiz_Container,
+.YApps_Widget--CallInvolve_Container {
+    margin-left: unset;
+    left: unset;
+    top: unset;
+    right: 110px;
+    bottom: 120px;
+}
+@media (max-width: 767px) {
+    .YApps_Widget--Callback_Container, .YApps_Widget--Feedback_Container, .YApps_Widget--Leadgen_Container, .YApps_Widget--Messengers_Container, .YApps_Widget--Navigator_Container, .YApps_Widget--Quiz_Container, .YApps_Widget--CallInvolve_Container {
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        margin-top: 0;
+        margin-left: 0;
+    }
+}

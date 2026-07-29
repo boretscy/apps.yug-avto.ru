@@ -1,0 +1,110 @@
+.YApps_Widget--Navigator_Container {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    background-color: var(--yapps-widget-bg-color);
+    z-index: 14000;
+    padding: 50px 20px 20px;
+	display: none;
+	overflow: hidden;
+	width: 840px;
+	margin-left: -420px;
+	height: 600px;
+	margin-top: -300px;
+}
+.YApps_Widget--Navigator_Container a, .YApps_Widget--Navigator_Container a:focus, .YApps_Widget--Navigator_Container a:active, .YApps_Widget--Navigator_Container a:visited {
+	color: var(--yapps-widget-text-color);
+	text-decoration: underline;
+	transition: color .2s;
+}
+.YApps_Widget--Navigator_Container a:hover {
+	color: var(--yapps-widget-fill-color);
+	text-decoration: underline;
+	transition: color .2s;
+}
+ul.YApps_Widget--Form_Title-DCs {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	font-size: 14px;
+	float: right;
+	width: 65%;
+	line-height: 1.2em;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+ul.YApps_Widget--Form_Title-DCs li {
+	display: inline-block;
+	padding: 5px 0 10px;
+	margin: 0 5px;
+	width: 30.9%;
+	cursor: pointer;
+	border-bottom: 1px dotted var(--yapps-widget-fill-color);
+	line-height: 1.4;
+	float: right;
+}
+ul.YApps_Widget--Form_Title-DCs li span.YApps_Widget--Form_Title-DCs_Address {
+	display: block;
+	font-size: 10px;
+	color: var(--yapps-widget-text-color);
+	margin-bottom: 5px;
+	height: 30px;
+}
+ul.YApps_Widget--Form_Title-DCs li a {
+	text-decoration: none;
+}
+ul.YApps_Widget--Form_Title-DCs li a span.YApps_Widget--Form_Title-DCs_Phone {
+    font-size: 15px;
+    color: var(--yapps-widget-lightgray-color);
+    background-color: var(--yapps-widget-button-color);
+    padding: 5px;
+	display: none;
+}
+ul.YApps_Widget--Form_Title-DCs li span.YApps_Widget--Form_Title-DCs_ToNav {
+	display: none;
+    float: right;
+}
+ul.YApps_Widget--Form_Title-DCs li:hover {
+	border-bottom: 1px dotted var(--yapps-widget-button-color);
+}
+ul.YApps_Widget--Form_Title-DCs li.YApps_Widget--Form_Title-DCs_Active {
+	border-bottom: 1px solid var(--yapps-widget-button-color);
+}
+.YApps_Widget--Navigator_Content #YApps_Widget--Navigator_Map {
+	width: 800px;
+	height: 430px;
+    position: absolute;
+    bottom: 20px;
+}
+
+@media (max-width: 768px) {
+.YApps_Widget--Navigator_Container {
+    height: 100%;
+	width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    margin-top: 0;
+	margin-left: 0;
+}
+ul.YApps_Widget--Form_Title-DCs {
+	float: none;
+	width: 100%;
+	top: 80px;
+}
+ul.YApps_Widget--Form_Title-DCs li {
+	display: block;
+	width: 100% !important;
+}
+ul.YApps_Widget--Form_Title-DCs li span.YApps_Widget--Form_Title-DCs_ToNav, ul.YApps_Widget--Form_Title-DCs li a span.YApps_Widget--Form_Title-DCs_Phone {
+	display: inline-block;
+}
+ul.YApps_Widget--Form_Title-DCs li span.YApps_Widget--Form_Title-DCs_Address {
+	height: auto;
+}
+.YApps_Widget--Navigator_Content #YApps_Widget--Navigator_Map {
+    width: calc(100% - 40px);
+    height: calc(100% - 410px);
+}
+}

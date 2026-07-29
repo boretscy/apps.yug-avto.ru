@@ -1,0 +1,74 @@
+<?php
+	class Search extends App {
+		
+		
+		///////////////////////////////////////////////////////////////////////////////////////////
+        // Init ///////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////
+		
+		public function __construct( $arConf = [], $mysql = false, $mssql = false, $mailer = false ) {
+
+			$this->MySQL	= &$mysql;
+			// $this->Conf		= (object)$arConf['modules'][get_class($this)];
+		}
+		
+		
+		///////////////////////////////////////////////////////////////////////////////////////////
+        // System /////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////
+
+		public function AppInfo() {
+
+			return (object)$this->MySQL->getRow('SELECT * FROM yapps_apps WHERE class = ?s', get_class($this));
+		}
+
+		public function getConf() {
+
+			return $this->Conf;
+        }
+		
+		
+		
+		///////////////////////////////////////////////////////////////////////////////////////////
+        // Search Brands Area /////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////
+		
+		public function searchBrandsIDsByURL( $url ) {
+			
+			$arUrl = parse_url( $url );
+			$site = $this->getSiteByHost( $arUrl['host'] );
+			
+			if ( $res = $this->YApps_GetBrandsIDsBySiteId( $site->id ) ) {
+				
+				return $res;
+				
+			} else {
+				
+				$brands = $this->YApps_GetBrands();
+				foreach ( $brands as $brand ) if ( $p = strripos($url, $brand['url_key']) ) $res[] = $brand['id'];
+			}
+			
+			return $res;
+		}
+		
+		
+		
+		///////////////////////////////////////////////////////////////////////////////////////////
+        // Search Models Area /////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////
+		
+		public function searchModelsIDsByURL( $url ) {
+			
+			$brands = $this->searchBrandsIDsByURL( $url );
+			foreach ( $this->YApps_GetModelsByBrands($brands) as $model ) {
+				
+				$p = ( strripos($url, $model['site_url']) ) ?: ( strripos($url, $model['url_key']) ) ?: ( strripos($url, $model['en_name']) ) ?: strripos($url, $model['ru_name']);
+				if ( $p ) $res[] = $model['id'];
+			}
+			
+			return $res;
+		}
+		
+		
+	}
+?>

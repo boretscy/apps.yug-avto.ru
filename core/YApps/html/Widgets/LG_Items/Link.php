@@ -1,0 +1,1 @@
+﻿<div class="YApps_Widget--Form_Text"><a href="%%WIDGET.LG.LINK_URL%%">%%WIDGET.LG.LINK_TEXT%%</a> &rarr;</div>

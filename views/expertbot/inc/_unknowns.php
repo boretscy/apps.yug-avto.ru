@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/ru.js"></script>
+<script>
+	$('#datepicker_date_from').datepicker({
+		locale: 'ru',
+		format: 'yyyy-mm-dd'
+	});
+	$('#datepicker_date_to').datepicker({
+		locale: 'ru',
+		format: 'yyyy-mm-dd'
+	});
+	$("#data-table-expertbot-unknowns").DataTable({
+		"order": [[ 0, "desc" ]],
+        "pageLength": 50
+	});
+</script>
