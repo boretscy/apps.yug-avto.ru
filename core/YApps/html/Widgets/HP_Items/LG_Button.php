@@ -1,0 +1,3 @@
+<div class="YApps_Helper--LeadgenButton %%WIDGET.HP.ITEM_LG.DRAGGABLE%%" role="YApps_Helper--StartWidget" data-action="YApps_Widget--Leadgen" data-appkey="LG">
+    <div class="YApps_Helper--LeadgenButton_Container"><svg xmlns="http://www.w3.org/2000/svg"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#YApps-Widgets_LeadgenButton"></use></svg> %%WIDGET.HP.ITEM_LG.PLATE_TEXT%%</div>
+</div>

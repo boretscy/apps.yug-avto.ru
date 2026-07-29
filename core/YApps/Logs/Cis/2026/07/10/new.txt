@@ -1,0 +1,4044 @@
+======================================================================
+СИНХРОНИЗАЦИЯ: НОВЫЕ АВТОМОБИЛИ [10.07.2026 23:46:03 — 23:56:51]
+======================================================================
+
+[СТАТИСТИКА ИМПОРТА]
+----------------------------------------------------------------------
+Всего автомобилей в API:  5269
+Успешно импортировано:    22 (0.4%)
+Пропущено / Ошибки:       5247 (99.6%)
+Сбои (Таймауты):          0 (0.0%)
+Обновлено фото:           7
+
+[ВРЕМЯ ВЫПОЛНЕНИЯ]
+----------------------------------------------------------------------
+Общее время импорта:     10m49s
+Среднее время на авто:   0.12 сек
+Топ-5 самых медленных запросов к API:
+  - ID #1458346: 264ms
+  - ID #1697516: 234ms
+  - ID #1708465: 234ms
+  - ID #1458348: 233ms
+  - ID #1674891: 233ms
+
+[ГРУППИРОВКА ПРОПУЩЕННЫХ АВТО ПО БРЕНДАМ]
+----------------------------------------------------------------------
+Не найден бренд/модель в базе CIS:
+  - Неизвестный бренд: 5247 авто
+
+[ДЕТАЛЬНЫЙ СПИСОК ПРОПУЩЕННЫХ АВТО]
+----------------------------------------------------------------------
+(Показано первых 100 из 5247)
+  - VIN:  | ID: 1708467 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud8cUrao4Y1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1708466 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud9cUrao0U1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1708471 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudBcUraoqM1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1708469 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudCcUraoSw1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1708468 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudDcUraoiE1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1691236 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudAcUraoiE1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1708470 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudEcUraoCg1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1708472 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudJdUraouQ1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1708474 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudOdUraoW21</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1708473 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudNdUraouQ1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1708475 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudRdUrao4Y1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1680263 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudTdUraoKo1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1653108 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudUdUraoCg1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1680262 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudSdUraoeA1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1651214 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudZeUraoW21</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1507334 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudbeUraoeA1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1608087 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fuddeUraomI1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1608086 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudceUraoW21</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1608088 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudfeUraoeA1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1617585 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudheUrao0U1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1611833 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudgeUraoeA1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1645256 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudnfUraoCg1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1645859 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudpfUraoCg1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1645257 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudofUraomI1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1646587 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudsfUraomI1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1538380 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud0gUraomI1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1612127 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud1gUraoqM1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621067 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud3gUraoSw1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1624660 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudLhUraoW21</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1638003 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudNhUraoeA1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1638002 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudMhUraoW21</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1651011 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudShUraoKo1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1658046 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudUhUrao8c1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1658045 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudThUraoKo1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1658047 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudWhUrao8c1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1658048 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudriUraoCg1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1698334 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fuduiUraoW21</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1705191 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudviUraoW21</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1669095 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudtiUraoeA1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621132 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud0jUrao0U1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621131 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudxiUraoSw1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621049 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud3jUraoeA1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621112 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud5kUraoW21</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1641372 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud7kUraouQ1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1641371 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud6kUraoW21</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1643173 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud8kUraoiE1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1643174 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudAkUrao0U1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1643176 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudCkUraoGk1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1643175 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudDkUraoOs1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1651012 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud7lUraoa61</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1652269 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud8lUraoOs1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1658049 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud9lUraoiE1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1658104 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudBlUraoOs1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1691238 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudDlUraoiE1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1695019 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudFlUraoOs1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1698339 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudHlUraoqM1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1702429 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudPmUraoKo1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1702431 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudSmUrao0U1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1702430 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudRmUraoKo1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1608660 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudVmUraoiE1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1705188 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudUmUraoGk1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1649810 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudYmUraomI1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1608663 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudXmUraomI1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1698333 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudfnUraoqM1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1692427 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudhnUraomI1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1603978 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudgnUraoqM1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1550695 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudknUrao0U1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1550694 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudnnUraomI1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1620725 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudmnUrao0U1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1620734 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudonUraoCg1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621046 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudroUrao4Y1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621094 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudtoUraoiE1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621093 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudsoUrao4Y1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621095 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudvoUraoGk1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621100 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudxoUraoGk1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621096 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudwoUraouQ1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621101 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud0pUrao8c1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621102 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudJqUrao0U1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621103 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudKqUraoGk1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621107 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudMqUraoqM1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621108 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudNqUrao4Y1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621106 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudLqUraoGk1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621109 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudOqUrao8c1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621110 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudPqUrao4Y1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621143 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudmrUraoGk1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1652260 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudprUraoeA1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1652268 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudrrUraoOs1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1621111 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudirUrao0U1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1669096 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudsrUraoiE1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1597836 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudurUraoqM1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1560742 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudtrUraoiE1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1599217 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fud7tUraoqM1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1599216 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudKtUraoiE1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1603976 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudUtUraoa61</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1618156 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudXtUrao8c1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1603980 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudWtUraoa61</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1618157 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudatUraoa61</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1597835 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudbtUraoqM1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1599215 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fudctUraoa61</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+  - VIN:  | ID: 1603975 (ошибка: autocrm status 403: <!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Forbidden</h1>
+    <p id="REQUEST-DATE">Datetime: 2026-07-10 23:56:41 +0000</p>
+    <p id="REQUEST-IP">IP: 46.29.9.98</p>
+    <p id="REQUEST-ID">ID: fuddtUraoqM1</p>
+    <p id="ORIGIN-ID"></p>
+    <p>If you are not a bot, please copy the report and send it to our support team.</p>
+    <p><button onclick="copy()">Copy</button></p>
+  </div>
+
+  <script>
+    function copy() {
+        document.oncopy = function (e) {
+            const t = {
+                report: {
+                    datetime: document.getElementById("REQUEST-DATE").innerHTML,
+                    ip: document.getElementById("REQUEST-IP").innerHTML,
+                    id: document.getElementById("REQUEST-ID").innerHTML
+                }
+            };
+            e.clipboardData.setData("text", JSON.stringify(t));
+            e.preventDefault();
+        };
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const origin = window.location.protocol + "//" + window.location.host;
+        document.getElementById('ORIGIN-ID').innerHTML = "Origin: " + origin;
+    });
+  </script>
+</body>
+</html>
+)
+
+[СПИСОК НА ОБНОВЛЕНИЕ ФОТО]
+----------------------------------------------------------------------
+(Показано первых 7 из 7)
+  - VIN: EE1G20ER4S0000033 | ID: 1574913
+  - VIN: EE1G12EFXS0000123 | ID: 1708465
+  - VIN: XTA219040T1254238 | ID: 1684303
+  - VIN: Z0X219079T1267215 | ID: 1705571
+  - VIN: XZGEE04A8TA546149 | ID: 1674891
+  - VIN: EDELB31B7TE072658 | ID: 1698411
+  - VIN: EDXFB32B9TE068078 | ID: 1697516
+
+======================================================================

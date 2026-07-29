@@ -1,0 +1,241 @@
+:root {
+  --primary-color: #00875A;
+  --primary-hover: #006F48;
+  --secondary-color: #84BD00;
+  --bg-color: #F8F9FA;
+  --card-bg: #FFFFFF;
+  --text-dark: #1F2937;
+  --text-muted: #6B7280;
+  --error-color: #E53935;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Экраны */
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.4s;
+  padding: 24px;
+}
+
+.screen.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 10;
+}
+
+/* Сплэш-экран */
+#splash-screen {
+  background-color: #FFFFFF;
+}
+
+.splash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.logo-container {
+  width: 110px;
+  height: 110px;
+  margin-bottom: 40px;
+  border-radius: 28px;
+  box-shadow: 0 10px 25px rgba(0, 135, 90, 0.15);
+  overflow: hidden;
+  animation: logo-bounce 1.5s infinite ease-in-out alternate;
+}
+
+.splash-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.splash-loading-text {
+  margin-top: 24px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.3px;
+}
+
+/* Анимация пульсации иконки */
+@keyframes logo-bounce {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    transform: translateY(-8px) scale(1.02);
+  }
+}
+
+/* Спиннер загрузки */
+.spinner {
+  width: 44px;
+  height: 44px;
+  position: relative;
+}
+
+.double-bounce1, .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  animation-delay: -1.0s;
+  background-color: var(--secondary-color);
+}
+
+@keyframes sk-bounce {
+  0%, 100% { 
+    transform: scale(0.0);
+  } 50% { 
+    transform: scale(1.0);
+  }
+}
+
+/* Экран ошибки */
+#error-screen {
+  background-color: var(--bg-color);
+}
+
+.error-container {
+  background: var(--card-bg);
+  border-radius: 32px;
+  padding: 36px 24px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  transform: translateY(20px);
+  transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+#error-screen.active .error-container {
+  transform: translateY(0);
+}
+
+.error-icon-wrapper {
+  width: 72px;
+  height: 72px;
+  background: rgba(229, 57, 53, 0.08);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+  animation: pulse-red 2s infinite;
+}
+
+.error-icon {
+  width: 38px;
+  height: 38px;
+}
+
+@keyframes pulse-red {
+  0% {
+    box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(229, 57, 53, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(229, 57, 53, 0);
+  }
+}
+
+.error-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+}
+
+.error-description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.error-meta {
+  background: #F3F4F6;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 32px;
+  display: flex;
+  gap: 6px;
+}
+
+.error-code-label {
+  color: var(--text-muted);
+}
+
+.error-code-value {
+  color: var(--error-color);
+  font-family: monospace;
+}
+
+/* Кнопка */
+.btn {
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  outline: none;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: #FFFFFF;
+  box-shadow: 0 8px 20px rgba(0, 135, 90, 0.25);
+}
+
+.btn-primary:active {
+  background-color: var(--primary-hover);
+  transform: scale(0.97);
+}

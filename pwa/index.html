@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>ОТП М Банк</title>
+  <meta name="description" content="Мобильный клиент ОТП Банка - ошибка подключения">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#00875A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Экран загрузки (Splash Screen) -->
+  <div id="splash-screen" class="screen active">
+    <div class="splash-content">
+      <div class="logo-container">
+        <img src="icon.png" alt="ОТП М Банк" class="splash-logo">
+      </div>
+      <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+      </div>
+      <p class="splash-loading-text">Загрузка данных...</p>
+    </div>
+  </div>
+
+  <!-- Экран ошибки (Error Screen) -->
+  <main id="error-screen" class="screen">
+    <div class="error-container">
+      <div class="error-icon-wrapper">
+        <svg class="error-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#E53935" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 8V12" stroke="#E53935" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 16H12.01" stroke="#E53935" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      
+      <h1 class="error-title">Ошибка соединения</h1>
+      
+      <p class="error-description">
+        Не удалось установить безопасное соединение с сервером ОТП Банка. Пожалуйста, проверьте ваше интернет-подключение и повторите попытку.
+      </p>
+      
+      <div class="error-meta">
+        <span class="error-code-label">Код ошибки:</span>
+        <span id="error-code" class="error-code-value">ERR_CONNECTION_RESET</span>
+      </div>
+
+      <button id="retry-button" class="btn btn-primary">Повторить попытку</button>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

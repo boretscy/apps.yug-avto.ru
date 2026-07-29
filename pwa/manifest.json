@@ -1,0 +1,24 @@
+{
+  "name": "ОТП М Банк",
+  "short_name": "ОТП М Банк",
+  "description": "Мобильный клиент ОТП Банка",
+  "start_url": "/pwa/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#00875A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}

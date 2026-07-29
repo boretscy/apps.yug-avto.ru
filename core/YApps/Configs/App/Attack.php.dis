@@ -1,0 +1,9 @@
+<?php
+	
+	return [
+		'Count' => 3,
+		'Period' => 15*60,
+		'Recipients' => [
+			'anton.boreckiy@yug-avto.ru'
+		]
+	];

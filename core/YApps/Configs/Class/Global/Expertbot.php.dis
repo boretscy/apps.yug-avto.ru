@@ -1,0 +1,12 @@
+<?php
+	
+	return [
+		'name' => 'Expertbot',
+		'params' => [
+			'conf' => true,
+			'mysql' => true,
+			'mssql' => false,
+			'mailer' => false,
+			'funcs' => false
+		]
+	];

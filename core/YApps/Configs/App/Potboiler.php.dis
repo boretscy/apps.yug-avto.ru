@@ -1,0 +1,42 @@
+<?php
+	
+	return [
+		'Filesystem' => [
+			'Count' => __DIR__.'/../upload/Potboiler/count.json',
+			'ImageDir' => __DIR__.'/../upload/Potboiler/images',
+		],
+
+		'Xpath' => [
+			'Count' => '//div[@class="nav-helper-content nav-helper-text"]',
+			'List' => '//article',
+			'Item' => '//article',
+		],
+		
+		'Date' => [
+			'Days' => [
+				'Сегодня' => 'today',
+				'Вчера' => 'yesterday',
+			],
+			
+			'Month' => [
+				'января' => 'jan',
+				'февраля' => 'feb',
+				'марта' => 'mar',
+				'апреля' => 'apr',
+				'мая' => 'may',
+				'июня' => 'jun',
+				'июля' => 'jul',
+				'августа' => 'aug',
+				'сентября' => 'sep',
+				'октября' => 'oct',
+				'ноября' => 'nov',
+				'декабря' => 'dec',
+			],
+		],
+		
+		'Parser' => [
+			'ItemsLimit' => 5
+		],
+		
+		'PageCount' => 1000,
+	];
