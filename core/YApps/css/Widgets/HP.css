@@ -1,0 +1,617 @@
+.YApps_Helper--MainButton_Container {
+	position: fixed;
+	cursor: pointer;
+	bottom: 50px;
+	right: 50px;
+	width: 80px;
+	height: 80px;
+	z-index: 13100;
+	box-sizing: border-box;
+}
+.YApps_Helper--MainButton_Container .YApps_Helper--MainButton_Button {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	background-color: var(--yapps-widget-fill-color);
+	padding: 0px;
+	z-index: 13103;
+	transition:.3s;
+	box-sizing: border-box;
+}
+.YApps_Helper--MainButton_Container .YApps_Helper--MainButton_Button svg {
+	width: 82px;
+    height: 82px;
+    fill: var(--yapps-widget-bg-color);
+    transition: .3s;
+    position: absolute;
+    top: -1px;
+    left: -1px;
+}
+.YApps_Helper--MainButton_Container .YApps_Helper--MainButton_Button.YApps_Helper--MainButton_Button-Active {
+	transition: .3s;
+	background-color: var(--yapps-widget-bg-color);
+}
+.YApps_Helper--MainButton_Container .YApps_Helper--MainButton_Button.YApps_Helper--MainButton_Button-Active svg {
+	transition: .3s;
+	fill: var(--yapps-widget-fill-color);
+}
+
+.YApps_Helper--MainButton_Container .YApps_Helper--MainButton_Button:hover svg {
+	animation: shake .5s;
+}
+.YApps_Helper--MainButton_Container .YApps_Helper--MainButton_Shadow {
+	position: absolute;
+	width: 80px;
+	height: 80px;
+	bottom: 0;
+	right: 0;
+	border-radius: 50%;
+	opacity:.4;
+	background-color: var(--yapps-widget-shadow-color);
+	z-index: 13101;
+	-webkit-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
+	transition: .1s;
+}
+.YApps_Helper--MainButton_Container:hover .YApps_Helper--MainButton_Shadow {
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	transition: .1s;
+}
+.YApps_Helper--MainButton_Container .YApps_Helper--MainButton_Description {
+	position: absolute;
+	right: 100px;
+	bottom: 13px;
+	text-align: right;
+	width: auto;
+	white-space: nowrap;
+	padding: 10px;
+	border-radius: 10px;
+	color: var(--yapps-widget-fill-color);
+	z-index: 13104;
+    display: none;
+    transition: .3s;
+}
+.YApps_Helper--MainButton_Container-Active .YApps_Helper--MainButton_Description{
+    display: none;
+}
+.YApps_Helper--MainButton_Container .YApps_Helper--MainButton_Pulse.YApps_Helper--MainButton_Pulse-Acvive {
+	position: absolute;
+	background-color: transparent;
+	border: var(--yapps-widget-fill-color) 1px solid;
+	animation: pulse %%WIDGET.HP.ICON_INTERVAL%%s infinite;
+	border-radius: 50%;
+	z-index: 13102;
+}
+@-webkit-keyframes pulse {
+	0% {
+		bottom: 0px;
+		right: 0px;
+		width: 80px;
+		height: 80px;
+		opacity: .8;
+	}
+	
+	100% {
+		bottom: -20px;
+		right: -20px;
+		width: 120px;
+		height: 120px;
+		opacity: 0;
+	}
+}
+
+@keyframes pulse {
+	0% {
+		bottom: 0px;
+		right: 0px;
+		width: 80px;
+		height: 80px;
+		opacity: .8;
+	}
+	
+	100% {
+		bottom: -20px;
+		right: -20px;
+		width: 120px;
+		height: 120px;
+		opacity: 0;
+	}
+}
+
+@keyframes shake {
+  from,
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translate3d(1px, 0, 0);
+  }
+}
+
+
+.YApps_Helper--LeadgenButton {
+	position: fixed;
+	padding: 10px 20px 10px 45px;
+	background-color: var(--yapps-widget-fill-color);
+	color: var(--yapps-widget-bg-color);
+	cursor: pointer;
+	z-index: 13000;
+	-webkit-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
+	transition: .3s;
+	font-size: 14px;
+	line-height: normal;
+	box-sizing: border-box;
+	
+	top: %%HELPER.LG_BUTTON.POSITION_TOP%%;
+	right: %%HELPER.LG_BUTTON.POSITION_RIGHT%%;
+	bottom: %%HELPER.LG_BUTTON.POSITION_BOTTOM%%;
+	left: %%HELPER.LG_BUTTON.POSITION_LEFT%%;
+	-webkit-border-top-left-radius: %%HELPER.LG_BUTTON.RADIUS_TL%%px;
+	-webkit-border-top-right-radius: %%HELPER.LG_BUTTON.RADIUS_TR%%px;
+	-webkit-border-bottom-left-radius: %%HELPER.LG_BUTTON.RADIUS_BR%%px;
+	-webkit-border-bottom-right-radius: %%HELPER.LG_BUTTON.RADIUS_BL%%px;
+	-moz-border-radius-topleft: %%HELPER.LG_BUTTON.RADIUS_TL%%px;
+	-moz-border-radius-topright: %%HELPER.LG_BUTTON.RADIUS_TR%%px;
+	-moz-border-radius-bottomleft: %%HELPER.LG_BUTTON.RADIUS_BR%%px;
+	-moz-border-radius-bottomright: %%HELPER.LG_BUTTON.RADIUS_BL%%px;
+	border-top-left-radius: %%HELPER.LG_BUTTON.RADIUS_TL%%px;
+	border-top-right-radius: %%HELPER.LG_BUTTON.RADIUS_TR%%px;
+	border-bottom-left-radius: %%HELPER.LG_BUTTON.RADIUS_BR%%px;
+	border-bottom-right-radius: %%HELPER.LG_BUTTON.RADIUS_BL%%px;
+	transform: %%HELPER.LG_BUTTON.TRANSFORM%%;
+	width: fit-content;
+}
+.YApps_Helper--LeadgenButton:hover {
+	background-color: var(--yapps-widget-lightgray-color);
+	color: var(--yapps-widget-fill-color);
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	transition: .3s;
+}
+.YApps_Helper--LeadgenButton.YApps_Helper--LeadgenButton-Active {
+	background-color: var(--yapps-widget-lightgray-color);
+	color: var(--yapps-widget-fill-color);
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	transition: .3s;
+}
+.YApps_Helper--LeadgenButton svg {
+	width: 20px;
+	height: 20px;
+	fill: var(--yapps-widget-bg-color);
+	position: absolute;
+	left: 15px;
+	margin-right: 15px;
+	transition: .3s;
+}
+.YApps_Helper--LeadgenButton:hover svg {
+	fill: var(--yapps-widget-fill-color);
+	transition: .3s;
+}
+.YApps_Helper--LeadgenButton.YApps_Helper--LeadgenButton-Active svg {
+	fill: var(--yapps-widget-fill-color);
+	transition: .3s;
+}
+.YApps_Helper--LeadgenButton .YApps_Helper--LeadgenButton_Container {
+	
+}
+
+
+.YApps_Helper--Container {
+	position: fixed;
+	bottom: 140px;
+	right: 55px;
+	width: 60px;
+	height: 420px;
+	z-index: 13110;
+	color: var(--yapps-widget-fill-color);
+	font-size: 16px;
+	display: none;
+	box-sizing: border-box;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container {
+	position: absolute;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container .YApps_Helper--Item {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-color: var(--yapps-widget-fill-color);
+	padding: 0;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	cursor: pointer;
+	z-index: 13120;
+	transition: .3s;
+}
+.YApps_Helper--Item_Container:nth-child(1) {
+	bottom: 0px;
+}
+.YApps_Helper--Item_Container:nth-child(2) {
+	bottom: 65px;
+}
+.YApps_Helper--Item_Container:nth-child(3) {
+	bottom: 130px;
+}
+.YApps_Helper--Item_Container:nth-child(4) {
+	bottom: 195px;
+}
+.YApps_Helper--Item_Container:nth-child(5) {
+	bottom: 260px;
+}
+.YApps_Helper--Item_Container:nth-child(6) {
+	bottom: 325px;
+}
+.YApps_Helper--Item_Container:nth-child(7) {
+	bottom: 390px;
+}
+.YApps_Helper--Item_Container:nth-child(8) {
+	bottom: 455px;
+}
+.YApps_Helper--Item_Container:nth-child(9) {
+	bottom: 520px;
+}
+.YApps_Helper--Item_Container:nth-child(10) {
+	bottom: 585px;
+}
+.YApps_Helper--Item_Container:last-child {
+	display: none;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container:hover .YApps_Helper--Item {
+	background-color: var(--yapps-widget-lightgray-color);
+	transition: .3s;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container.YApps_Helper--Item_Active .YApps_Helper--Item {
+	background-color: var(--yapps-widget-lightgray-color);
+	transition: .3s;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container .YApps_Helper--Item svg {
+	width: 30px;
+	height: 30px;
+	fill: var(--yapps-widget-bg-color);
+	position:absolute;
+	top: 10px;
+	left: 10px;
+	transition: .3s;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container:hover .YApps_Helper--Item svg {
+	-moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+	fill: var(--yapps-widget-fill-color);
+	transition:.3s;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container.YApps_Helper--Item_Active .YApps_Helper--Item svg {
+	-moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+	fill: var(--yapps-widget-fill-color);
+	transition:.3s;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container .YApps_Helper--Item_Shadow {
+	position: absolute;
+	width: 48px;
+	height: 48px;
+	bottom: 1px;
+	left: 0px;
+	border-radius: 50%;
+	opacity:.4;
+	background-color: var(--yapps-widget-shadow-color);
+	z-index: 13115;
+	-webkit-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
+	transition: .1s;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container:hover .YApps_Helper--Item_Shadow {
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	transition: .1s;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container.YApps_Helper--Item_Active .YApps_Helper--Item_Shadow {
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	transition: .1s;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container .YApps_Helper--Item_Pulse {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	bottom: 0px;
+	left: 0px;
+	background-color: transparent;
+	border: var(--yapps-widget-fill-color) 1px solid;
+	border-radius: 50%;
+	z-index: 13116;
+	box-sizing: border-box;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container:hover .YApps_Helper--Item_Pulse {
+	animation: item-pulse 1s infinite;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container.YApps_Helper--Item_Active .YApps_Helper--Item_Pulse {
+	animation: item-pulse 1s infinite;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container .YApps_Helper--Item_Description {
+	position: absolute;
+	right: 20px;
+	bottom: 5px;
+	text-align: right;
+	width: auto;
+	white-space: nowrap;
+	padding: 10px;
+	background-color: var(--yapps-widget-bg-color);
+	border-radius: 10px;
+	z-index: 13118;
+	display: none;
+	opacity: .8;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container:hover .YApps_Helper--Item_Description {
+	display: block;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container .YApps_Helper--Item .YApps_Helper--Item_Content {
+	position: absolute;
+    border-radius: 50%;
+    top: -5px;
+    right: -15px;
+    color: var(--yapps-widget-fill-color);
+    background-color: var(--yapps-widget-bg-color);
+    padding: 5px;
+    z-index: 13130;
+    line-height: 1;
+    font-size: 18px;
+    width: auto;
+	min-width: 30px;
+    height: 30px;
+    text-align: center;
+    font-weight: 600;
+    border: var(--yapps-widget-fill-color) 1px solid;
+    opacity: .8;
+	box-sizing: border-box;
+}
+@-webkit-keyframes item-pulse {
+	0% {
+		bottom: 0px;
+		left: 0px;
+		width: 50px;
+		height: 50px;
+		opacity: .8;
+	}
+	
+	100% {
+		bottom: -20px;
+		left: -20px;
+		width: 90px;
+		height: 90px;
+		opacity: 0;
+	}
+}
+@keyframes item-pulse {
+	0% {
+		bottom: 0px;
+		left: 0px;
+		width: 50px;
+		height: 50px;
+		opacity: .8;
+	}
+	
+	100% {
+		bottom: -20px;
+		left: -20px;
+		width: 90px;
+		height: 90px;
+		opacity: 0;
+	}
+}
+.YApps_Helper--Cover {
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 11500;
+    background-color: rgba(255, 255, 255, 0.95);
+	display: none;
+}
+@media (max-width: 768px) {
+.YApps_Helper--MainButton_Container {
+    bottom: 30px;
+    right: 30px;
+	width: 70px;
+    height: 70px;
+}
+.YApps_Helper--MainButton_Container .YApps_Helper--MainButton_Button {
+    width: 70px;
+    height: 70px;
+}
+.YApps_Helper--MainButton_Container .YApps_Helper--MainButton_Button svg {
+    width: 71.5px;
+    height: 71.5px;
+}
+.YApps_Helper--MainButton_Container .YApps_Helper--MainButton_Shadow {
+	position: absolute;
+	width: 70px;
+	height: 70px;
+	bottom: 0px;
+	right: 0px;
+}
+.YApps_Helper--MainButton_Container .YApps_Helper--MainButton_Description {
+    right: 70px;
+    bottom: 18px;
+    opacity: 1;
+    font-size: 12px;
+	background: none;
+}
+.YApps_Helper--MainButton_Container-Active .YApps_Helper--MainButton_Description{
+    display: block;
+    transition: .3s;
+}
+@-webkit-keyframes pulse {
+	0% {
+		bottom: 0px;
+		right: 0px;
+		width: 70px;
+		height: 70px;
+		opacity: .8;
+	}
+	
+	100% {
+		bottom: -20px;
+		right: -20px;
+		width: 110px;
+		height: 110px;
+		opacity: 0;
+	}
+}
+@keyframes pulse {
+	0% {
+		bottom: 0px;
+		right: 0px;
+		width: 70px;
+		height: 70px;
+		opacity: .8;
+	}
+	
+	100% {
+		bottom: -20px;
+		right: -20px;
+		width: 110px;
+		height: 110px;
+		opacity: 0;
+	}
+}
+.YApps_Helper--LeadgenButton {
+	display: none !important;
+}
+.YApps_Helper--Container {
+	width: 50px;
+	bottom: 110px;
+	right: 37.5px;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container .YApps_Helper--Item {
+    width: 50px;
+    height: 50px;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container .YApps_Helper--Item svg {
+    width: 30px;
+    height: 30px;
+	top: 10px;
+	left: 10px;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container .YApps_Helper--Item_Shadow {
+    width: 48px;
+    height: 48px;
+	bottom: 1px;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container .YApps_Helper--Item_Pulse {
+    width: 50px;
+    height: 50px;
+	box-sizing: border-box;
+}
+.YApps_Helper--Item_Container:nth-child(1) {
+	bottom: 0px;
+}
+.YApps_Helper--Item_Container:nth-child(2) {
+	bottom: 55px;
+}
+.YApps_Helper--Item_Container:nth-child(3) {
+	bottom: 110px;
+}
+.YApps_Helper--Item_Container:nth-child(4) {
+	bottom: 165px;
+}
+.YApps_Helper--Item_Container:nth-child(5) {
+	bottom: 220px;
+}
+.YApps_Helper--Item_Container:nth-child(6) {
+	bottom: 275px;
+}
+.YApps_Helper--Item_Container:nth-child(7) {
+	bottom: 330px;
+}
+.YApps_Helper--Item_Container:nth-child(8) {
+	bottom: 385px;
+}
+.YApps_Helper--Item_Container:nth-child(9) {
+	bottom: 440px;
+}
+.YApps_Helper--Item_Container:nth-child(10) {
+	bottom: 495px;
+}
+.YApps_Helper--Item_Container:last-child {
+	display: block;
+}
+@-webkit-keyframes item-pulse {
+	0% {
+		bottom: 0px;
+		width: 50px;
+		height: 50px;
+		opacity: .8;
+	}
+	
+	100% {
+		bottom: -20px;
+		left: -20px;
+		width: 90px;
+		height: 90px;
+		opacity: 0;
+	}
+}
+@keyframes item-pulse {
+	0% {
+		bottom: 0px;
+		width: 50px;
+		height: 50px;
+		opacity: .8;
+	}
+	
+	100% {
+		bottom: -20px;
+		left: -20px;
+		width: 90px;
+		height: 90px;
+		opacity: 0;
+	}
+}
+
+.YApps_Helper--Container .YApps_Helper--Item_Container .YApps_Helper--Item_Description {
+    right: 0px;
+    bottom: 10px;
+    display: block;
+    opacity: 1;
+    font-size: 12px;
+	background: none;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container .YApps_Helper--Item .YApps_Helper--Item_Content {
+    min-width: 17px;
+    height: auto;
+}
+}

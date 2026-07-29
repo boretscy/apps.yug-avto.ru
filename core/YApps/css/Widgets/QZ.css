@@ -1,0 +1,249 @@
+.YApps_Widget--Quiz_Container {
+    height: 600px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-top: -300px;
+    background-color: var(--yapps-widget-bg-color);
+    z-index: 14000;
+    padding: 50px 20px 20px;
+	display: none;
+    overflow: hidden;
+    width: 770px;
+    margin-left: -385px;
+    text-align: center;
+}
+.YApps_Widget--Quiz_Container .YApps_Widget--Width50 {
+	display: inline-block;
+	margin: 0 5px;
+}
+.YApps_Widget--Quiz_Title {
+	color: var(--yapps-widget-fill-color);
+    font-size: 26px;
+    font-weight: 400;
+    margin-bottom: 15px;
+    position: relative;
+    line-height: 1.2em;
+	text-align: left;
+	padding-left: 80px;
+	padding-top: 0px;
+	min-height: 62px;
+	display: flex;
+    align-items: center;
+}
+.YApps_Widget--Quiz_Title svg {
+	width: 60px;
+	height: 60px;
+	fill: var(--yapps-widget-fill-color);
+	position: absolute;
+	left: 0;
+    top: 0;
+}
+.YApps_Widget--Quiz_Content {
+	text-align: left;
+	height: calc(100% - 70px);
+	display: none;
+	position: relative;
+	overflow: auto;
+}
+.YApps_Widget--Quiz_Disclamer {
+	position: absolute;
+	bottom: 0;
+	font-size: 12px;
+	padding: 0 10px;
+}
+.YApps_Widget--Quiz_Content[data-step="1"] {
+	display: block;
+}
+.YApps_Widget--Quiz_Button {
+	padding: 5px 10px;
+    display: inline-block;
+    background-color: var(--yapps-widget-lightgray-color);
+    color: var(--yapps-widget-button-text-color);
+    transition: .2s;
+    font-size: 20px;
+    text-decoration: none;
+    text-align: center;
+    height: 40px;
+    line-height: normal;
+    box-sizing: border-box;
+}
+.YApps_Widget--Quiz_Button:hover {
+    background-color: var(--yapps-widget-darkdray-color);
+    color: var(--yapps-widget-button-text-color);
+    transition: .2s;
+}
+.YApps_Widget--Quiz_Button:hover svg {
+	fill: var(--yapps-widget-lightgray-color);
+}
+.YApps_Widget--Quiz_Button.YApps_Widget--Quiz_Button-Active {
+	background-color: var(--yapps-widget-button-color);
+}
+.YApps_Widget--Quiz_Button.YApps_Widget--Quiz_Button-Active:hover {
+	background-color: var(--yapps-widget-fill-color);
+	fill: var(--yapps-widget-bg-color);
+}
+.YApps_Widget--Quiz_Button.YApps_Widget--Quiz_Button-DeActive {
+	cursor: default;
+}
+.YApps_Widget--Quiz_Button.YApps_Widget--Quiz_Button-DeActive:hover {
+	background-color: var(--yapps-widget-lightgray-color);
+}
+.YApps_Widget--Quiz_Footer {
+	position: absolute;
+	bottom: 10px;
+    width: calc(100% - 40px);
+	padding: 20px 0;
+	display: flex;
+}
+.YApps_Widget--Quiz_Footer a:hover {
+	text-decoration: none;
+}
+.YApps_Widget--Quiz_Footer .YApps_Widget--Quiz_Footer-Parts {
+	display: inline-block;
+	width: 237px;
+}
+.YApps_Widget--Quiz_Footer .YApps_Widget--Quiz_Footer-Parts_Left {
+	text-align: left;
+}
+.YApps_Widget--Quiz_Footer .YApps_Widget--Quiz_Footer-Parts_Center {
+	text-align: center;
+}
+.YApps_Widget--Quiz_Footer .YApps_Widget--Quiz_Footer-Parts_Right {
+	text-align: right;
+	
+}
+.YApps_Widget--Quiz_Footer svg {
+	width: 30px;
+	height: 30px;
+	fill: var(--yapps-widget-darkdray-color);
+}
+.YApps_Widget--Quiz_Pagination svg {
+	fill: var(--yapps-widget-lightgray-color);
+}
+.YApps_Widget--Quiz_Pagination-Active svg {
+	fill: var(--yapps-widget-fill-color);
+}
+.YApps_Widget--Quiz_Footer svg.YApps_Widget--Fill {
+	fill: var(--yapps-widget-fill-color);
+}
+.YApps_Widget--Quiz_Content .YApps_Widget--Quiz-Image_Container {
+	width: 24%;
+	display: inline-block;
+	padding: 10px;
+}
+[role="YApps_Widget--Quiz-Select_Part"] {
+	cursor: pointer;
+}
+.YApps_Widget--Quiz-Part_Selected[role="YApps_Widget--Quiz-Select_Part"] .YApps_Widget--Quiz-Image_Caption {
+	border-bottom: var(--yapps-widget-fill-color) 2px solid;
+	transition: .2s;
+}
+.YApps_Widget--Quiz_Content .YApps_Widget--Quiz-Question_Container {
+	width: 49%;
+	display: inline-block;
+	padding: 10px;
+	margin-bottom: 20px;
+	vertical-align: middle;
+}
+.YApps_Widget--Quiz_Content[data-type="4"] .YApps_Widget--Quiz-Question_Container {
+	margin-bottom: 0;
+}
+.YApps_Widget--Quiz_Content .YApps_Widget--Quiz-Image_Container img {
+	width: 100%;
+}
+.YApps_Widget--Quiz_Content .YApps_Widget--Quiz-Image_Caption {
+	width: 100%;
+	position: relative;
+	border-bottom: var(--yapps-widget-lightgray-color) 2px solid;
+	padding: 0 0 10px 35px;
+	transition: .2s;
+	text-align: left;
+}
+[role="YApps_Widget--Quiz-Select_Part"]:hover .YApps_Widget--Quiz-Image_Caption {
+	border-bottom: var(--yapps-widget-fill-color) 2px solid;
+	transition: .2s;
+}
+.YApps_Widget--Quiz_Content .YApps_Widget--Quiz-Image_Caption svg {
+	fill: var(--yapps-widget-fill-color);
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    left: 0px;
+}
+.YApps_Widget--Quiz_Text-Title {
+	font-size: 22px;
+	color: var(--yapps-widget-fill-color);
+}
+[role="YApps_Widget--Quiz-PrevStep"] {
+	display: none;
+	cursor: pointer;
+}
+[role="YApps_Widget--Quiz-NextStep"] {
+	cursor: pointer;
+}
+
+.YApps_Widget--Quiz_Container .YApps_Widget--Form_Fields{
+	margin-top: 50px;	
+}
+.YApps_Widget--Quiz_Container .YApps--Form_Personal-Item svg {
+	fill: var(--yapps-widget-fill-color);
+}
+.YApps_Widget--Quiz_Container .YApps--Form_Personal-Item_Error {
+	color: var(--yapps-widget-error-color);
+}
+.YApps_Widget--Quiz_Container .YApps--Form_Personal-Item_Error svg {
+	fill: var(--yapps-widget-error-color);
+}
+
+
+@media (max-width: 767px) {
+    .YApps_Widget--Quiz_Container {
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        margin-top: 0;
+        margin-left: 0;
+    }
+	.YApps_Widget--Quiz_Title {min-height:	65px;}
+	.YApps_Widget--Quiz_Title svg {top: 0px;}
+	.YApps_Widget--Quiz_Content .YApps_Widget--Quiz-Image_Container {width: 49.36%;}
+	.YApps_Widget--Quiz_Disclamer { position: unset;}
+	.YApps_Widget--Width50 {width: calc(100% - 10px) !important;}
+	.YApps_Widget--Quiz_Content .YApps_Widget--Quiz-Image_Caption {
+		padding: 0 0 5px 25px;
+	}
+	.YApps_Widget--Quiz_Content .YApps_Widget--Quiz-Image_Caption svg {
+		width: 15px;
+		height: 15px;
+		top: 3px;
+	}
+	.YApps_Widget--Quiz_Footer .YApps_Widget--Quiz_Footer-Parts {
+		display: inline-block;
+		width: calc(100% - 100px);
+	}
+	.YApps_Widget--Quiz_Footer .YApps_Widget--Quiz_Footer-Parts:first-child, .YApps_Widget--Quiz_Footer .YApps_Widget--Quiz_Footer-Parts:last-child {
+		width: 100px;
+	}
+	.YApps_Widget--Quiz_Pagination svg {
+		width: 20px;
+		height: 20px;
+		margin-top: 10px;
+	}
+	.YApps_Widget--Quiz_Content .YApps_Widget--Quiz-Question_Container {width: 100%;}
+}
+@media (max-width: 375px) {
+	.YApps_Widget--Quiz_Container .YApps_Widget--Form_Fields{
+		margin-top: 25px;	
+	}
+}
+@media (max-width: 320px) {
+	.YApps_Widget--Quiz_Container .YApps_Widget--Form_Fields{
+		margin-top: 15px;	
+	}
+	.YApps_Widget--Quiz_Text-Title, .YApps_Widget--Quiz_Text {
+		display: none;
+	}
+}

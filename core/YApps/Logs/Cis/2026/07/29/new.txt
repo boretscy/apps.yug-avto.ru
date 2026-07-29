@@ -1,0 +1,111 @@
+======================================================================
+СИНХРОНИЗАЦИЯ: НОВЫЕ АВТОМОБИЛИ [29.07.2026 11:00:07 — 12:15:37]
+======================================================================
+
+[СТАТИСТИКА ИМПОРТА]
+----------------------------------------------------------------------
+Всего автомобилей в API:  5443
+Успешно импортировано:    5427 (99.7%)
+Пропущено / Ошибки:       16 (0.3%)
+Сбои (Таймауты):          0 (0.0%)
+Обновлено фото:           57
+
+[ВРЕМЯ ВЫПОЛНЕНИЯ]
+----------------------------------------------------------------------
+Общее время импорта:     1h15m30s
+Среднее время на авто:   0.83 сек
+Топ-5 самых медленных запросов к API:
+  - ID #1669093: 7.555s
+  - ID #1397796: 6.699s
+  - ID #1585246: 6.368s
+  - ID #1225362: 5.501s
+  - ID #1639599: 5.261s
+
+[ГРУППИРОВКА ПРОПУЩЕННЫХ АВТО ПО БРЕНДАМ]
+----------------------------------------------------------------------
+Не найден бренд/модель в базе CIS:
+  - Неизвестный бренд: 1 авто
+  - Несопоставленный бренд: 15 авто
+
+[ДЕТАЛЬНЫЙ СПИСОК ПРОПУЩЕННЫХ АВТО]
+----------------------------------------------------------------------
+(Показано первых 16 из 16)
+  - VIN:  | ID: 1433701 (ошибка: autocrm do: Get "https://autos.autocrm.ru/api/v1/vehicles/1433701": read tcp 46.29.9.98:59592->91.206.127.170:443: read: connection reset by peer)
+  - VIN: LSCAB53R4PG180015 | ID: 1701528 (ошибка: model 0 brand 182907: sql: no rows in result set (brand previously failed))
+  - VIN: EDXGB32B2TE065902 | ID: 1705241 (ошибка: model 0 brand 1557538: sql: no rows in result set (brand previously failed))
+  - VIN: EDXGB32BXTE088263 | ID: 1720474 (ошибка: model 0 brand 1557538: sql: no rows in result set (brand previously failed))
+  - VIN: EDXGB32B1TE089754 | ID: 1720475 (ошибка: model 0 brand 1557538: sql: no rows in result set (brand previously failed))
+  - VIN: EDXGB32B8TE074362 | ID: 1705618 (ошибка: model 0 brand 1557538: sql: no rows in result set (brand previously failed))
+  - VIN: EDXGB32BXTE065906 | ID: 1705246 (ошибка: model 0 brand 1557538: sql: no rows in result set (brand previously failed))
+  - VIN: EDXGB32B3TE066573 | ID: 1705247 (ошибка: model 0 brand 1557538: sql: no rows in result set (brand previously failed))
+  - VIN: ECET31000S0015987 | ID: 1553813 (ошибка: model 2538 brand 13: sql: no rows in result set (brand previously failed))
+  - VIN: ECET31000S0015881 | ID: 1558745 (ошибка: model 2538 brand 13: sql: no rows in result set (brand previously failed))
+  - VIN: ECET31000S0017327 | ID: 1560605 (ошибка: model 2538 brand 13: sql: no rows in result set (brand previously failed))
+  - VIN: ED3C3E2R0SA000560 | ID: 1709854 (ошибка: model 0 brand 1806026: sql: no rows in result set (brand previously failed))
+  - VIN: ED3C3E2R6SA000434 | ID: 1718542 (ошибка: model 0 brand 1806026: sql: no rows in result set (brand previously failed))
+  - VIN: ED3C3E2R7SA000409 | ID: 1718587 (ошибка: model 0 brand 1806026: sql: no rows in result set (brand previously failed))
+  - VIN: ED3C3E2R5SA000151 | ID: 1718588 (ошибка: model 0 brand 1806026: sql: no rows in result set (brand previously failed))
+  - VIN: ED3C3E2R0SA000378 | ID: 1721137 (ошибка: model 0 brand 1806026: sql: no rows in result set (brand previously failed))
+
+[СПИСОК НА ОБНОВЛЕНИЕ ФОТО]
+----------------------------------------------------------------------
+(Показано первых 57 из 57)
+  - VIN: XTA219040T1267866 | ID: 1708998
+  - VIN: XTA219040T1267894 | ID: 1708997
+  - VIN: XTA219470V0322670 | ID: 1720791
+  - VIN: XTA219470V0322673 | ID: 1717294
+  - VIN: XTA219470V0322672 | ID: 1711113
+  - VIN: XTA212140T2614035 | ID: 1605441
+  - VIN: Z0X219179T0691818 | ID: 1705721
+  - VIN: Z0X219179T0692981 | ID: 1711272
+  - VIN: EDELB31BXTE058513 | ID: 1679250
+  - VIN: EDXFB32B3TE053429 | ID: 1669150
+  - VIN: EDXFB32B1TE040467 | ID: 1669151
+  - VIN: EDXFB32B1TE051579 | ID: 1669148
+  - VIN: XZGFE04A5TA571403 | ID: 1721131
+  - VIN: XZGFE04A1TA574296 | ID: 1721132
+  - VIN: EDXFD32B2TE044747 | ID: 1667172
+  - VIN: XZGEF04A2TA304289 | ID: 1721141
+  - VIN: EDEFD32B7TE019397 | ID: 1649092
+  - VIN: EDEFD32B2TE003785 | ID: 1646637
+  - VIN: EDEFD32B2TE000238 | ID: 1649052
+  - VIN: EDEFD32B4TE019079 | ID: 1649093
+  - VIN: EDEFD32B2TE000210 | ID: 1646599
+  - VIN: XZGEF04AXTA311412 | ID: 1702668
+  - VIN: LS4ASE2E0TA705806 | ID: 1700731
+  - VIN: XZGEF04A4TA312765 | ID: 1721133
+  - VIN: LMGAT1L50T1381950 | ID: 1704091
+  - VIN: EDXGD34B3TE059646 | ID: 1678831
+  - VIN: XZGFF07A2TA609632 | ID: 1701597
+  - VIN: XZGFF07A1TA609671 | ID: 1701598
+  - VIN: XZGFF06A9TA313718 | ID: 1721139
+  - VIN: XZGFF06A7TA313717 | ID: 1721140
+  - VIN: LGWDC719XTJ679523 | ID: 1692086
+  - VIN: LMGAE3G82S1004402 | ID: 1683338
+  - VIN: LMGAE3G82S1004433 | ID: 1683337
+  - VIN: XZGFF07A8TA609294 | ID: 1701596
+  - VIN: XZGFF07A9TA609286 | ID: 1701595
+  - VIN: XZGFF07A0TA609287 | ID: 1701599
+  - VIN: LVTDD24B6TDC00750 | ID: 1721135
+  - VIN: LGWFG6A83TM614994 | ID: 1711254
+  - VIN: EC3TEUMBXT0002941 | ID: 1721136
+  - VIN: LGWFF7A55TJ680656 | ID: 1683341
+  - VIN: LGWFF7A50TJ681049 | ID: 1693777
+  - VIN: LMGJU3G80T1064747 | ID: 1700719
+  - VIN: LMGJU3G80T1063839 | ID: 1700720
+  - VIN: LMGJU3G84T1065710 | ID: 1684274
+  - VIN: LMGJU3G83T1063320 | ID: 1700624
+  - VIN: LMGJU3G84T1062693 | ID: 1684230
+  - VIN: LMGJU3G89T1063211 | ID: 1697514
+  - VIN: LMGJU3G88T1065774 | ID: 1700704
+  - VIN: LMGJU3G87T1065393 | ID: 1698399
+  - VIN: LMGJU3G80T1066370 | ID: 1698400
+  - VIN: ED3B3G311SA000485 | ID: 1721095
+  - VIN: ED3B3G316SA001342 | ID: 1721138
+  - VIN: LMGNC3S84T1001775 | ID: 1707949
+  - VIN: LMGNC3S88T1001987 | ID: 1708003
+  - VIN: LGWFGVA77SH946770 | ID: 1547829
+  - VIN: HJ4ABBHK9SN102517 | ID: 1721094
+  - VIN: HJ4ABBHK0SN102518 | ID: 1721130
+
+======================================================================

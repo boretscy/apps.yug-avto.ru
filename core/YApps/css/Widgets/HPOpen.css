@@ -1,0 +1,9 @@
+@media (min-width: 769px) {
+    .YApps_Helper--Container {
+        right: 10px;
+        display: block;
+    }
+    .YApps_Helper--MainButton_Container{
+        display: none;
+    }
+}

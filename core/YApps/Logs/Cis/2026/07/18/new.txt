@@ -1,0 +1,51 @@
+======================================================================
+СИНХРОНИЗАЦИЯ: НОВЫЕ АВТОМОБИЛИ [18.07.2026 21:51:36 — 22:50:23]
+======================================================================
+
+[СТАТИСТИКА ИМПОРТА]
+----------------------------------------------------------------------
+Всего автомобилей в API:  5375
+Успешно импортировано:    5364 (99.8%)
+Пропущено / Ошибки:       11 (0.2%)
+Сбои (Таймауты):          0 (0.0%)
+Обновлено фото:           3
+
+[ВРЕМЯ ВЫПОЛНЕНИЯ]
+----------------------------------------------------------------------
+Общее время импорта:     58m48s
+Среднее время на авто:   0.66 сек
+Топ-5 самых медленных запросов к API:
+  - ID #1562991: 631ms
+  - ID #1605469: 542ms
+  - ID #1573059: 541ms
+  - ID #1608064: 533ms
+  - ID #1528775: 509ms
+
+[ГРУППИРОВКА ПРОПУЩЕННЫХ АВТО ПО БРЕНДАМ]
+----------------------------------------------------------------------
+Не найден бренд/модель в базе CIS:
+  - Несопоставленный бренд: 11 авто
+
+[ДЕТАЛЬНЫЙ СПИСОК ПРОПУЩЕННЫХ АВТО]
+----------------------------------------------------------------------
+(Показано первых 11 из 11)
+  - VIN: LSCAB53R4PG180015 | ID: 1701528 (ошибка: model 0 brand 182907: sql: no rows in result set (brand previously failed))
+  - VIN: EDXGB32B2TE065902 | ID: 1705241 (ошибка: model 0 brand 1557538: sql: no rows in result set (brand previously failed))
+  - VIN: EDXGB32B0TE084755 | ID: 1709933 (ошибка: model 0 brand 1557538: sql: no rows in result set (brand previously failed))
+  - VIN: EDXGB32B8TE074362 | ID: 1705618 (ошибка: model 0 brand 1557538: sql: no rows in result set (brand previously failed))
+  - VIN: EDXGB32BXTE065906 | ID: 1705246 (ошибка: model 0 brand 1557538: sql: no rows in result set (brand previously failed))
+  - VIN: EDXGB32B3TE066573 | ID: 1705247 (ошибка: model 0 brand 1557538: sql: no rows in result set (brand previously failed))
+  - VIN: ECET31000S0015987 | ID: 1553813 (ошибка: model 2538 brand 13: sql: no rows in result set (brand previously failed))
+  - VIN: ECET31000S0015881 | ID: 1558745 (ошибка: model 2538 brand 13: sql: no rows in result set (brand previously failed))
+  - VIN: ECET31000S0017327 | ID: 1560605 (ошибка: model 2538 brand 13: sql: no rows in result set (brand previously failed))
+  - VIN: HACAALB33T1K06315 | ID: 1708006 (ошибка: model 0 brand 169257: sql: no rows in result set (brand previously failed))
+  - VIN: ED3C3E2R0SA000560 | ID: 1709854 (ошибка: model 0 brand 1806026: sql: no rows in result set (brand previously failed))
+
+[СПИСОК НА ОБНОВЛЕНИЕ ФОТО]
+----------------------------------------------------------------------
+(Показано первых 3 из 3)
+  - VIN: XTAGFLT60T1057332 | ID: 1710704
+  - VIN: LGWDC719XTJ679523 | ID: 1692086
+  - VIN: LB37852DXTS064548 | ID: 1696745
+
+======================================================================

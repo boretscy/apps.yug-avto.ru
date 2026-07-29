@@ -1,0 +1,76 @@
+.YApps_Widget--CallInvolve_Container {
+    height: 440px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-top: -250px;
+    background-color: var(--yapps-widget-bg-color);
+    z-index: 14000;
+    padding: 50px 20px 20px;
+	display: none;
+    overflow: hidden;
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.45);
+    -moz-box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.45);
+    box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.45);
+}
+.YApps_Widget--CallInvolve_Container a, .YApps_Widget--CallInvolve_Container a:focus, .YApps_Widget--CallInvolve_Container a:active, .YApps_Widget--CallInvolve_Container a:visited {
+	color: var(--yapps-widget-text-color);
+	text-decoration: underline;
+	transition: color .2s;
+}
+.YApps_Widget--CallInvolve_Container a:hover {
+	color: var(--yapps-widget-fill-color);
+	text-decoration: underline;
+	transition: color .2s;
+}
+.YApps_Widget--CallInvolve_Container {
+	width: 380px;
+	margin-left: -220px;
+	text-align: center;
+}
+.YApps_Widget--CallInvolve_Container:after {
+    content: '';
+}
+.YApps_Widget--CallInvolve_Form {
+	margin: 15px 0;
+}
+
+.YApps_Widget--CallInvolve_Container .YApps--Form_Personal {
+	position: absolute;
+    bottom: 0px;
+}
+.YApps_Widget--CallInvolve_Container .YApps--Form_Personal-Item svg {
+	fill: var(--yapps-widget-fill-color);
+}
+.YApps_Widget--CallInvolve_Container .YApps--Form_Personal-Item_Error {
+	color: var(--yapps-widget-error-color);
+}
+.YApps_Widget--CallInvolve_Container .YApps--Form_Personal-Item_Error svg {
+	fill: var(--yapps-widget-error-color);
+}
+
+.YApps_Widget--Form_Title span.YApps_Widget--Form_Title-CallInvolve_Time {
+	display: block;
+	font-weight: 700;
+}
+
+.YApps_Widget--Form_CallInvolve-Field_Toggle {
+	color: var(--yapps-widget-fill-color);
+	cursor: pointer;
+	text-decoration: underline;
+}
+.YApps_Widget--CallInvolve_Success {
+	font-size: .8em;
+	font-weight: 400;
+}
+
+@media (max-width: 767px) {
+.YApps_Widget--CallInvolve_Container {
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	margin-top: 0;
+	margin-left: 0;
+}
+}

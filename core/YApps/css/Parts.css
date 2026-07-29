@@ -1,0 +1,207 @@
+.YApps_Parts--container {
+	width: 100%;
+	display: block;
+	margin: 0;
+	padding: 0 0 30px 0;
+	position: relative;
+	font-family: 'PT Sans', sans-serif;
+	color:{{COLOR.BLACK}}
+}
+.YApps_Parts--Icon {
+	fill: {{COLOR.GRAY}};
+	width: 35px;
+	height: 35px;
+	position: absolute;
+    top: 15px;
+	left: 20px;
+	transition: .5s;
+}
+.YApps_Parts--Icon.active {
+	fill: {{COLOR.COLOR}};
+	transition: .5s;
+}
+.YApps_Parts--title {
+	width: 100%;
+	display: block;
+	text-align: center;
+	font-size: 32px;
+	padding: 5px 15px;
+	color: {{COLOR.COLOR}};
+}
+.YApps_Parts--description {
+	width: 100%;
+	display: block;
+	text-align: center;
+	font-size: 20px;
+	padding: 5px 15px;
+}
+.YApps_Parts--row {
+	width: 100%;
+	display: block;
+	padding: 0;
+	margin: 0;
+}
+[role="YApps_Parts--Form"] {
+	margin-top: 30px;
+}
+.YApps_Parts--col {
+	display: inline-block;
+	margin: 5px 15px;
+}
+.YApps_Parts--col50 {
+	width: calc(50% - 33px);
+}
+.YApps_Parts--col10 {
+	width: calc(10% - 34px);
+}
+.YApps_Parts--col20 {
+	width: calc(20% - 34px);
+}
+.YApps_Parts--col40 {
+	width: calc(40% - 34px);
+}
+.YApps_Parts--price-container_Item .YApps_Parts--col20:last-child {
+	text-align: right;
+	vertical-align: top;
+}
+.YApps_Parts--col60 {
+	width: calc(60% - 34px);
+}
+.YApps_Parts--col90 {
+	width: calc(90% - 34px);
+}
+
+@media (max-width: 479px) {
+.YApps_Parts--col50 {
+	width: calc(100% - 30px);
+	display: block;
+}
+.YApps_Parts--col10 {
+	width: calc(100% - 30px);
+}
+.YApps_Parts--col20 {
+	width: calc(20% - 34px);
+}
+.YApps_Parts--col40 {
+	width: calc(40% - 34px);
+	text-align: right;
+	vertical-align: top;
+}
+.YApps_Parts--col60 {
+	width: calc(60% - 34px);
+}
+.YApps_Parts--col90 {
+	width: calc(100% - 30px);
+}
+}
+
+
+input.YApps_Parts--Form_Text {
+	width: 100%;
+	padding: 20px;
+	font-size: 18px;
+	border-radius: 0px;
+	border: {{COLOR.GRAY}} 1px solid;
+	position: relative;
+}
+@media (max-width: 479px) {
+input.YApps_Parts--Form_Text {
+	margin-bottom: 10px;
+}
+}
+.YApps_Parts--Right_Button {
+	text-align: right;
+}
+@media (max-width: 479px) {
+.YApps_Parts--Right_Button {
+	text-align: left;
+}
+}
+.YApps_Parts--Form_Submit, .YApps_Parts--Form_Submit:hover, .YApps_Parts--Form_Submit:focus, .YApps_Parts--Form_Submit:active, .YApps_Parts--Form_Submit:visited {
+	padding: 15px 20px;
+	background-color: {{COLOR.COLOR}};
+	color: #fff;
+	text-decoration: none;
+	text-transform: uppercase;
+	margin-top: 30px;
+}
+@media (max-width: 479px) {
+.YApps_Parts--Form_Submit, .YApps_Parts--Form_Submit:hover, .YApps_Parts--Form_Submit:focus, .YApps_Parts--Form_Submit:active, .YApps_Parts--Form_Submit:visited {
+	margin-top: 0;
+    display: block;
+    text-align: center;
+}
+}
+.YApps_Parts--price-container_Item {
+	display: block;
+	border-bottom: {{COLOR.GRAY}} 1px solid;
+}
+.YApps_Parts--price_title {
+	padding: 15px 25px 15px 70px;
+	margin: 15px;
+	width: calc(100% - 30px);
+	border: {{COLOR.COLOR}} 1px solid;
+	border-radius: 0;
+	font-size: 24px;
+	position: relative;
+	display: none;
+	cursor: pointer;
+}
+.Yapps_Parts--Search-title {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	font-weight: bold;
+}
+.Yapps_Parts--Search-item {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+.YApps_Parts--price_title span {
+	float: right;
+	font-weight: bold;
+	color: {{COLOR.COLOR}};
+}
+@media (max-width: 479px) {
+	.YApps_Parts--price_title span {
+		float: none;
+		display: block;
+	}
+}
+.YApps_Parts--price_title span.triangle-down {
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 12px 6px 0 6px;
+	border-color: {{COLOR.COLOR}} transparent transparent transparent;
+	position: absolute;
+	top: 30px;
+	right: 20px;
+	cursor: pointer;
+	transition: 0.5s;
+}
+.YApps_Parts--price_title span.triangle-up {
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 6px 12px 6px;
+	border-color: transparent transparent #007bff transparent;
+	position: absolute;
+	top: 30px;
+	right: 20px;
+	cursor: pointer;
+	transition: 0.5s
+}
+.YApps_Parts--price-container {
+	display: none;
+	padding: 0 15px;
+}
+.YApps_Parts--disclamer {
+	color: #888;
+	font-size: 14px;
+	padding: 30px 15px;
+	display: none;
+}
+.YApps_Parts--price-container_Item--Error {
+	color: red;
+	text-align: center;
+}

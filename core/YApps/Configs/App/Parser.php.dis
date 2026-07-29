@@ -1,0 +1,61 @@
+<?php
+	
+	return [
+		'items' => [
+			'avito' => [
+				'urls' 	=> [
+					'LR' => [
+						'https://www.avito.ru/krasnodar/avtomobili/land_rover?s=101&user=1',
+						'https://www.avito.ru/krasnodar/avtomobili/land_rover?p=2&s=101&user=1',
+						'https://www.avito.ru/krasnodar/avtomobili/land_rover?p=3&s=101&user=1',
+					],
+					'J' => [
+						'https://www.avito.ru/krasnodar/avtomobili/jaguar?s=101&user=1',
+						'https://www.avito.ru/krasnodar/avtomobili/jaguar?p=2&s=101&user=1',
+					],
+				],
+				
+				'xpath'	=> [
+					'query'	=> "//*[contains(concat(' ', normalize-space(@class), ' '), ' js-catalog-item-enum ')]",
+				]
+			],
+			
+			'auto' => [
+				'url' 	=> [
+					'LR' =>'https://auto.ru/krasnodar/cars/land_rover/used/?beaten=1&customs_state=1&geo_id=35&geo_radius=200&dealer_org_type=4&image=true&sort_offers=fresh_relevance_1-DESC&top_days=off&currency=RUR&output_type=list&page_num_offers=',
+					'J' => 'https://auto.ru/krasnodar/cars/jaguar/used/?beaten=1&customs_state=1&geo_id=35&geo_radius=200&dealer_org_type=4&image=true&sort_offers=fresh_relevance_1-DESC&top_days=off&currency=RUR&output_type=list&page_num_offers=',
+				],
+				
+				'pages' => [
+					'LR' => 4,
+					'J' => 1,
+				],
+				
+				'xpath'	=> [
+					'query'	=> "//*[contains(concat(' ', normalize-space(@class), ' '), ' listing-item ')]",
+				]
+			],
+		],
+		
+		'config' => [
+			'Days' => [
+				'Сегодня' => 'today',
+				'Вчера' => 'yesterday',
+			],
+			
+			'Month' => [
+				'января' => 'jan',
+				'февраля' => 'feb',
+				'марта' => 'mar',
+				'апреля' => 'apr',
+				'мая' => 'may',
+				'июня' => 'jun',
+				'июля' => 'jul',
+				'августа' => 'aug',
+				'сентября' => 'sep',
+				'октября' => 'oct',
+				'ноября' => 'nov',
+				'декабря' => 'dec',
+			],
+		],
+	];

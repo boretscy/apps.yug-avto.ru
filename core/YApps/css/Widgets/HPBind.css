@@ -1,0 +1,39 @@
+.YApps_Helper--Container {
+	z-index: 14110;
+}
+@media (max-width: 768px) {
+    .YApps_Helper--Container  {
+        z-index: 13110;
+    }
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container.YApps_Helper--Item_Active::before {
+    content: '';
+    width: 0;
+	height: 0;
+	border-top: 20px solid transparent;
+	border-left: 20px solid var(--yapps-widget-bg-color);
+    border-bottom: 20px solid transparent;
+    position: absolute;
+    left: -40px;
+    bottom: 4px;
+    transition: .3s;
+}
+.YApps_Helper--Item_Container:nth-child(1).YApps_Helper--Item_Active::before {
+	bottom: 2px;
+}
+.YApps_Helper--Container .YApps_Helper--Item_Container.YApps_Helper--Item_Active:hover .YApps_Helper--Item_Description {
+	display: none;
+}
+.YApps_Widget--Callback_Container,
+.YApps_Widget--Feedback_Container,
+.YApps_Widget--Leadgen_Container,
+.YApps_Widget--Messengers_Container,
+.YApps_Widget--Navigator_Container,
+.YApps_Widget--Quiz_Container,
+.YApps_Widget--CallInvolve_Container {
+    margin-left: unset;
+    left: unset;
+    top: unset;
+    right: 150px;
+    bottom: 120px;
+}

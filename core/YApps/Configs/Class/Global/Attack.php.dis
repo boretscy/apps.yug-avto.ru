@@ -1,0 +1,12 @@
+<?php
+	
+	return [
+		'name' => 'Attack',
+		'params' => [
+			'conf' => true,
+			'mysql' => true,
+			'mssql' => false,
+			'mailer' => true,
+			'funcs' => false
+		]
+	];
