@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i&subset=cyrillic');
+body {
+  font-family: 'PT Sans', sans-serif;
+}
+.main-header .logo {
+   font-family: 'PT Sans', sans-serif;
+}
+.clear {
+	clear: both;
+}
+.no-p {
+	padding: 0;
+}
+.YApps_Logo{
+	fill: #fff;
+	width: 120px;
+    height: 35px;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	opacity: 0.8;
+}
+.box-header>.fa, .box-header>.glyphicon, .box-header>.ion, .box-header .box-title {
+    font-family: 'PT Sans', sans-serif;
+}
+.content-header>h1 {
+    font-family: 'PT Sans', sans-serif;
+}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'PT Sans', sans-serif;
+}
+
+body.login-page, body.register-page {
+    background: url(/assets/img/bg01.jpg) 100% 100% no-repeat;
+	background-size: cover;
+	height: 100vh;
+	overflow: hidden;
+}
+.sidebar-menu, .main-sidebar .user-panel, .sidebar-menu>li.header {white-space: normal;}
+.user-panel>.info {padding-top: 10px;}
+
+label small {
+	font-weight: normal;
+}
+
+.preview {
+	position: fixed; right: -12px;
+}
+
+.login-logo a, .register-logo a {
+    color: white;
+}
+
+.remodal-close, .remodal-close:before {
+    position: absolute;
+    top: 0;
+    left: auto;
+    display: block;
+    width: 35px;
+    right: 0;
+}
+.remodal-overlay {
+    background: rgba(0,0,0,.8);
+}
+@media only screen and (min-width: 641px) {
+.remodal {
+    max-width: 96%;
+    height: 96%;
+}
+.YApps_Logo{
+	position: relative;
+}
+}
+
+.form_field-no_mb {
+	margin-bottom: 0;
+}
+
+.callout-default {
+	background-color: #d2d6de !important;
+    border-left: 5px solid #a8abb2;
+}
+
+.color-palette {
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+}
+
+.color-palette-set {
+  margin-bottom: 0px;
+  width: 100px;
+}
+.color-palette span {
+  display: block;
+  font-size: 12px;
+}
+.color-palette:hover span {
+  display: block;
+}
+
+.formCover {
+	display: none;
+	background-color: rgba(255, 255, 255, 0.8);
+	position:  absolute;
+	top: 0;
+	height: 100%;
+	width: 100%;
+}
+.formCover i {
+	position: absolute;
+	top: calc(50% - 27px);
+	left: calc(50% - 21px)
+}
+
+@media only screen and (min-width: 200px) {
+    .YApps_Logo {
+        position: relative;
+    }
+}

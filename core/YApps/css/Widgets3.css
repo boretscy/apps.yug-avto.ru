@@ -1,0 +1,556 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Roboto:wght@400;500;700&display=swap");
+.yapps {
+    --yawidgets-color-bg: %% COLOR_BG %%;
+	--yawidgets-color-text: %% COLOR_TEXT %%;
+    --yawidgets-icon-light: %% COLOR_ICON_LIGHT %%;
+    --yawidgets-icon-dark: %% COLOR_ICON_DARK %%;
+    --yawidgets-icon-hover-light: %% COLOR_ICON_HOVER_LIGHT %%;
+    --yawidgets-icon-hover-dark: %% COLOR_ICON_HOVER_DARK %%;
+    --yawidgets-icon-hover-shadow: drop-shadow(0px 4px 4px rgba(%% COLOR_ICON_HOVER_SHADOW %%,0.50));
+    --yawidgets-icon-button: rgba(%% COLOR_ICON_BUTTON %%, 0.15);
+    --yawidgets-icon-hover-button: %% COLOR_ICON_HOVER_BUTTON %%;
+    --yawidgets-icon-hover-button-shadow: 1px 6px 10px 0px rgba(%% COLOR_ICON_HOVER_BUTTON_SHADOW %%, 0.25);
+    --yawidgets-field-border: %% COLOR_FIELD_BORDER %%;
+    --yawidgets-field-bg: %% COLOR_FIELD_BG %%;
+    --yawidgets-button: %% COLOR_BUTTON %%;
+    --yawidgets-button-text: %% COLOR_BUTTON_TEXT %%;
+    --yawidgets-button-hover: %% COLOR_BUTTON_HOVER %%;
+    --yawidgets-button-hover-text: %% COLOR_BUTTON_HOVER_TEXT %%;
+    --yawidgets-terms: %% COLOR_TERMS %%;
+    --yawidgets-timer-bg: %% COLOR_TIMER_BG %%;
+    --yawidgets-timer-text: %% COLOR_TIMER_TEXT %%;
+    --yawidgets-error: %% COLOR_ERROR %%;
+    --yawidgets-margin-right: %% MARGIN_RIGHT %%;
+    --yawidgets-margin-bottom: %% MARGIN_BOTTOM %%;
+
+    font-family: "Roboto", Helvetica, sans-serif;
+}
+.yapps-widgets-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-color: rgba(0,0,0,.6);
+    display: none;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    z-index: 1150;
+    transition: .2s;
+}
+.yapps-widget {
+    border-radius: 30px 80px 30px 80px;
+    padding: 40px;
+    background-color: var(--yawidgets-color-bg);
+    position: relative;
+    overflow: visible;
+    color: var(--yawidgets-color-text);
+    width: 475px;
+}
+.yapps-widget-icon {
+    background-color: var(--yawidgets-icon-hover-button);
+    width: 110px;
+    height: 110px;
+    position: absolute;
+    top: -50px;
+    left: -60px;
+    border-radius: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    box-shadow: var(--yawidgets-icon-hover-button-shadow);
+}
+.yapps-widget-icon svg {
+    width: 60px;
+    height: 60px;
+    filter: var(--yawidgets-icon-hover-shadow);
+}
+.yapps-widget-icon svg [role="light"]{
+    fill: var(--yawidgets-icon-hover-light);
+}
+.yapps-widget-icon svg [role="dark"]{
+    fill: var(--yawidgets-icon-hover-dark);
+}
+.yapps-widget-close {
+    position: absolute;
+    right: -60px;
+    top: 0;
+    cursor: pointer;
+}
+.yapps-widget-content {
+    margin-bottom: 20px;
+}
+.yapps-widget-title {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 42px;
+    letter-spacing: 0em;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+.yapps-widget-text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+}
+.yapps-widget-form {
+    position: relative;
+}
+.yapps-widget-form input {
+    width: 100%;
+    margin-bottom: 10px;
+    height: 50px;
+    border-radius: 15px;
+    padding: 15px;
+    border: var(--yawidgets-field-border) .5px solid;
+    background-color: var(--yawidgets-field-bg);
+    transition: .2s;
+}
+.yapps-widget-form input:focus {
+    border: var(--yawidgets-color-text) .5px solid;
+    background-color: var(--yawidgets-color-bg);
+    transition: .2s;
+}
+.yapps-widget-form input.error {
+    border: var(--yawidgets-error) .5px solid;
+    transition: .2s;
+}
+.yapps-widget-form-terms {
+    display: flex;
+    align-content: center;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding: 5px 0;
+    cursor: pointer;
+}
+.yapps-widget-form-terms-check {
+    width: 28px;
+    height: 18px;
+    border: var(--yawidgets-field-border) .5px solid;
+    background-color: var(--yawidgets-color-bg);
+    border-radius: 4px;
+    transition: .2s;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-right: 15px;
+}
+.yapps-widget-form-terms-check.checked {
+    border: var(--yawidgets-button) .5px solid;
+    background-color: var(--yawidgets-button);
+    transition: .2s;
+}
+.yapps-widget-form-terms-check.checked img {
+    width: 11px;
+    height: 8px;
+}
+.yapps-widget-form-terms-check.error {
+    border: var(--yawidgets-error) .5px solid;
+    transition: .2s;
+}
+.yapps-widget-form-terms-text.error {
+    color: var(--yawidgets-error);
+    transition: .2s;
+}
+.yapps-widget-form-terms-text {
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--yawidgets-terms);
+}
+.yapps-widget-form-terms-text a {
+    color: var(--yawidgets-color-text);
+    text-decoration: underline;
+}
+.yapps-widget-form-time-toggle {
+    display: flex;
+    align-content: center;
+    justify-content: start;
+    flex-wrap: wrap;
+    margin: 15px 0;
+    color: var(--yawidgets-field-border);
+}
+.yapps-widget-form-time-toggle-item {
+    margin-right: 15px;
+    display: flex;
+    align-content: center;
+    justify-content: start;
+    flex-wrap: wrap;
+    font-size: 14px;
+    cursor: pointer;
+}
+.yapps-widget-form-time-toggle-item .yapps-widget-form-time-toggle-item-check {
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    border: var(--yawidgets-field-border) .5px solid;
+    transition: .2s;
+    margin-right: 10px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.yapps-widget-form-time-toggle-item .yapps-widget-form-time-toggle-item-check .yapps-widget-form-time-toggle-item-check-inc {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background-color: var(--yawidgets-color-bg);
+    transition: .2s;
+}
+.yapps-widget-form-time-toggle-item.active {
+    color: var(--yawidgets-color-text);
+}
+.yapps-widget-form-time-toggle-item.active .yapps-widget-form-time-toggle-item-check {
+    border: var(--yawidgets-button) .5px solid;
+    transition: .2s;
+}
+.yapps-widget-form-time-toggle-item.active .yapps-widget-form-time-toggle-item-check .yapps-widget-form-time-toggle-item-check-inc {
+    background-color: var(--yawidgets-button);
+    transition: .2s;
+}
+.yapps-widget-form-time {
+    display: none;
+    align-items: center;
+    justify-content: start;
+    flex-wrap: wrap;
+    margin: 15px 0;
+    color: var(--yawidgets-color-text);
+    transition: .2s;
+}
+.yapps-widget-form-time.active {
+    display: flex;
+    transition: .2s;
+}
+.yapps-widget-form-time span {
+    margin-right: 15px;
+    display: inline-block;
+}
+.yapps-widget-form-time select {
+    height: 50px;
+    border-radius: 15px;
+    padding: 10px;
+    border: var(--yawidgets-field-border) .5px solid;
+    background-color: var(--yawidgets-field-bg);
+    font-size: 18px;
+    margin-right: 15px;
+}
+
+.yapps-widget-form-button {
+    cursor: pointer;
+    width: 50%;
+    padding: 15px;
+    text-align: center;
+    color: var(--yawidgets-button-text) !important;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: var(--yawidgets-button);
+    transition: .2s;
+    border-radius: 15px;
+    margin: 15px 0;
+}
+.yapps-widget-form-button noindex {
+    color: var(--yawidgets-button-text) !important;
+}
+.yapps-widget-form-button:hover {
+    background-color: var(--yawidgets-button-hover);
+    color: var(--yawidgets-button-hover-text);
+    transition: .2s;
+}
+.yapps-widget-marking {
+    color: var(--yawidgets-field-border);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    margin-top: 30px;
+}
+.yapps-widget-image-back {
+    position: absolute;
+    z-index: -1;
+    right: -90px;
+    bottom: -90px;
+}
+.yapps-widget-image-front {
+    position: absolute;
+    z-index: 1;
+    right: -130px;
+    bottom: -80px;
+}
+[data-widget-type="cb"], [data-widget-type="lg"] {
+    display: none;
+    transition: .2s;
+}
+
+.yapps-widget-timer {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+.yapps-widget-timer-item {
+    width: 60px;
+    height: 60px;
+    border-radius: 7px;
+    background-color: var(--yawidgets-timer-bg);
+    color: var(--yawidgets-timer-text);
+    display: flex;
+    justify-content: center;
+    margin-right: 15px;
+    align-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.yapps-widget-timer-item-value {
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+}
+.yapps-widget-timer-item-descritption {
+    font-size: 8px;
+    font-weight: 400;
+    text-align: center;
+    text-transform: uppercase;
+}
+.yapps-widget-subtitle {
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0em;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+
+.yapps-widget-success, .yapps-widget-error, .yapps-widget-cover {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--yawidgets-color-bg);
+    text-align: center;
+    display: none;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.yapps-widget-error {
+    color: var(--yawidgets-error);
+}
+.yapps-widget-cover {
+    background-color: rgba(255,255,255,.5);
+}
+
+
+
+.yapps-widgets-buttons-container {
+    position: fixed;
+    bottom: var(--yawidgets-margin-bottom);
+    right: var(--yawidgets-margin-right);
+    display: flex;
+    flex-direction: column-reverse;
+    z-index: 1150;
+}
+.yapps-widgets-buttons-item {
+    background-color: #ffffff;
+    box-shadow: 0px 1px 4px 0px rgba(172, 203, 212, 0.45);
+    backdrop-filter: blur(25px);
+    cursor: pointer;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    margin-top: 15px;
+    transition: .2s;
+    position: relative;
+}
+.yapps-widgets-buttons-item svg {
+    width: 35px;
+    height: auto;
+}
+.yapps-widgets-buttons-item svg [role="light"]{
+    fill: var(--yawidgets-icon-light);
+}
+.yapps-widgets-buttons-item svg [role="dark"]{
+    fill: var(--yawidgets-icon-dark);
+}
+.yapps-widgets-buttons-item:hover, .yapps-widgets-buttons-item.show {
+    background-color: var(--yawidgets-icon-hover-button);
+    transition: .2s;
+    box-shadow: var(--yawidgets-icon-hover-button-shadow);
+}
+.yapps-widgets-buttons-item:hover svg, .yapps-widgets-buttons-item.show svg {
+    filter: var(--yawidgets-icon-hover-shadow);
+}
+.yapps-widgets-buttons-item:hover svg [role="light"], .yapps-widgets-buttons-item.show svg [role="light"]{
+    fill: var(--yawidgets-icon-hover-light);
+}
+.yapps-widgets-buttons-item:hover svg [role="dark"], .yapps-widgets-buttons-item.show svg [role="dark"]{
+    fill: var(--yawidgets-icon-hover-dark);
+}
+.yapps-widgets-buttons-item .yapps-widgets-buttons-item-unhover {
+    display: block;
+    transition: .2s;
+}
+.yapps-widgets-buttons-item .yapps-widgets-buttons-item-hover {
+    display: none;
+    transition: .2s;
+}
+.yapps-widgets-buttons-item:hover .yapps-widgets-buttons-item-unhover {
+    display: none;
+    transition: .2s;
+}
+.yapps-widgets-buttons-item:hover .yapps-widgets-buttons-item-hover {
+    display: block;
+    transition: .2s;
+}
+.yapps-widgets-buttons-item-hint {
+    position: absolute;
+    right: 85px;
+    top: calc(50% - 20.5px);
+    background-color: var(--yawidgets-color-bg);
+    color: var(--yawidgets-color-text);
+    padding: 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    display: none;
+    transition: .2s;
+    font-size: 14px;
+}
+.yapps-widgets-buttons-item:hover .yapps-widgets-buttons-item-hint, .yapps-widgets-buttons-item.show .yapps-widgets-buttons-item-hint {
+    display: block;
+    transition: .2s;
+    animation: yapps-hint-animate .2s ease 0s 1 normal forwards;
+}
+
+/* ANIMATION */
+@keyframes yapps-hint-animate {
+    0%{
+        right: -100%;
+        opacity: 0;
+    }
+    50% {
+        right: 10%;
+        opacity: 0;
+    }
+    100%{
+        right: 120%;
+        opacity: 1;
+    }
+}
+
+
+
+/* ADAPTIVE */
+@media (max-width: 1399.98px) {
+}
+@media (max-width: 1199.98px) {
+}
+@media (max-width: 991.98px) {
+}
+@media (max-width: 767.98px) {
+    .yapps-widgets-buttons-container {
+        bottom: 15px;
+        right: 15px;
+    }
+    .yapps-widget {
+        border-radius: unset;
+        padding: 140px 15px 40px 15px;
+        width: 100%;
+        height: 100%;
+    }
+    .yapps-widget-icon {
+        width: 72px;
+        height: 72px;
+        top: 15px;
+        left: 15px;
+    }
+    .yapps-widget-icon svg {
+        width: 40px;
+        height: 40px;
+    }
+    .yapps-widget-close {
+        right: 15px;
+        top: 15px;
+    }
+    .yapps-widget-content {
+        margin-bottom: 10px;
+    }
+    .yapps-widget-title {
+        font-size: 32px;
+        font-weight: 500;
+        margin-bottom: 10px;
+        line-height: 1;
+    }
+    .yapps-widget-subtitle {
+        font-size: 16px;
+    }
+    .yapps-widget-text {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 1;
+    }
+    .yapps-widget-form input {
+        margin-bottom: 10px;
+        height: 50px;
+        border-radius: 10px;
+        padding: 10px;
+        transition: .2s;
+    }
+    .yapps-widget-form-button {
+        width: 100%;
+        padding: 14px;
+        font-size: 12px;
+        font-weight: 400;
+        margin-top: 20px;
+    }
+
+    .yapps-widget-image-back {
+        display: none;
+    }
+    .yapps-widget-image-front {
+        display: none;
+    }
+    .yapps-widget-timer {
+        display: flex;
+        justify-content: flex-start;
+        margin-bottom: 10px;
+    }
+    .yapps-widget-timer-item {
+        width: 68px;
+        height: 68px;
+        border-radius: 7px;
+        background-color: var(--yawidgets-timer-bg);
+        color: var(--yawidgets-timer-text);
+        display: flex;
+        justify-content: center;
+        margin-right: 15px;
+        align-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    .yapps-widget-timer-item-value {
+        font-size: 28px;
+    }
+    .yapps-widget-timer-item-descritption {
+        font-size: 12px;
+    }
+    .yapps-widgets-buttons-container {
+        flex-direction: row-reverse;
+    }
+    .yapps-widgets-buttons-item {
+        margin-top: unset;
+        margin-left: 15px;
+    }
+    .yapps-widgets-buttons-item.show .yapps-widgets-buttons-item-hint {
+        animation: unset;
+        display: none;
+    }
+    
+}
+@media (max-width: 575.98px) {
+}
+@media (max-width: 413.98px) {
+}

@@ -1,0 +1,698 @@
+YAppsHot {
+    width: 100%;
+    max-width: 1170px;
+    margin: 0 auto;
+}
+
+.YApps--Close svg {
+    fill: %%COLOR.GRAY%%;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.YApps--Close:hover {
+    color: %%COLOR.GRAY%%;
+    transition: 0.2s;
+}
+
+.YApps_Hot--Container {
+    
+	--yapps-hot-dark: %%COLOR.DARK%%;
+	--yapps-hot-gray: %%COLOR.GRAY%%;
+	--yapps-hot-lightgray: %%COLOR.LIGHTGRAY%%;
+	--yapps-hot-light: %%COLOR.LIGHT%%;
+	--yapps-hot-error: %%COLOR.ERROR%%;
+	
+	font-family: 'PT Sans', sans-serif;
+}
+
+.YApps_Hot--Container {
+	width: 100%;
+    display: block;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    color: var(--yapps-hot-dark);
+    font-size: 15px;
+    position: relative;
+}
+
+.YApps_Hot--Container a,
+.YApps_Hot--Container a:active,
+.YApps_Hot--Container a:focus,
+.YApps_Hot--Container a:visited {
+    color: var(--yapps-hot-gray);
+    text-decoration: none;
+}
+
+.YApps_Hot--Container a:hover {
+    color: var(--yapps-hot-gray);
+    text-decoration: underline;
+}
+
+.YApps_Hot--Slider {
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 15px;
+}
+.YApps_Hot--Slider .swiper-slide {
+    cursor: pointer;
+}
+.YApps_Hot--Slider .swiper-slide img {
+    width: 100%;
+    margin-bottom: 15px;
+}
+.YApps_Hot--Slider .swiper-slide .YApps_Hot--Slider_Title {
+    font-size: 18px;
+    color: var(--yapps-hot-gray);
+    padding: 15px 15px 0;
+}
+.YApps_Hot--Slider .swiper-slide .YApps_Hot--Slider_Price {
+    font-size: bold;
+    font-size: 18px;
+    padding: 0 15px;
+}
+.YApps_Hot--Slider .swiper-slide .YApps_Hot--Slider_DC {
+    padding: 15px;
+}
+
+.YApps_Hot--Title {
+    padding: 15px;
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: var(--yapps-hot-light);
+}
+
+.YApps_Hot--Title span {
+    float: right;
+}
+
+.YApps_Hot--DCs {
+    margin-bottom: 30px;
+}
+
+.YApps_Hot--DCs_Mobile {
+    display: none;
+}
+
+.YApps_Hot--DCs ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.YApps_Hot--DCs ul li {
+    display: inline-block;
+    float: left;
+    padding: 10px 20px;
+    background-color: var(--yapps-hot-lightgray);
+    color: white;
+    transition: 0.2s;
+    cursor: pointer;
+    list-style: none;
+    margin-right: 5px;
+}
+
+.YApps_Hot--DCs ul li.active {
+    background-color: var(--yapps-hot-gray);
+}
+
+.YApps_Hot--DCs ul li:last-child {
+    float: right;
+    margin-right: 0;
+}
+
+.YApps_Hot--DCs ul li a,
+.YApps_Hot--DCs ul li a:focus,
+.YApps_Hot--DCs ul li a:visited,
+.YApps_Hot--DCs ul li a:hover,
+.YApps_Hot--DCs ul li a:active {
+    color: #fff;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.YApps_Hot--DCs ul li:hover,
+.YApps_Hot--DCs ul li:active {
+    background-color: var(--yapps-hot-gray);
+    transition: 0.2s;
+}
+
+.YApps_Hot--Models {
+    margin: 30px 15px 0 15px;
+}
+
+.YApps_Hot--Models_Mobile {
+    display: none;
+}
+
+.YApps_Hot--Models ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.YApps_Hot--Models ul li {
+    display: inline-block;
+    float: left;
+    color: white;
+    cursor: pointer;
+    list-style: none;
+    width: 50%;
+    max-width: calc(100% / 6);
+}
+
+.YApps_Hot--Models ul li a,
+.YApps_Hot--Models ul li a:focus,
+.YApps_Hot--Models ul li a:active,
+.YApps_Hot--Models ul li a:hover,
+.YApps_Hot--Models ul li a:visited {
+    color: var(--yapps-hot-lightgray);
+}
+
+.YApps_Hot--Models ul li a img {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.YApps_Hot--Models ul li a > .YApps_Hot--Model_Count {
+    border-radius: 15px;
+    padding: 2px 10px;
+    background-color: var(--yapps-hot-light);
+    float: left;
+    margin-right: 10px;
+    color: var(--yapps-hot-dark);
+    display: inline-block;
+    transition: 0.2s;
+}
+
+.YApps_Hot--Models ul li a > .YApps_Hot--Model_Name {
+    display: inline-block;
+    transition: 0.2s;
+}
+
+.YApps_Hot--Models ul li a:hover > .YApps_Hot--Model_Count,
+.YApps_Hot--Models ul li a.active > .YApps_Hot--Model_Count {
+    background-color: var(--yapps-hot-gray);
+    color: #fff;
+    transition: 0.2s;
+}
+
+.YApps_Hot--Models ul li a:hover > .YApps_Hot--Model_Name,
+.YApps_Hot--Models ul li a.active > .YApps_Hot--Model_Name {
+    color: var(--yapps-hot-gray);
+    transition: 0.2s;
+}
+
+.YApps_Hot--Banner_List {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.YApps_Hot--Banner_List .YApps_Hot--Banner {
+    width: 100%;
+    background-size: contain;
+    height: 90px;
+    background-position: center;
+}
+
+.YApps_Hot--Items {
+    margin-top: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.YApps_Hot--Items .YApps_Hot--Item {
+    margin-bottom: 10px;
+}
+
+.YApps_Hot--Item_Image {
+    width: 110px;
+    float: left;
+    margin-right: 20px;
+    display: inline-block;
+}
+
+.YApps_Hot--Item_Image img {
+    width: 100%;
+    min-height: auto;
+}
+
+.YApps_Hot--Item_Title {
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.YApps_Hot--Item_Title a,
+.YApps_Hot--Item_Title a:hover {
+    color: var(--yapps-hot-gray);
+}
+
+.YApps_Hot--Item_CenterBlock {
+    display: inline-block;
+}
+
+.YApps_Hot--Item_RightBlock {
+    display: inline-block;
+    float: right;
+    text-align: right;
+    vertical-align: top;
+}
+
+.YApps_Hot--Item_RightBlock span {
+    font-size: 20px;
+}
+
+.YApps_Hot--Item_RightBlock span:nth-child(2) {
+    background-color: var(--yapps-hot-light);
+    padding: 5px;
+}
+
+.YApps_Hot--Item_RightBlock span.YApps_Hot--Item_OldPrice {
+    margin-right: 30px;
+}
+
+.YApps_Hot--Item_RightBlock a.YApps_Hot--Button,
+.YApps_Hot--Item_RightBlock a.YApps_Hot--Button:focus,
+.YApps_Hot--Item_RightBlock a.YApps_Hot--Button:visited {
+    padding: 5px 20px;
+    border: 1px solid var(--yapps-hot-gray);
+    background-color: #fff;
+    color: var(--yapps-hot-gray);
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.YApps_Hot--Item_RightBlock a.YApps_Hot--Button:hover,
+.YApps_Hot--Item_RightBlock a.YApps_Hot--Button:active {
+    background-color: var(--yapps-hot-gray);
+    color: #fff;
+    transition: 0.2s;
+}
+
+.YApps_Hot--Item_View {
+    background-color: #fff;
+    position: absolute;
+    width: 100%;
+    height: auto;
+    /*max-height: 900px;*/
+    margin-bottom: 30px;
+    top: 66px;
+    padding: 30px;
+    overflow: auto;
+    display: none;
+	z-index: 5;
+    -webkit-box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.4);
+}
+
+.YApps_Hot--Item_View::-webkit-scrollbar {
+    width: 4px;
+    background-color: #fff;
+}
+
+.YApps_Hot--Item_View::-webkit-scrollbar-thumb {
+    width: 2px;
+    background-color: var(--yapps-hot-light);
+    border-radius: 1px;
+}
+
+.YApps_Hot--Item_View--Info_Slider {
+    width: 400px;
+    display: inline-block;
+    float: left;
+}
+
+.YApps_Hot--Item_View-swiper-container {
+    width: 100%;
+    height: 400px;
+    float: left;
+	overflow: hidden;
+	position:relative;
+}
+
+.YApps_Hot--Item_View-swiper-container .swiper-slide{
+    background-size: cover;
+    background-position: center;
+}
+
+.YApps_Hot--Item_View--Info_Slider-Top {
+    height: 330px;
+    width: 100%;
+}
+
+.YApps_Hot--Item_View--Info_Slider-Thumbs {
+    height: 85px;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
+
+.YApps_Hot--Item_View--Info_Slider-Thumbs .swiper-slide {
+    width: 25%;
+    height: 100%;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.YApps_Hot--Item_View--Info_Slider-Thumbs .swiper-slide-active {
+    opacity: 1;
+}
+
+.YApps_Hot--Item_View--Info_Content {
+    width: calc(100% - 400px);
+    display: inline-block;
+    float: right;
+    padding-left: 30px;
+}
+
+.YApps_Hot--Item_View--Info_Content table {
+    width: 100%;
+}
+
+.YApps_Hot--Item_View--Info_Content table > tbody > tr > td:first-child {
+    width: 35%;
+}
+
+.YApps_Hot--Item_View--Info_Content table > tbody > tr > td:last-child {
+    position: relative;
+}
+
+.YApps_Hot--Item_View--Info_Content table > tbody > tr > td a svg {
+    fill: var(--yapps-hot-gray);
+    width: 35px;
+    height: 35px;
+    vertical-align: sub;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.YApps_Hot--Item_View--Info_Phone {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.YApps_Hot--Item_View--Info_Phone p {
+    margin-bottom: 0;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.YApps_Hot--Item_View--Info_Phone a svg {
+    fill: var(--yapps-hot-gray);
+    width: 35px;
+    height: 35px;
+    vertical-align: sub;
+}
+
+.YApps_Hot--Item_View--Info_Phone a {
+    font-size: 32px;
+}
+
+.YApps_Hot--Item_View--Info_Phone a:hover {
+    text-decoration: none;
+}
+
+.YApps_Hot--Item_View--Info_Form {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.YApps_Hot--Item_View--Info_Form input {
+    font-size: 16px;
+    padding: 5px 10px;
+    width: 80%;
+    margin-bottom: 10px;
+}
+
+.YApps_Hot--Item_View--Info_Form input.error {
+    border: 1px solid red;
+}
+
+.YApps_Hot--Item_View--Info_Form a.YApps_Hot--Form_Button {
+    color: #fff;
+    background-color: var(--yapps-hot-gray);
+    border: 1px solid var(--yapps-hot-gray);
+    transition: 0.2s;
+    width: 80%;
+    padding: 5px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    margin: 0 auto;
+}
+
+.YApps_Hot--Item_View--Info_Form a.YApps_Hot--Form_Button:hover {
+    color: var(--yapps-hot-gray);
+    background-color: #fff;
+    transition: 0.2s;
+}
+
+.YApps_Hot--Item_View .YApps--Form_Personal {
+    margin: 15px 10%;
+}
+.YApps_Hot--Item_View .YApps--Form_Personal-Item svg {
+	fill: var(--yapps-hot-gray);
+}
+.YApps_Hot--Item_View .YApps--Form_Personal-Item_Error {
+	color: var(--yapps-hot-error);
+}
+.YApps_Hot--Item_View .YApps--Form_Personal-Item_Error svg {
+	fill: var(--yapps-hot-error);
+}
+
+.YApps_Widget--Form_Title span.YApps_Widget--Form_Title-Callback_Time {
+	display: block;
+	font-weight: 700;
+}
+
+
+
+
+.YApps_Hot--Item_View--Info_Form-Thanks, .YApps_Hot--Item_View--Info_Form-Error {
+    height: 80px;
+    display: none;
+    margin-top: 50px;
+    text-align: center;
+}
+.YApps_Hot--Item_View--Info_Form-Error {
+	color: var(--yapps-hot-error);
+}
+
+.YApps_Hot--Item_View--Banners {
+    margin-top: 30px;
+}
+
+.YApps_Hot--Item_View--Banners_Title {
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.YApps_Hot--Item_View--Banners ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.YApps_Hot--Item_View--Banners ul li {
+    display: inline-block;
+    width: 25%;
+    float: left;
+    text-align: center;
+}
+
+.YApps_Hot--Item_View--Complectation {
+    margin-top: 30px;
+}
+
+.YApps_Hot--Item_View--Complectation_Title {
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.YApps_Hot--Item_View--Complectation ul,
+.YApps_Hot--Item_View--Additional ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    padding-left: 15px;
+}
+
+.YApps_Hot--Item_View--Complectation ul li,
+.YApps_Hot--Item_View--Additional ul li {
+    float: left;
+    width: 50%;
+    list-style: circle;
+    padding-right: 15px;
+}
+
+.YApps_Hot--Item_View--Additional {
+    margin-top: 30px;
+}
+
+.YApps_Hot--Item_View--Additional_Title {
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.YApps-Hot_Personal {
+    font-size: 12px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+@media (max-width:479px) {
+    .YApps_Hot--Title {
+        height: 130px;
+    }
+    .YApps_Hot--Title span {
+        float: unset;
+        display: block;
+    }
+    .YApps_Hot--DCs {
+        display: none;
+    }
+    .YApps_Hot--DCs_Mobile {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+    }
+    .YApps_Hot--Models {
+        display: none;
+    }
+    .YApps_Hot--Models_Mobile {
+        display: block;
+        text-align: center;
+    }
+    .YApps_Hot--DCs_Mobile select,
+    .YApps_Hot--Models_Mobile select {
+        font-size: 16px;
+        width: calc(100% - 30px);
+        padding: 10px;
+        margin: 5px auto;
+    }
+    .YApps_Hot--Banner_List {
+        width: calc(100% - 30px);
+        margin: 15px auto;
+    }
+    .YApps_Hot--Banner_List .YApps_Hot--Banner {
+        width: 100%;
+        height: 80px;
+    }
+    .YApps_Hot--Items {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .YApps_Hot--Item {
+        position: relative;
+    }
+    .YApps_Hot--Item_Image {
+        float: right;
+        margin-right: 0;
+    }
+    .YApps_Hot--Item_CenterBlock {
+        margin-top: 10px;
+    }
+    .YApps_Hot--Item_Title {
+        position: absolute;
+        top: 0;
+        width: calc(100% - 120px);
+        font-size: 14px;
+        line-height: 1;
+    }
+    .YApps_Hot--Item_RightBlock {
+        margin: 0 0 20px;
+        float: unset;
+        display: block;
+        text-align: center;
+    }
+    .YApps_Hot--Item_OldPrice {
+        position: absolute;
+        top: 30px;
+        left: 0;
+        font-size: 14px !important;
+    }
+    .YApps_Hot--Item_NewPrice {
+        position: absolute;
+        left: 0;
+        top: 46px;
+    }
+    .YApps_Hot--Button {
+        width: 100%;
+        display: block;
+    }
+    .YApps_Hot--Item_View {
+        top: 130px;
+        padding: 30px 10px
+    }
+    .YApps_Hot--Item_View--Info_Container {
+        margin-top: 20px;
+    }
+    .YApps_Hot--Item_View--Info_Slider {
+        float: unset;
+        width: 100%;
+    }
+    .YApps_Hot--Item_View--Info_Slider-Top {
+        height: 265px;
+        width: 100%;
+    }
+    .YApps_Hot--Item_View--Info_Content {
+        width: 100%;
+        float: unset;
+        display: block;
+        padding-left: 0;
+    }
+    .YApps_Hot--Item_View--Info_Phone a {
+        font-size: 24px;
+    }
+    .YApps_Hot--Item_View--Info_Form input {
+        width: 100%;
+    }
+    .YApps_Hot--Item_View--Info_Form a.YApps_Hot--Form_Button {
+        width: 100%;
+        font-size: 16px;
+    }
+    .YApps_Hot--Item_View--Info_Content table {
+        font-size: 14px;
+    }
+    .YApps_Hot--Item_View--Info_Content table td {
+        vertical-align: top;
+    }
+    .YApps_Hot--Item_View--Info_Content table > tbody > tr > td a:nth-child(2) {
+        margin-left: 50px;
+    }
+    .YApps_Hot--Item_View--Banners ul li {
+        width: 50%;
+        padding: 2px;
+    }
+    .YApps_Hot--Item_View--Banners ul li img {
+        width: 100%;
+    }
+    .YApps_Hot--Item_View--Complectation ul li,
+    .YApps_Hot--Item_View--Additional ul li {
+        float: unset;
+        width: 100%;
+        padding-right: 0;
+    }
+}
+
+@media (min-width:414px) {
+    .YApps_Hot--Item_CenterBlock {
+        margin-top: 80px;
+    }
+}
+
+@media (min-width:768px) {
+    .YApps_Hot--Item_CenterBlock {
+        margin-top: 0;
+    }
+}

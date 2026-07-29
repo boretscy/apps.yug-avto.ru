@@ -1,0 +1,1 @@
+<?php $app->Route->redirect('/user/settings/'); ?>

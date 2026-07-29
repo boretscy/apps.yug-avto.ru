@@ -1,0 +1,1 @@
+<a href="%%WIDGET.HP.ITEM_HT.APP_LINK%%" class="YApps_Widget--Leadgen_Container-Part_Left-Image_Button" role="YApps_Helper--GotoApp" data-action="YApps_App--Hot">%%WIDGET.LG.ITEMS_HT.BUTTON%%</a><br />

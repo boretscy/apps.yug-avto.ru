@@ -1,0 +1,20 @@
+# === Исключение логов, бэкапов и временных файлов ===
+*.log
+*.bak
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# === Исключение папок с отдельными репозиториями и медиа ===
+/upload/
+/plugins/
+/vue-apps/
+
+# === Специфика Go API ===
+go/bin/
+go/.env
+go/*.log
+go/*.log.bak

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: */*.js*
+Allow: */*.jpg*
+Allow: /API/get/cis/script/*
+Disallow: /

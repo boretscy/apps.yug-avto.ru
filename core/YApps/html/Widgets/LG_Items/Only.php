@@ -1,0 +1,1 @@
+<div class="YApps_Widget--Form_Text">Только до %%WIDGET.LG.TIMER_END%%!</div>

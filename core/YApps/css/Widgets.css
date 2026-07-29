@@ -1,0 +1,244 @@
+.YApps_Helper--MainButton_Container,
+.YApps_Helper--Container,
+.YApps_Helper--LeadgenButton,
+.YApps_Widget--Callback_Container,
+.YApps_Widget--Messengers_Container,
+.YApps_Widget--Feedback_Container,
+.YApps_Widget--Leadgen_Container,
+.YApps_Widget--Navigator_Container,
+.YApps_Widget--Chat_Container,
+.YApps_Widget--SelectNavi_Container,
+.YApps_Widget--CallInvolve_Container,
+.YApps_Widget--Quiz_Container {
+    --yapps-widget-bg-color: %%WIDGET.COLOR_BG%%;
+    --yapps-widget-darkbg-color: %%WIDGET.COLOR_DARKBG%%;
+	--yapps-widget-fill-color: %%WIDGET.COLOR_FILL%%;
+	--yapps-widget-text-color: %%WIDGET.COLOR_TEXT%%;
+	--yapps-widget-button-color: %%WIDGET.COLOR_BUTTON%%;
+	--yapps-widget-button-text-color: %%WIDGET.COLOR_BUTTON_TEXT%%;
+	--yapps-widget-error-color: %%WIDGET.COLOR_ERROR%%;
+	--yapps-widget-lightgray-color: %%WIDGET.COLOR_LIGHTGRAY%%;
+	--yapps-widget-darkdray-color: %%WIDGET.COLOR_DARKGRAY%%;
+	--yapps-widget-shadow-color: %%WIDGET.COLOR_SHADOW%%;
+	
+	font-family: 'PT Sans', sans-serif;
+	
+	box-sizing: border-box;
+	letter-spacing: normal;
+	line-height: normal;
+}
+hr.YApps--HR {
+	padding: 0;
+	margin: 10px 0;
+	height: 1px;
+	background: var(--yapps-widget-lightgray-color);
+	width: 99.5%;
+}
+.YApps--Trigger {
+	position: fixed;
+    top: 0px;
+    width: 100%;
+    height: 10px;
+    z-index: 20000;
+}
+.YApps_Widget--Width100 {
+	width: 100% !important;
+}
+.YApps_Widget--Width50 {
+	width: 48.55% !important;
+    display: inline-block;
+}
+.YApps_Widget--Width25 {
+	width: 24% !important;
+}
+.YApps_Widget--Close {
+	position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    padding-right: 30px;
+    transition: .2s;
+	z-index: 1;
+	line-height: normal;
+    font-size:14px;
+    color: var(--yapps-widget-text-color);
+}
+.YApps_Widget--Close svg {
+	fill: var(--yapps-widget-fill-color);
+	width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.YApps_Widget--Close:hover {
+	color: var(--yapps-widget-fill-color);
+	transition: .2s;
+}
+
+.YApps_Widget--Back {
+	position: absolute;
+    top: 15px;
+    left: 15px;
+    cursor: pointer;
+    padding-left: 30px;
+    transition: .2s;
+	z-index: 1;
+	line-height: normal;
+	font-size:14px;
+}
+.YApps_Widget--Back svg {
+	fill: var(--yapps-widget-fill-color);
+	width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.YApps_Widget--Back:hover {
+	color: var(--yapps-widget-fill-color);
+	transition: .2s;
+}
+
+.YApps_Widget--Form_Title {
+	color: var(--yapps-widget-fill-color);
+	font-size: 26px;
+	font-weight: 400;
+	margin-bottom: 15px;
+	position: relative;
+	line-height: 1.2em;
+}
+.YApps_Widget--Form_Fields {
+	margin: 15px 0;
+	width: 100%;
+	position: relative;
+}
+.YApps_Widget--Form_Field {
+	padding: 5px 0;
+	width: 100%;
+}
+.YApps_Widget--Form_Field input {
+    font-size: 20px;
+    padding: 5px 10px;
+    width: 100%;
+    border: 1px solid var(--yapps-widget-darkdray-color);
+    margin: 0;
+    height: 39px;
+    box-sizing: border-box;
+	margin-top: 1px;
+}
+
+.YApps_Widget--Form_Field input:read-only {
+    background: var(--yapps-widget-lightdray-color);
+}
+
+#YApps_Widget--Form_Field-DateTime {
+    display: none;
+}
+
+.YApps_Widget--Form_Field a.YApps_Widget--Form_Button,.YApps_Widget--Form_Field a.YApps_Widget--Form_Button:focus,.YApps_Widget--Form_Field a.YApps_Widget--Form_Button:active,.YApps_Widget--Form_Field a.YApps_Widget--Form_Button:visited {
+    padding: 5px 10px;
+    display: block;
+    width: 100%;
+    background-color: var(--yapps-widget-button-color);
+	border: var(--yapps-widget-button-color) 1px solid;
+    color: var(--yapps-widget-button-text-color);
+    transition: .2s;
+    font-size: 20px;
+    text-decoration: none;
+    text-align: center;
+    height: 40px;
+    line-height: normal;
+    box-sizing: border-box;
+}
+
+.YApps_Widget--Form_Field a.YApps_Widget--Form_Button:hover {
+    background-color: var(--yapps-widget-fill-color);
+	border: var(--yapps-widget-fill-color) 1px solid;
+    color: var(--yapps-widget-bg-color);
+    transition: .2s;
+    text-decoration: none;
+}
+.YApps_Widget--Form_Field input.YApps_Widget--Form_Error {
+	border: 1px solid var(--yapps-widget-error-color);
+}
+.YApps_Widget--Form_Text {
+    color: var(--yapps-widget-text-color);
+}
+.YApps_Widget--Form_Text ul {
+	list-style: disc;
+    padding-left: 10px;
+}
+.YApps_Widget--Form_Text ul li {
+	list-style: inherit;
+	margin-left:10px;
+}
+.YApps_Widget--Form_Result {
+	padding: 50px 0;
+    font-size: 20px;
+}
+.YApps_Widget--Form_Result.YApps_Widget--Form_success {
+	display: none;
+    color: var(--yapps-widget-fill-color);
+}
+.YApps_Widget--Form_Result.YApps_Widget--Form_error {
+	display: none;
+	color: var(--yapps-widget-error-color);
+}
+.YApps_Widget--Form_Fields-Cover {
+	position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    background: var(--yapps-widget-bg-color);
+    opacity: .7;
+	display: none;
+}
+.YApps_Widget--Form_Personal {
+	text-align: left;
+	margin: 15px 0;
+	font-size: 12px;
+	position: absolute;
+    bottom: 0px;
+}
+.YApps_Widget--Form_Personal-Item {
+	padding: 5px 0 5px 20px;
+	position: relative;
+	cursor: pointer;
+    line-height: normal;
+    color: var(--yapps-widget-text-color);
+}
+.YApps_Widget--Form_Personal-Item svg {
+	fill: var(--yapps-widget-fill-color);
+	width: 15px;
+    height: 15px;
+	position: absolute;
+	top: 7px;
+	left: 0px;
+}
+.YApps_Widget--Form_Personal-Item_Error {
+	color: var(--yapps-widget-error-color);
+}
+.YApps_Widget--Form_Personal-Item_Error svg {
+	fill: var(--yapps-widget-error-color);
+}
+
+.flatpickr-input.form-control {
+	border-radius: unset !important;
+}
+.flatpickr-calendar {
+	border-radius: unset !important;
+}
+.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
+    background: %%WIDGET.COLOR_FILL%% !important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: %%WIDGET.COLOR_BG%% !important;
+    border-color: %%WIDGET.COLOR_FILL%% !important;
+}
+@media (max-height: 480px) {
+.YApps_Widget--Form_Personal {
+	display: none;
+}
+}
