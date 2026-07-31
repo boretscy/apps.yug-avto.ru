@@ -28,10 +28,10 @@ import (
 )
 
 const (
-	imgFullWidth     = 634
-	imgFullHeight    = 500
-	imgPreviewWidth  = 307
-	imgPreviewHeight = 236
+	imgFullWidth     = 1268
+	imgFullHeight    = 1000
+	imgPreviewWidth  = 460
+	imgPreviewHeight = 354
 	imgWebPQuality   = 80
 	imagesBatchSize  = 5000
 	imagesWorkers    = 10

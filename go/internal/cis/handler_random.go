@@ -130,6 +130,7 @@ func (s *Service) handleRandom(w http.ResponseWriter, r *http.Request) {
 				Detail:       detail,
 				Preview:      preview,
 				PreviewLarge: detail,
+				PreviewSmall: preview,
 				Big:          detail,
 				Thumb:        preview,
 			})
