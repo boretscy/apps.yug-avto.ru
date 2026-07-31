@@ -136,6 +136,7 @@ type ImageResp struct {
 	Detail       string `json:"detail,omitempty"`
 	Preview      string `json:"preview"`
 	PreviewLarge string `json:"preview_large,omitempty"`
+	PreviewSmall string `json:"preview_small,omitempty"`
 	Big          string `json:"big,omitempty"`
 	Thumb        string `json:"thumb,omitempty"`
 }
