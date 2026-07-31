@@ -222,11 +222,11 @@ func (s *Service) buildConditions(f VehicleFilter) (string, []interface{}) {
 	}
 
 	if f.PriceFrom > 0 {
-		wheres = append(wheres, "v.price >= ?")
+		wheres = append(wheres, "v.min_price >= ?")
 		args = append(args, f.PriceFrom)
 	}
 	if f.PriceTo > 0 {
-		wheres = append(wheres, "v.price <= ?")
+		wheres = append(wheres, "v.min_price <= ?")
 		args = append(args, f.PriceTo)
 	}
 
@@ -284,9 +284,9 @@ func (s *Service) BuildVehicleQuery(f VehicleFilter) (string, []interface{}, err
 	orderBy := "v.ext_id DESC"
 	switch f.Sort {
 	case "price_up":
-		orderBy = "v.price ASC"
+		orderBy = "v.min_price ASC"
 	case "price_down":
-		orderBy = "v.price DESC"
+		orderBy = "v.min_price DESC"
 	case "year_up":
 		orderBy = "v.year ASC"
 	case "year_down":
