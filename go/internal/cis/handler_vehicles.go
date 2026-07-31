@@ -296,6 +296,7 @@ func (s *Service) queryImages(extIDs []string) map[int][]ImageResp {
 			Detail:       detail,
 			Preview:      preview,
 			PreviewLarge: detail,
+			PreviewSmall: preview,
 			Big:          detail,
 			Thumb:        preview,
 		})

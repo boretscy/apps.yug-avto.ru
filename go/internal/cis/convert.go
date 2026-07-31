@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+
+	"github.com/yugavto/apps/pkg/autocrm"
 )
 
 func (s *Service) rowToVehicleFull(row *VehicleRow, typeID int, images []ImageResp) VehicleFull {
@@ -116,6 +118,42 @@ func (s *Service) rowToVehicleFull(row *VehicleRow, typeID int, images []ImageRe
 	if imgs == nil {
 		imgs = []ImageResp{}
 	}
+	if len(imgs) == 0 && row.Raw != "" {
+		var raw autocrm.VehicleRaw
+		if json.Unmarshal([]byte(row.Raw), &raw) == nil && len(raw.Images) > 0 {
+			for i, img := range raw.Images {
+				detail := img.Full
+				if detail == "" {
+					detail = img.PreviewLarge
+				}
+				preview := img.PreviewLarge
+				if preview == "" {
+					preview = img.PreviewSmall
+				}
+				if preview == "" {
+					preview = detail
+				}
+				if detail == "" {
+					detail = preview
+				}
+
+				previewSmall := img.PreviewSmall
+				if previewSmall == "" {
+					previewSmall = preview
+				}
+
+				imgs = append(imgs, ImageResp{
+					ID:           strconv.Itoa(i),
+					Detail:       detail,
+					Preview:      preview,
+					PreviewLarge: detail,
+					PreviewSmall: previewSmall,
+					Big:          detail,
+					Thumb:        preview,
+				})
+			}
+		}
+	}
 	if len(imgs) == 0 && body.Code != "" {
 		base := s.imageBaseURL + "/upload/Cis/bodies"
 		imgs = append(imgs, ImageResp{
@@ -123,6 +161,7 @@ func (s *Service) rowToVehicleFull(row *VehicleRow, typeID int, images []ImageRe
 			Detail:       fmt.Sprintf("%s/%s.jpg", base, body.Code),
 			Preview:      fmt.Sprintf("%s/%s_sm.jpg", base, body.Code),
 			PreviewLarge: fmt.Sprintf("%s/%s.jpg", base, body.Code),
+			PreviewSmall: fmt.Sprintf("%s/%s_sm.jpg", base, body.Code),
 		})
 	}
 
