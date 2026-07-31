@@ -42,8 +42,8 @@ func (s *Service) handleBrands(w http.ResponseWriter, r *http.Request) {
 	err := s.db.Select(&brands, fmt.Sprintf(`
 		SELECT b.code, b.name, COALESCE(b.ru_name,'') AS ru_name,
 			COUNT(*) AS vehicles,
-			COALESCE(MIN(v.price),0) AS min,
-			COALESCE(MAX(v.price),0) AS max
+			COALESCE(MIN(v.min_price),0) AS min,
+			COALESCE(MAX(v.min_price),0) AS max
 		FROM %s v
 		JOIN yapps_app_cis_brands b ON b.id = v.brand_id
 		LEFT JOIN yapps_app_cis_models_new mn ON mn.id = v.model_id AND v.type_id = 1
