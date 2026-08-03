@@ -87,9 +87,9 @@ func (s *Service) handleVehicles(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 
 	typeID := 0
-	if q.Get("type") == "new" {
+	if q.Get("type") == "new" || q.Get("mode") == "new" {
 		typeID = 1
-	} else if q.Get("type") == "used" {
+	} else if q.Get("type") == "used" || q.Get("mode") == "used" {
 		typeID = 2
 	}
 	f.TypeID = typeID
@@ -150,45 +150,46 @@ func (s *Service) handleVehicles(w http.ResponseWriter, r *http.Request) {
 
 	// Insert CTA cards if not getting by id
 	idParam := r.URL.Query().Get("id")
-	if idParam == "" {
+	if idParam == "" && len(respItems) > 0 {
 		perPage := f.PerPage
-		if perPage == 0 {
-			perPage = 32 // default
+		if perPage <= 0 {
+			perPage = 30
 		}
-		cA := perPage / 16
+		page := f.Page
+		if page <= 0 {
+			page = 1
+		}
 
-		// Helper function to insert at random position
-		insertCTA := func(idxMin, idxMax int) {
-			if len(respItems) > idxMin {
-				randIdx := idxMin
-				if idxMax > idxMin {
-					randIdx = idxMin + rand.Intn(idxMax-idxMin+1)
+		// minGap: минимальный гарантированный интервал между любыми двумя CTA (в элементах).
+		// 12 элементов = 3 полных ряда при 4 карточках в ряду.
+		minGap := 12
+
+		// Первая CTA карточка на 1-й странице ставится в интервал 5..8 (например на 6-ю позицию).
+		startOffset := 5 + rand.Intn(4)
+
+		if page > 1 {
+			prevTotalItems := (page - 1) * perPage
+			rem := prevTotalItems % minGap
+			if rem > 0 {
+				startOffset = minGap - rem
+				if startOffset < 3 {
+					startOffset += minGap / 2
 				}
-				if randIdx > len(respItems) {
-					randIdx = len(respItems)
-				}
-				ctaCard := ctaCards[rand.Intn(len(ctaCards))]
-				// Insert ctaCard into respItems at randIdx
-				respItems = append(respItems[:randIdx], append([]interface{}{ctaCard}, respItems[randIdx:]...)...)
 			}
 		}
 
-		// First CTA: rand(4, 11)
-		insertCTA(4, 11)
+		lastInsertedIdx := -minGap
+		currentIdx := startOffset
 
-		// Second CTA: if cA > 1 && len > 20
-		if cA > 1 && len(respItems) > 20 {
-			insertCTA(20, 27)
-		}
-
-		// Third CTA: if cA > 2 && len > 36
-		if cA > 2 && len(respItems) > 36 {
-			insertCTA(36, 43)
-		}
-
-		// Fourth CTA: if cA > 3 && len > 52
-		if cA > 3 && len(respItems) > 52 {
-			insertCTA(52, 59)
+		for currentIdx < len(respItems) {
+			if currentIdx-lastInsertedIdx >= minGap {
+				ctaCard := ctaCards[rand.Intn(len(ctaCards))]
+				respItems = append(respItems[:currentIdx], append([]interface{}{ctaCard}, respItems[currentIdx:]...)...)
+				lastInsertedIdx = currentIdx
+				currentIdx += minGap + 1 + rand.Intn(3)
+			} else {
+				currentIdx += minGap
+			}
 		}
 	}
 
