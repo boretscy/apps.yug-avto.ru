@@ -1,9 +1,11 @@
 package cis
 
 import (
+	"crypto/md5"
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/yugavto/apps/pkg/autocrm"
 )
@@ -171,11 +173,20 @@ func (s *Service) rowToVehicleFull(row *VehicleRow, typeID int, images []ImageRe
 	}
 
 	tags := []TagResp{}
-	if row.Discount {
-		tags = append(tags, TagResp{ID: "4", Name: "Выгодный кредит", Icon: fmt.Sprintf("%s/upload/Cis/tags/5b6cc18aec49fb58dfcc72a8ef450013.svg", s.imageBaseURL)})
+	if row.Raw != "" {
+		var raw autocrm.VehicleRaw
+		if json.Unmarshal([]byte(row.Raw), &raw) == nil && len(raw.Tags) > 0 {
+			tags = s.getTagsForVehicle(raw.Tags)
+		}
 	}
-	if row.Drive == "full" {
-		tags = append(tags, TagResp{ID: "7", Name: "4х4", Icon: fmt.Sprintf("%s/upload/Cis/tags/1d0a1107e599ab53fe99470df1fc2ac2.svg", s.imageBaseURL)})
+
+	if len(tags) == 0 {
+		if row.Discount {
+			tags = append(tags, TagResp{ID: "4", Name: "Выгодный кредит", Icon: fmt.Sprintf("%s/upload/Cis/tags/5b6cc18aec49fb58dfcc72a8ef450013.svg", s.imageBaseURL)})
+		}
+		if row.Drive == "full" {
+			tags = append(tags, TagResp{ID: "7", Name: "4х4", Icon: fmt.Sprintf("%s/upload/Cis/tags/1d0a1107e599ab53fe99470df1fc2ac2.svg", s.imageBaseURL)})
+		}
 	}
 
 	general := []string{}
@@ -326,4 +337,82 @@ func (s *Service) rowToVehicleFull(row *VehicleRow, typeID int, images []ImageRe
 		Mileage:        row.Mileage,
 		Created:        row.Created,
 	}
+}
+
+func normalizeTagName(t string) string {
+	s := strings.TrimSpace(t)
+	switch strings.ToLower(s) {
+	case "выгодный трейд ин", "выгодный трейд-ин", "трейд-ин", "трейд ин":
+		return "Выгодный Трейд-ин"
+	case "4х4", "4x4":
+		return "4х4"
+	case "небольшой пробег", "небольшой  пробег":
+		return "Небольшой пробег"
+	case "маленький расход", "маленький  расход":
+		return "Маленький расход"
+	case "для большой семьи", "для большой  семьи":
+		return "Для большой семьи"
+	case "1 владелец", " 1 владелец", "один владелец":
+		return "1 владелец"
+	}
+	return s
+}
+
+func isSystemTag(t string) bool {
+	switch strings.TrimSpace(t) {
+	case "Выгружать на сайт", "Выгружать на сайт БУ", "Не продавать", "Условно реализован":
+		return true
+	}
+	return false
+}
+
+func (s *Service) getTagsForVehicle(rawTags []string) []TagResp {
+	if len(rawTags) == 0 {
+		return []TagResp{}
+	}
+
+	result := []TagResp{}
+	added := make(map[string]bool)
+
+	for _, rawTag := range rawTags {
+		cleanTag := strings.TrimSpace(rawTag)
+		if cleanTag == "" || isSystemTag(cleanTag) {
+			continue
+		}
+
+		norm := normalizeTagName(cleanTag)
+
+		var found *TagEntity
+		for _, dbTag := range s.tags {
+			dbNorm := normalizeTagName(dbTag.Name)
+			if strings.EqualFold(strings.TrimSpace(dbTag.Name), norm) || strings.EqualFold(dbNorm, norm) {
+				found = &dbTag
+				break
+			}
+		}
+
+		var tagResp TagResp
+		if found != nil {
+			tagResp = TagResp{
+				ID:   strconv.Itoa(found.ID),
+				Name: strings.TrimSpace(found.Name),
+				Icon: found.Icon,
+			}
+		} else {
+			md5Hash := fmt.Sprintf("%x", md5.Sum([]byte(cleanTag)))
+			iconURL := fmt.Sprintf("%s/upload/Cis/tags/%s.svg", s.imageBaseURL, md5Hash)
+			tagResp = TagResp{
+				ID:   md5Hash,
+				Name: cleanTag,
+				Icon: iconURL,
+			}
+		}
+
+		if !added[tagResp.Name] {
+			added[tagResp.Name] = true
+			result = append(result, tagResp)
+		}
+	}
+
+	return result
 }
