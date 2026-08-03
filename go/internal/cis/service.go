@@ -70,6 +70,7 @@ type Service struct {
 	engines        []Engine
 	drives         []Drive
 	comparisons    []Comparison
+	tags           []TagEntity
 	uploadDir      string
 	imageBaseURL   string
 	failedBrandsMu sync.RWMutex
@@ -140,6 +141,10 @@ func (s *Service) loadReferenceData() error {
 	s.comparisons = nil
 	if err := s.db.Select(&s.comparisons, "SELECT id, entity, desired, value FROM yapps_app_cis_comparisons"); err != nil {
 		return err
+	}
+	s.tags = nil
+	if err := s.db.Select(&s.tags, "SELECT id, name, icon FROM yapps_app_cis_tags"); err != nil {
+		log.Printf("warning: select yapps_app_cis_tags: %v", err)
 	}
 	return nil
 }

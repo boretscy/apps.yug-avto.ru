@@ -147,6 +147,13 @@ type TagResp struct {
 	Icon string `json:"icon"`
 }
 
+type TagEntity struct {
+	ID   int    `db:"id" json:"id"`
+	Name string `db:"name" json:"name"`
+	Icon string `db:"icon" json:"icon"`
+}
+
+
 type BrandResp struct {
 	ID     string `json:"id"`
 	ExtID  string `json:"ext_id"`
