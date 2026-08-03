@@ -87,9 +87,9 @@ func (s *Service) handleVehicles(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 
 	typeID := 0
-	if q.Get("type") == "new" {
+	if q.Get("type") == "new" || q.Get("mode") == "new" {
 		typeID = 1
-	} else if q.Get("type") == "used" {
+	} else if q.Get("type") == "used" || q.Get("mode") == "used" {
 		typeID = 2
 	}
 	f.TypeID = typeID
