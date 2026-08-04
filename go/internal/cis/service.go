@@ -872,9 +872,27 @@ func generateBrandAlias(name string) string {
 }
 
 func generateModelAlias(name, section string) string {
-	alias := transliterate(name)
+	nameTrim := strings.TrimSpace(name)
+	isNewPrefix := false
+
+	lowerName := strings.ToLower(nameTrim)
+	for _, prefix := range []string{"новый ", "новая ", "новое ", "новые ", "new "} {
+		if strings.HasPrefix(lowerName, prefix) {
+			nameTrim = strings.TrimSpace(nameTrim[len(prefix):])
+			isNewPrefix = true
+			break
+		}
+	}
+
+	alias := transliterate(nameTrim)
 	alias = strings.ToLower(alias)
 	alias = strings.NewReplacer(" ", "-", "_", "-", "--", "-").Replace(alias)
+	alias = strings.Trim(alias, "-")
+
+	if isNewPrefix && !strings.HasSuffix(alias, "-new") && alias != "new" {
+		alias = alias + "-new"
+	}
+
 	return alias
 }
 
