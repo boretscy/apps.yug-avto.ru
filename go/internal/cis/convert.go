@@ -278,17 +278,18 @@ func (s *Service) rowToVehicleFull(row *VehicleRow, typeID int, images []ImageRe
 				})
 			}
 			if len(raw.Discounts) > 0 {
+				rawItems := make([]RawDiscountItem, 0, len(raw.Discounts))
 				for _, d := range raw.Discounts {
-					discounts = append(discounts, DiscountResp{
+					rawItems = append(rawItems, RawDiscountItem{
 						ID:          d.ID,
 						Name:        d.Name,
 						Sum:         d.Sum,
 						Types:       d.Types,
 						Description: d.Description,
 						IsDefault:   d.IsDefault,
-						Active:      true,
 					})
 				}
+				discounts = NormalizeDiscounts(rawItems)
 			}
 		}
 	}

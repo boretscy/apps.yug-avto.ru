@@ -453,7 +453,19 @@ func (s *Service) handleVehicle(w http.ResponseWriter, r *http.Request) {
 			// Discounts
 			discounts := make([]map[string]interface{}, 0)
 			if len(raw.Discounts) > 0 {
+				rawItems := make([]RawDiscountItem, 0, len(raw.Discounts))
 				for _, d := range raw.Discounts {
+					rawItems = append(rawItems, RawDiscountItem{
+						ID:          d.ID,
+						Name:        d.Name,
+						Sum:         d.Sum,
+						Types:       d.Types,
+						Description: d.Description,
+						IsDefault:   d.IsDefault,
+					})
+				}
+				normalized := NormalizeDiscounts(rawItems)
+				for _, d := range normalized {
 					discounts = append(discounts, map[string]interface{}{
 						"id":          d.ID,
 						"name":        d.Name,
@@ -461,7 +473,7 @@ func (s *Service) handleVehicle(w http.ResponseWriter, r *http.Request) {
 						"types":       d.Types,
 						"description": d.Description,
 						"isDefault":   d.IsDefault,
-						"active":      true,
+						"active":      d.Active,
 					})
 				}
 			} else if row.Price > row.MinPrice {
