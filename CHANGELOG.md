@@ -1,5 +1,9 @@
 # Changelog - apps.yug-avto.ru (Монолит / Go API)
 
+## [2026-08-07]
+### Added
+- Реализовано автоматическое добавление суффикса страницы (` — Страница #N`) к `meta.title` на стороне Go API (`meta.go`, `buildCatalogMeta`) при запросах списка витрины с пагинацией (`page > 1`).
+
 ## [2026-08-04]
 ### Added
 - Внедрена нормализация и агрегация скидок в Go API (`discounts.go`, `convert.go`, `handler_vehicles.go`):
