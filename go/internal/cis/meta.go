@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -304,6 +305,17 @@ func (s *Service) buildCatalogMeta(r *http.Request, typeID int, filter VehicleFi
 
 	h1 := replace(metaH1)
 	title := replace(metaTitle)
+	pageNum := filter.Page
+	if pageNum <= 1 {
+		if pageStr := r.URL.Query().Get("page"); pageStr != "" {
+			if p, err := strconv.Atoi(pageStr); err == nil {
+				pageNum = p
+			}
+		}
+	}
+	if pageNum > 1 {
+		title = strings.TrimSpace(title) + fmt.Sprintf(" — Страница #%d", pageNum)
+	}
 	description := replace(metaDescription)
 
 	meta := map[string]interface{}{
