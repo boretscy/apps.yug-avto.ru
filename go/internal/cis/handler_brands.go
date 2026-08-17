@@ -21,6 +21,16 @@ func (s *Service) handleBrands(w http.ResponseWriter, r *http.Request) {
 	f := parseFilter(r)
 	f.TypeID = typeID
 
+	if !s.SanitizeFilter(&f, typeID) {
+		writeJSON(w, http.StatusOK, map[string]interface{}{
+			"code":      404,
+			"force_404": true,
+			"error":     "not_found",
+			"dropLists": map[string]interface{}{"brands": []interface{}{}},
+		})
+		return
+	}
+
 	// Очищаем фильтрацию по бренду и модели, чтобы в выпадайке оставались другие бренды
 	f.Brand = nil
 	f.NotBrand = nil

@@ -58,6 +58,16 @@ func (s *Service) handleFilter(w http.ResponseWriter, r *http.Request) {
 	filter := parseFilter(r)
 	filter.TypeID = typeID
 
+	if !s.SanitizeFilter(&filter, typeID) {
+		writeJSON(w, http.StatusOK, map[string]interface{}{
+			"code":      404,
+			"force_404": true,
+			"error":     "not_found",
+			"message":   "invalid filter parameter",
+		})
+		return
+	}
+
 	brandsParam := splitQuery(q.Get("brand"))
 	modelsParam := splitQuery(q.Get("model"))
 	priceFrom := parseFloatQuery(q.Get("price_from"))

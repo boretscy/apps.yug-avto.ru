@@ -10,7 +10,8 @@
         break;
 
     case 'vehicle':
-        $arRes = $app->Cis->getVehicleAutoCRM( $currentRoute->id );
+        $get_id = $currentRoute->id ?: $_GET['vehicle_id'];
+        $arRes = $app->Cis->getVehicleAutoCRM( $get_id );
         $arRes['title'] = 'Необработанные данные из API AutoCRM по автомобилю: '.$arRes['vin'];
         break;
 
@@ -33,7 +34,19 @@
     <div class="box-body">
 
         <?php if ( $currentRoute->action == 'vehicle' ) {
-        Helper::sp( $arRes );
+            ?>
+            <form>
+                <div class="form-group">
+                    <label style="width: 100%;">ID</label>
+                    <input type="text" class="form-control" name="vehicle_id" placeholder="ID" value="<?= $_GET['vehicle_id'];?>">
+                </div>
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+            <hr />
+            <?php
+            if ( $arRes['id'] ) {
+                Helper::sp( $arRes );
+            }
         } else { ?>
         <table id="data-table-cis" class="table table-hover table-striped table-condensed dataTable">
             <thead>

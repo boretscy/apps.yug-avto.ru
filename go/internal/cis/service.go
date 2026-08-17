@@ -80,6 +80,15 @@ type Service struct {
 	cronTable      string
 	orient         *orientation.Detector
 
+	refCodesMu        sync.RWMutex
+	brandCodes        map[string]bool
+	modelCodes        map[string]bool
+	bodyCodes         map[string]bool
+	engineCodes       map[string]bool
+	driveCodes        map[string]bool
+	transmissionCodes map[string]bool
+	colorCodes        map[string]bool
+
 	blockedUntilMu sync.RWMutex
 	blockedUntil   time.Time
 }
@@ -93,23 +102,43 @@ func NewService(db *sqlx.DB, crm *autocrm.Client, uploadDir, imageBaseURL, onnxM
 			log.Printf("orientation detector disabled: %v", err)
 		}
 	}
-	return &Service{db: db, crm: crm, uploadDir: uploadDir, imageBaseURL: imageBaseURL, failedBrands: make(map[int]bool), orient: det}
+	return &Service{
+		db:                db,
+		crm:               crm,
+		uploadDir:         uploadDir,
+		imageBaseURL:      imageBaseURL,
+		failedBrands:      make(map[int]bool),
+		orient:            det,
+		brandCodes:        make(map[string]bool),
+		modelCodes:        make(map[string]bool),
+		bodyCodes:         make(map[string]bool),
+		engineCodes:       make(map[string]bool),
+		driveCodes:        make(map[string]bool),
+		transmissionCodes: make(map[string]bool),
+		colorCodes:        make(map[string]bool),
+	}
 }
 
 func (s *Service) Init() error {
 	if err := s.loadReferenceData(); err != nil {
 		return fmt.Errorf("load reference: %w", err)
 	}
+	if err := s.loadReferenceCodes(); err != nil {
+		log.Printf("load reference codes error: %v", err)
+	}
 	if err := s.LoadTableNames(); err != nil {
 		return fmt.Errorf("load table names: %w", err)
 	}
 
-	// Запускаем фоновое периодическое обновление имен таблиц каждые 10 секунд
+	// Запускаем фоновое периодическое обновление имен таблиц и справочников
 	go func() {
 		ticker := time.NewTicker(10 * time.Second)
 		for range ticker.C {
 			if err := s.LoadTableNames(); err != nil {
 				log.Printf("LoadTableNames background error: %v", err)
+			}
+			if err := s.loadReferenceCodes(); err != nil {
+				log.Printf("loadReferenceCodes background error: %v", err)
 			}
 		}
 	}()
@@ -147,6 +176,210 @@ func (s *Service) loadReferenceData() error {
 		log.Printf("warning: select yapps_app_cis_tags: %v", err)
 	}
 	return nil
+}
+
+func (s *Service) loadReferenceCodes() error {
+	var brands []string
+	if err := s.db.Select(&brands, "SELECT code FROM yapps_app_cis_brands WHERE code != ''"); err != nil {
+		return err
+	}
+	brandMap := make(map[string]bool, len(brands))
+	for _, b := range brands {
+		brandMap[strings.ToLower(strings.TrimSpace(b))] = true
+	}
+
+	var models []string
+	if err := s.db.Select(&models, "SELECT code FROM yapps_app_cis_models_new WHERE code != '' UNION SELECT code FROM yapps_app_cis_models_used WHERE code != ''"); err != nil {
+		return err
+	}
+	modelMap := make(map[string]bool, len(models))
+	for _, m := range models {
+		modelMap[strings.ToLower(strings.TrimSpace(m))] = true
+	}
+
+	var bodies []string
+	if err := s.db.Select(&bodies, "SELECT code FROM yapps_app_cis_bodies WHERE code != ''"); err != nil {
+		return err
+	}
+	bodyMap := make(map[string]bool, len(bodies))
+	for _, b := range bodies {
+		bodyMap[strings.ToLower(strings.TrimSpace(b))] = true
+	}
+	for _, alias := range []string{"suv", "sedan", "hatchback", "liftback", "wagon", "minivan", "coupe", "cabriolet", "pickup", "van", "flatbed", "bus", "chassis"} {
+		bodyMap[alias] = true
+	}
+
+	var engines []string
+	if err := s.db.Select(&engines, "SELECT code FROM yapps_app_cis_engines WHERE code != ''"); err != nil {
+		return err
+	}
+	engineMap := make(map[string]bool, len(engines))
+	for _, e := range engines {
+		engineMap[strings.ToLower(strings.TrimSpace(e))] = true
+	}
+	for _, alias := range []string{"petrol", "diesel", "gibrid", "hybrid", "electric", "gas", "turbo"} {
+		engineMap[alias] = true
+	}
+
+	var drives []string
+	if err := s.db.Select(&drives, "SELECT code FROM yapps_app_cis_drives WHERE code != ''"); err != nil {
+		return err
+	}
+	driveMap := make(map[string]bool, len(drives))
+	for _, d := range drives {
+		driveMap[strings.ToLower(strings.TrimSpace(d))] = true
+	}
+	for _, alias := range []string{"full", "front", "rear", "rare", "4wd", "2wd", "awd", "fwd", "rwd"} {
+		driveMap[alias] = true
+	}
+
+	var transmissions []string
+	if err := s.db.Select(&transmissions, "SELECT code FROM yapps_app_cis_transmissions WHERE code != ''"); err != nil {
+		return err
+	}
+	transMap := make(map[string]bool, len(transmissions))
+	for _, t := range transmissions {
+		transMap[strings.ToLower(strings.TrimSpace(t))] = true
+	}
+	for _, alias := range []string{"auto", "mech", "robot", "variator", "automatic", "manual", "amt", "cvt"} {
+		transMap[alias] = true
+	}
+
+	var colors []string
+	if err := s.db.Select(&colors, "SELECT code FROM yapps_app_cis_colors WHERE code != ''"); err != nil {
+		return err
+	}
+	colorMap := make(map[string]bool, len(colors))
+	for _, c := range colors {
+		colorMap[strings.ToLower(strings.TrimSpace(c))] = true
+	}
+
+	s.refCodesMu.Lock()
+	s.brandCodes = brandMap
+	s.modelCodes = modelMap
+	s.bodyCodes = bodyMap
+	s.engineCodes = engineMap
+	s.driveCodes = driveMap
+	s.transmissionCodes = transMap
+	s.colorCodes = colorMap
+	s.refCodesMu.Unlock()
+
+	return nil
+}
+
+// SanitizeFilter validates and sanitizes incoming filter fields against reference dictionaries.
+// If any filter category contains tokens but ALL tokens in that category are invalid, it returns false (broken route 404).
+// If some tokens are valid and some invalid, invalid tokens are dropped and valid are kept.
+func (s *Service) SanitizeFilter(f *VehicleFilter, typeID int) bool {
+	s.refCodesMu.RLock()
+	defer s.refCodesMu.RUnlock()
+
+	// 1. Brands
+	if len(f.Brand) > 0 && len(s.brandCodes) > 0 {
+		var valid []string
+		for _, b := range f.Brand {
+			clean := strings.ToLower(strings.TrimSpace(b))
+			if s.brandCodes[clean] {
+				valid = append(valid, b)
+			}
+		}
+		if len(valid) == 0 {
+			return false
+		}
+		f.Brand = valid
+	}
+
+	// 2. Models
+	if len(f.Model) > 0 && len(s.modelCodes) > 0 {
+		var valid []string
+		for _, m := range f.Model {
+			clean := strings.ToLower(strings.TrimSpace(m))
+			if s.modelCodes[clean] {
+				valid = append(valid, m)
+			}
+		}
+		if len(valid) == 0 {
+			return false
+		}
+		f.Model = valid
+	}
+
+	// 3. Body
+	if len(f.Body) > 0 && len(s.bodyCodes) > 0 {
+		var valid []string
+		for _, b := range f.Body {
+			clean := strings.ToLower(strings.TrimSpace(b))
+			if s.bodyCodes[clean] {
+				valid = append(valid, b)
+			}
+		}
+		if len(valid) == 0 {
+			return false
+		}
+		f.Body = valid
+	}
+
+	// 4. Engine
+	if len(f.Engine) > 0 && len(s.engineCodes) > 0 {
+		var valid []string
+		for _, e := range f.Engine {
+			clean := strings.ToLower(strings.TrimSpace(e))
+			if s.engineCodes[clean] {
+				valid = append(valid, e)
+			}
+		}
+		if len(valid) == 0 {
+			return false
+		}
+		f.Engine = valid
+	}
+
+	// 5. Drive
+	if len(f.Drive) > 0 && len(s.driveCodes) > 0 {
+		var valid []string
+		for _, d := range f.Drive {
+			clean := strings.ToLower(strings.TrimSpace(d))
+			if s.driveCodes[clean] {
+				valid = append(valid, d)
+			}
+		}
+		if len(valid) == 0 {
+			return false
+		}
+		f.Drive = valid
+	}
+
+	// 6. Transmission
+	if len(f.Transmission) > 0 && len(s.transmissionCodes) > 0 {
+		var valid []string
+		for _, t := range f.Transmission {
+			clean := strings.ToLower(strings.TrimSpace(t))
+			if s.transmissionCodes[clean] {
+				valid = append(valid, t)
+			}
+		}
+		if len(valid) == 0 {
+			return false
+		}
+		f.Transmission = valid
+	}
+
+	// 7. Color
+	if len(f.Color) > 0 && len(s.colorCodes) > 0 {
+		var valid []string
+		for _, c := range f.Color {
+			clean := strings.ToLower(strings.TrimSpace(c))
+			if s.colorCodes[clean] {
+				valid = append(valid, c)
+			}
+		}
+		if len(valid) == 0 {
+			return false
+		}
+		f.Color = valid
+	}
+
+	return true
 }
 
 func (s *Service) LoadTableNames() error {
