@@ -93,6 +93,19 @@ func (s *Service) handleVehicles(w http.ResponseWriter, r *http.Request) {
 		typeID = 2
 	}
 	f.TypeID = typeID
+
+	if !s.SanitizeFilter(&f, typeID) {
+		writeJSON(w, http.StatusOK, map[string]interface{}{
+			"code":      404,
+			"force_404": true,
+			"error":     "not_found",
+			"message":   "invalid filter parameter",
+			"items":     []interface{}{},
+			"total":     0,
+		})
+		return
+	}
+
 	alias := expandFilterBrands(&f, typeID)
 
 	// Parse dealership param
