@@ -7,6 +7,8 @@
 Thumbs.db
 .idea/
 .vscode/
+robots.txt
+
 
 # === Исключение папок с отдельными репозиториями и медиа ===
 /upload/
