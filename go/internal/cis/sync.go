@@ -279,6 +279,10 @@ func (s *Service) SyncNewVehicles() (*SyncResult, error) {
 			if v.Dealership != nil && v.Dealership.ID == 1514 {
 				continue
 			}
+			// Only include active vehicles (status 1: in stock, status 2: on way)
+			if v.Status == nil || (v.Status.ID != statusInStock && v.Status.ID != statusOnWay) {
+				continue
+			}
 			allVehicles = append(allVehicles, v)
 		}
 		if resp.Meta == nil || page >= resp.Meta.PageCount {
@@ -337,30 +341,67 @@ func (s *Service) SyncNewVehicles() (*SyncResult, error) {
 		}
 	}
 
-	// Delete new vehicles that are no longer in the API response
+	// Delete new vehicles that are no longer in the API response (sold or removed)
 	if len(allVehicles) > 0 {
-		phs := make([]string, len(allVehicles))
-		args := make([]interface{}, len(allVehicles))
-		for i, v := range allVehicles {
-			phs[i] = "?"
-			args[i] = v.ID
-		}
-		q := fmt.Sprintf("DELETE FROM %s WHERE type_id = 1 AND ext_id NOT IN (%s)", cronTable, strings.Join(phs, ","))
-		del, err := s.db.Exec(q, args...)
-		if err != nil {
-			log.Printf("delete sold new vehicles error: %v", err)
-		} else {
-			n, err2 := del.RowsAffected()
-			if err2 == nil && n > 0 {
-				log.Printf("deleted %d sold new vehicles", n)
-			}
-		}
+		s.deleteSoldVehicles(cronTable, 1, allVehicles)
 	}
 
 	projectRoot := filepath.Dir(filepath.Dir(s.uploadDir))
 	writeSyncLog(projectRoot, "new", start, len(allVehicles), result.LogEntries)
 
 	return result, nil
+}
+
+func (s *Service) deleteSoldVehicles(tableName string, typeID int, activeVehicles []autocrm.VehicleRaw) {
+	activeIDs := make(map[int]bool, len(activeVehicles))
+	for _, v := range activeVehicles {
+		activeIDs[v.ID] = true
+	}
+
+	var existingIDs []int
+	err := s.db.Select(&existingIDs, fmt.Sprintf("SELECT ext_id FROM %s WHERE type_id = ?", tableName), typeID)
+	if err != nil {
+		log.Printf("fetch existing vehicles for delete error (type %d): %v", typeID, err)
+		return
+	}
+
+	var toDelete []int
+	for _, id := range existingIDs {
+		if !activeIDs[id] {
+			toDelete = append(toDelete, id)
+		}
+	}
+
+	if len(toDelete) == 0 {
+		return
+	}
+
+	log.Printf("found %d sold vehicles to delete in %s (type %d)", len(toDelete), tableName, typeID)
+
+	const batchSize = 500
+	totalDeleted := int64(0)
+	for i := 0; i < len(toDelete); i += batchSize {
+		end := i + batchSize
+		if end > len(toDelete) {
+			end = len(toDelete)
+		}
+		chunk := toDelete[i:end]
+		phs := make([]string, len(chunk))
+		args := make([]interface{}, len(chunk))
+		for j, id := range chunk {
+			phs[j] = "?"
+			args[j] = id
+		}
+		q := fmt.Sprintf("DELETE FROM %s WHERE type_id = ? AND ext_id IN (%s)", tableName, strings.Join(phs, ","))
+		res, err := s.db.Exec(q, append([]interface{}{typeID}, args...)...)
+		if err != nil {
+			log.Printf("delete sold vehicles batch error: %v", err)
+		} else {
+			n, _ := res.RowsAffected()
+			totalDeleted += n
+		}
+	}
+	log.Printf("deleted total %d sold vehicles in %s (type %d)", totalDeleted, tableName, typeID)
 }
 
 func (s *Service) SyncUsedDealerships() error {
@@ -415,6 +456,10 @@ func (s *Service) SyncUsedVehicles() (*SyncResult, error) {
 		}
 		log.Printf("used page %d: %d items, %s", page, len(resp.Items), metaInfo)
 		for _, v := range resp.Items {
+			// Only include active vehicles (status 1: in stock, status 2: on way)
+			if v.Status != nil && v.Status.ID != statusInStock && v.Status.ID != statusOnWay {
+				continue
+			}
 			allVehicles = append(allVehicles, v)
 		}
 
@@ -432,22 +477,7 @@ func (s *Service) SyncUsedVehicles() (*SyncResult, error) {
 	// Delete used vehicles that are no longer in the API response
 	// Only delete if all pages were fetched successfully
 	if len(allVehicles) > 0 && fetchErr == nil {
-		phs := make([]string, len(allVehicles))
-		args := make([]interface{}, len(allVehicles))
-		for i, v := range allVehicles {
-			phs[i] = "?"
-			args[i] = v.ID
-		}
-		q := fmt.Sprintf("DELETE FROM %s WHERE type_id = 2 AND ext_id NOT IN (%s)", cron, strings.Join(phs, ","))
-		del, err := s.db.Exec(q, args...)
-		if err != nil {
-			log.Printf("delete sold used vehicles error: %v", err)
-		} else {
-			n, err2 := del.RowsAffected()
-			if err2 == nil && n > 0 {
-				log.Printf("deleted %d sold used vehicles", n)
-			}
-		}
+		s.deleteSoldVehicles(cron, 2, allVehicles)
 	}
 
 	log.Printf("used vehicles done: %d total, %d ok, %d err, %d timeout",
