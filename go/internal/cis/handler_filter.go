@@ -68,10 +68,10 @@ func (s *Service) handleFilter(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	brandsParam := splitQuery(q.Get("brand"))
-	modelsParam := splitQuery(q.Get("model"))
-	priceFrom := parseFloatQuery(q.Get("price_from"))
-	priceTo := parseFloatQuery(q.Get("price_to"))
+	brandsParam := filter.Brand
+	modelsParam := filter.Model
+	priceFrom := filter.PriceFrom
+	priceTo := filter.PriceTo
 
 	// Brand alias expansion (e.g. chery → chery, tenet), new cars only
 	var activeAlias *BrandAlias
