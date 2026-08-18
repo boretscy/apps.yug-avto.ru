@@ -541,23 +541,34 @@ func (s *Service) SyncBrands(section string) error {
 	}
 
 	for _, b := range brands.Items {
-		code := generateBrandAlias(b.Name)
+		brandName := b.Name
+		if brandName == "Chevrolet" {
+			brandName = "Chevrolet NAV"
+		} else if brandName == "Chevrolet Auto" {
+			brandName = "Chevrolet"
+		} else if brandName == "HAVAL Pro" {
+			brandName = "HAVAL PRO"
+		} else if brandName == "Nordcross" {
+			brandName = "Nordcross (Lynk & Co)"
+		}
+
+		code := generateBrandAlias(brandName)
 
 		code = strings.ToLower(code)
 		code = strings.NewReplacer(" ", "-", "_", "-", "--", "-").Replace(code)
 
 		var ruName string
 		if section == "new" {
-			ruName = transliterateBrandToRu(b.Name)
+			ruName = transliterateBrandToRu(brandName)
 		}
 
 		_, err := s.db.Exec(`
 			INSERT INTO yapps_app_cis_brands (ext_id, code, name, ru_name)
 			VALUES (?, ?, ?, ?)
-			ON DUPLICATE KEY UPDATE name = VALUES(name), ru_name = VALUES(ru_name)
-		`, b.ID, code, b.Name, ruName)
+			ON DUPLICATE KEY UPDATE name = VALUES(name), ru_name = VALUES(ru_name), code = VALUES(code)
+		`, b.ID, code, brandName, ruName)
 		if err != nil {
-			return fmt.Errorf("save brand %s: %w", b.Name, err)
+			return fmt.Errorf("save brand %s: %w", brandName, err)
 		}
 	}
 
@@ -1093,7 +1104,24 @@ func parseDate(date string) int64 {
 
 func generateBrandAlias(name string) string {
 	name = strings.TrimSpace(name)
-	name = strings.NewReplacer(" ", "-", "_", "-", "/", "-", "\\", "-").Replace(name)
+	switch name {
+	case "ГАЗ":
+		return "gaz"
+	case "ЗАЗ":
+		return "zaz"
+	case "УАЗ":
+		return "uaz"
+	case "ТагАЗ":
+		return "tagaz"
+	case "Москвич":
+		return "moskvich"
+	case "Амберавто":
+		return "amberauto"
+	case "LADA (ВАЗ)":
+		return "lada"
+	}
+
+	name = strings.NewReplacer(" ", "-", "_", "-", "/", "-", "\\", "-", "(", "-", ")", "-").Replace(name)
 
 	var result strings.Builder
 	for _, r := range name {
@@ -1101,7 +1129,10 @@ func generateBrandAlias(name string) string {
 			result.WriteRune(r)
 		}
 	}
-	return result.String()
+	alias := result.String()
+	alias = strings.ToLower(alias)
+	alias = strings.NewReplacer("--", "-").Replace(alias)
+	return strings.Trim(alias, "-")
 }
 
 func generateModelAlias(name, section string) string {
@@ -1173,6 +1204,8 @@ func transliterateBrandToRu(text string) string {
 		"Changan": "Чанган", "Jetour": "Джетур", "Omoda": "Омода",
 		"Exeed": "Эксид", "Lixiang": "Лисян", "Zeekr": "Зикр",
 		"BYD": "БИД", "Voyah": "Воях", "Xcite": "Иксит",
+		"Nordcross":             "Нордкросс",
+		"Nordcross (Lynk & Co)": "Нордкросс",
 	}
 	if v, ok := mapping[text]; ok {
 		return v
