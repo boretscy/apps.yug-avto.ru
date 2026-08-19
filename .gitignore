@@ -22,3 +22,7 @@ go/bin/
 go/.env
 go/*.log
 go/*.log.bak
+
+# === Конфигурация с чувствительными данными ===
+/core/YApps/Configs/
+
