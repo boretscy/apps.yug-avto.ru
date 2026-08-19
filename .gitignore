@@ -15,6 +15,7 @@ robots.txt
 /plugins/
 /vue-apps/
 /pwa/
+/trassir/
 
 # === Специфика Go API ===
 go/bin/
