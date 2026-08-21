@@ -8,9 +8,9 @@ Thumbs.db
 .idea/
 .vscode/
 robots.txt
+.backups/
 
-
-# === Исключение папок с отдельными репозиториями и медиа ===
+# === Исключение папок с отдельными репозиториями, медиа и дампами ===
 /upload/
 /plugins/
 /vue-apps/
@@ -23,6 +23,14 @@ go/.env
 go/*.log
 go/*.log.bak
 
-# === Конфигурация с чувствительными данными ===
+# === Конфигурация с чувствительными данными, ключи и токены ===
 /core/YApps/Configs/
+/core/YApps/config.php
+/core/yandex_*.txt
+/core/YApps/Logs/
 
+# === Логи и дампы API / Cron ===
+/API/log.json
+/API/data/
+/_cron/**/log/
+/_cron/**/data/
