@@ -40,6 +40,9 @@
             $this->table    = json_decode(
                 file_get_contents(YAPPS_DOCUMENT_ROOT.$this->Conf->DataDir.'/table.json')
             );
+            if (!is_object($this->table)) {
+                $this->table = new \stdClass();
+            }
             
             // Динамически загружаем активную таблицу из БД (так как Go Cron переключает её в базе)
             $dbProdTable = $this->MySQL->getOne("SELECT value FROM yapps_app_cis_tables WHERE name = 'prod'");
