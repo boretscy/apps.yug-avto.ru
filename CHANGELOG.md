@@ -1,6 +1,10 @@
 # Changelog - apps.yug-avto.ru (Монолит / Go API)
 
 ## [2026-08-28]
+### Changed
+- Обновлен вывод маркировки для виджета LG (`core/YApps/Widgets3.php`, `core/YApps/html/Widgets3/LG.html`):
+  - Префикс «Реклама. » перенесен из HTML-шаблона в обработчик `Widgets3.php` при формировании тега `%% WIDGET_MARKING %%`.
+
 ### Fixed
 - Исправлено расхождение количества автомобилей между `/api/v1/cis/filter` и `/api/v1/cis/vehicles` при фильтрации по автосалону (`dealership`) и другим параметрам (`handler_filter.go`):
   - Добавлен парсинг параметра `dealership` (по slug/id) в структуру `VehicleFilter`.
