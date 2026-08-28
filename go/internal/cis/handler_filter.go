@@ -5,7 +5,7 @@ import (
 	"log"
 	"math"
 	"net/http"
-	"strings"
+	"strconv"
 	"sync"
 )
 
@@ -68,10 +68,23 @@ func (s *Service) handleFilter(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Parse dealership param
+	if ds := q.Get("dealership"); ds != "" {
+		for _, slug := range splitQuery(ds) {
+			id, err := strconv.Atoi(slug)
+			if err == nil {
+				filter.Dealership = append(filter.Dealership, id)
+			} else {
+				var row struct{ Code int `db:"code"` }
+				if err := s.db.Get(&row, "SELECT code FROM yapps_app_cis_dealerships WHERE url = ?", slug); err == nil {
+					filter.Dealership = append(filter.Dealership, row.Code)
+				}
+			}
+		}
+	}
+
 	brandsParam := filter.Brand
 	modelsParam := filter.Model
-	priceFrom := filter.PriceFrom
-	priceTo := filter.PriceTo
 
 	// Brand alias expansion (e.g. chery → chery, tenet), new cars only
 	var activeAlias *BrandAlias
@@ -81,6 +94,7 @@ func (s *Service) handleFilter(w http.ResponseWriter, r *http.Request) {
 		if len(a.Codes) > 1 {
 			activeAlias = &a
 			metaBrandCode = brandsParam[0]
+			filter.Brand = a.Codes
 			brandsParam = a.Codes
 		}
 	}
@@ -91,51 +105,14 @@ func (s *Service) handleFilter(w http.ResponseWriter, r *http.Request) {
 	joins += "\nLEFT JOIN yapps_app_cis_models_new mn ON mn.id = v.model_id AND v.type_id = 1"
 	joins += "\nLEFT JOIN yapps_app_cis_models_used mu ON mu.id = v.model_id AND v.type_id = 2"
 
-	var wheres []string
-	var args []interface{}
-	if typeID > 0 {
-		wheres = append(wheres, "v.type_id = ?")
-		args = append(args, typeID)
-	}
-	if len(brandsParam) > 0 {
-		phs := make([]string, len(brandsParam))
-		for i, b := range brandsParam {
-			phs[i] = "?"
-			args = append(args, b)
-		}
-		wheres = append(wheres, fmt.Sprintf("b.code IN (%s)", strings.Join(phs, ",")))
-	}
-	if len(modelsParam) > 0 {
-		phs := make([]string, len(modelsParam))
-		for i, m := range modelsParam {
-			phs[i] = "?"
-			args = append(args, m)
-		}
-		wheres = append(wheres, fmt.Sprintf("COALESCE(mn.code, mu.code) IN (%s)", strings.Join(phs, ",")))
-	}
-	wheresNoPrice := append([]string{}, wheres...)
-	argsNoPrice := append([]interface{}{}, args...)
+	where, args := s.buildConditions(filter)
 
-	if priceFrom > 0 {
-		wheres = append(wheres, "v.min_price >= ?")
-		args = append(args, priceFrom)
-	}
-	if priceTo > 0 {
-		wheres = append(wheres, "v.min_price <= ?")
-		args = append(args, priceTo)
-	}
-
-	where := ""
-	if len(wheres) > 0 {
-		where = "WHERE " + strings.Join(wheres, " AND ")
-	}
-	whereNoPrice := ""
-	if len(wheresNoPrice) > 0 {
-		whereNoPrice = "WHERE " + strings.Join(wheresNoPrice, " AND ")
-	}
+	filterNoPrice := filter
+	filterNoPrice.PriceFrom = 0
+	filterNoPrice.PriceTo = 0
+	whereNoPrice, argsNoPrice := s.buildConditions(filterNoPrice)
 
 	baseFrom := fmt.Sprintf("%s v\n%s", table, joins)
-
 
 	var brands []filterBrandRow
 	var modelBrandRows []filterModelBrandRow
