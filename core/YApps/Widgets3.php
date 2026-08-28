@@ -541,7 +541,7 @@
 				$html['widgets']['LG'] = str_replace('%% WIDGET_BUTTON %%', $widget['LG']['lg_button_text'], $html['widgets']['LG']);
 				$html['widgets']['LG'] = str_replace('%% WIDGET_FORM_SUCCESS %%', $settings['form_success'], $html['widgets']['LG']);
 				$html['widgets']['LG'] = str_replace('%% WIDGET_FORM_ERROR %%', $settings['form_error'], $html['widgets']['LG']);
-				$html['widgets']['LG'] = str_replace('%% WIDGET_MARKING %%', 'Реклама. '.addslashes($widget['LG']['lg_marking']), $html['widgets']['LG']);
+				$html['widgets']['LG'] = str_replace('%% WIDGET_MARKING %%', (($widget['LG']['lg_marking'])?'Реклама. '.addslashes($widget['LG']['lg_marking']):''), $html['widgets']['LG']);
 				$html['widgets']['LG'] = str_replace('%% WIDGET_IMAGE_BACK %%', $widget['LG']['lg_image_back'], $html['widgets']['LG']);
 				$html['widgets']['LG'] = str_replace('%% WIDGET_IMAGE_FRONT %%', $widget['LG']['lg_image_front'], $html['widgets']['LG']);
 				$html['widgets']['LG'] = str_replace('%% WIDGET_TERM_PERSONAL %%', (($widget['LG']['term_personal'])?:$settings['term_personal']), $html['widgets']['LG']);
