@@ -1,5 +1,12 @@
 # Changelog - apps.yug-avto.ru (Монолит / Go API)
 
+## [2026-09-03]
+### Fixed
+- Исправлена фатальная ошибка PHP 8.x `TypeError: implode()` при открытии формы создания нового виджета обратного звонка (`/widgets_v3/cb/new/`) и генератора лидов (`/widgets_v3/lg/new/`):
+  - Обеспечена безопасная инициализация массива параметров `$arRes = []` по умолчанию при отсутствии `$currentRoute->id`.
+  - Добавлена строгая проверка `(!empty($arRes['recipients']) && is_array($arRes['recipients'])) ? implode(...) : ''` перед форматированием списка получателей формы в `_cb.php` и `_lg.php`.
+  - Исправлены устаревшие обращения к модулю `$app->Widgets` вместо `$app->Widgets3` в заголовке формы `_cb.php` и в представлении `view_tuning.php`.
+
 ## [2026-08-28]
 ### Changed
 - Обновлен вывод маркировки для виджета LG (`core/YApps/Widgets3.php`, `core/YApps/html/Widgets3/LG.html`):

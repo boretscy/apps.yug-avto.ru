@@ -2,7 +2,7 @@
 <div class="content-wrapper">
     
   <section class="content-header">
-    <h1><?=$app->Widgets->AppInfo()->ru_name?> <small>Установки</small></h1>
+    <h1><?=$app->Widgets3->AppInfo()->ru_name?> <small>Установки</small></h1>
   </section>
   
   <!-- Main content -->
@@ -10,7 +10,7 @@
     
     <?php if ($POSTRes) HTML::Error($POSTRes); ?>
     
-    <?php if ( $app->Widgets->AppInfo()->maintenance ) include $_SERVER['DOCUMENT_ROOT'].'/upload/Apps/maintenance.php'; ?>
+    <?php if ( $app->Widgets3->AppInfo()->maintenance ) include $_SERVER['DOCUMENT_ROOT'].'/upload/Apps/maintenance.php'; ?>
     
 	<?php include __DIR__.'/layouts/lists/_sites.php'; ?>
   
