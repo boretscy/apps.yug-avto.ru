@@ -1,7 +1,12 @@
-<?php if ( $currentRoute->id ) $arRes = $app->Widgets3->getWidgetById($currentRoute->id) ?>
+<?php 
+$arRes = [];
+if ( !empty($currentRoute->id) ) {
+    $arRes = $app->Widgets3->getWidgetById($currentRoute->id);
+}
+?>
 
 <section class="content-header">
-  <h1><?=$app->Widgets->getTypeById(1)['ru_name']?> <small>Настройки</small></h1>
+  <h1><?=$app->Widgets3->getTypeById(1)['ru_name']?> <small>Настройки</small></h1>
 </section>
 
 <!-- Main content -->
@@ -150,7 +155,7 @@
                                     'type' => 'textarea',
                                     'name' => 'recipients',
                                     'placeholder' => 'Получатели',
-                                    'value' => implode(", ", $arRes['recipients']),
+                                    'value' => (!empty($arRes['recipients']) && is_array($arRes['recipients'])) ? implode(", ", $arRes['recipients']) : '',
                                     'rows' => 3,
                                     'description' => 'Необходимо указывать ВСЕХ получателей, включая коллцентр'
                                 ],
