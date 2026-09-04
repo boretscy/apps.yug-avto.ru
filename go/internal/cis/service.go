@@ -83,6 +83,7 @@ type Service struct {
 	refCodesMu        sync.RWMutex
 	brandCodes        map[string]bool
 	modelCodes        map[string]bool
+	equipmentCodes    map[string]bool
 	bodyCodes         map[string]bool
 	engineCodes       map[string]bool
 	driveCodes        map[string]bool
@@ -197,6 +198,15 @@ func (s *Service) loadReferenceCodes() error {
 		modelMap[strings.ToLower(strings.TrimSpace(m))] = true
 	}
 
+	var equipments []string
+	if err := s.db.Select(&equipments, "SELECT code FROM yapps_app_cis_equipments WHERE code != ''"); err != nil {
+		log.Printf("warning: select yapps_app_cis_equipments: %v", err)
+	}
+	equipmentMap := make(map[string]bool, len(equipments))
+	for _, eq := range equipments {
+		equipmentMap[strings.ToLower(strings.TrimSpace(eq))] = true
+	}
+
 	var bodies []string
 	if err := s.db.Select(&bodies, "SELECT code FROM yapps_app_cis_bodies WHERE code != ''"); err != nil {
 		return err
@@ -257,6 +267,7 @@ func (s *Service) loadReferenceCodes() error {
 	s.refCodesMu.Lock()
 	s.brandCodes = brandMap
 	s.modelCodes = modelMap
+	s.equipmentCodes = equipmentMap
 	s.bodyCodes = bodyMap
 	s.engineCodes = engineMap
 	s.driveCodes = driveMap
@@ -302,6 +313,21 @@ func (s *Service) SanitizeFilter(f *VehicleFilter, typeID int) bool {
 			return false
 		}
 		f.Model = valid
+	}
+
+	// 2.1 Equipments
+	if len(f.Equipment) > 0 && len(s.equipmentCodes) > 0 {
+		var valid []string
+		for _, eq := range f.Equipment {
+			clean := strings.ToLower(strings.TrimSpace(eq))
+			if s.equipmentCodes[clean] {
+				valid = append(valid, eq)
+			}
+		}
+		if len(valid) == 0 {
+			return false
+		}
+		f.Equipment = valid
 	}
 
 	// 3. Body

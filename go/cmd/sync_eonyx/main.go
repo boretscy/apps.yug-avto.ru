@@ -36,7 +36,7 @@ func main() {
 	fmt.Println("=== Manually Syncing Eonyx Vehicles ===")
 	for _, id := range eonyxIDs {
 		fmt.Printf("Syncing vehicle %d...\n", id)
-		vin, updImg, err := cisSvc.SyncVehicleDetail(id, 1, "yapps_app_cis_vehicles_one")
+		vin, updImg, _, err := cisSvc.SyncVehicleDetail(id, 1, "yapps_app_cis_vehicles_one")
 		if err != nil {
 			fmt.Printf("VEHICLE %d: ERROR: %v\n", id, err)
 		} else {

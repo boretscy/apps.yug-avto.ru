@@ -36,6 +36,7 @@ func parseFilter(r *http.Request) VehicleFilter {
 
 	f.Brand = getMultiQuery(q, "brand")
 	f.Model = getMultiQuery(q, "model")
+	f.Equipment = getMultiQuery(q, "equipment")
 	f.Transmission = getMultiQuery(q, "transmission")
 	f.Engine = getMultiQuery(q, "engine")
 	f.Drive = getMultiQuery(q, "drive")

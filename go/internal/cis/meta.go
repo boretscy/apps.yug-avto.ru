@@ -150,6 +150,23 @@ func (s *Service) getColorName(code string) string {
 	return name
 }
 
+func (s *Service) getEquipmentName(code, brandCode, modelCode string) string {
+	var name string
+	s.db.Get(&name, `
+		SELECT COALESCE(eq.ru_name, eq.name, '') 
+		FROM yapps_app_cis_equipments eq
+		JOIN yapps_app_cis_brands b ON b.id = eq.brand_id
+		LEFT JOIN yapps_app_cis_models_new mn ON mn.id = eq.model_id
+		LEFT JOIN yapps_app_cis_models_used mu ON mu.id = eq.model_id
+		WHERE eq.code = ? AND b.code = ? AND COALESCE(mn.code, mu.code) = ?
+		LIMIT 1
+	`, code, brandCode, modelCode)
+	if name == "" {
+		s.db.Get(&name, `SELECT COALESCE(ru_name, name, '') FROM yapps_app_cis_equipments WHERE code = ? LIMIT 1`, code)
+	}
+	return name
+}
+
 func (s *Service) buildCatalogMeta(r *http.Request, typeID int, filter VehicleFilter, count int) map[string]interface{} {
 	site := r.URL.Query().Get("site")
 	if site == "" {
@@ -166,11 +183,15 @@ func (s *Service) buildCatalogMeta(r *http.Request, typeID int, filter VehicleFi
 
 	brandCode := ""
 	modelCode := ""
+	equipmentCode := ""
 	if len(filter.Brand) == 1 {
 		brandCode = filter.Brand[0]
 	}
 	if len(filter.Model) == 1 {
 		modelCode = filter.Model[0]
+	}
+	if len(filter.Equipment) == 1 {
+		equipmentCode = filter.Equipment[0]
 	}
 
 	level := "brands"
@@ -181,6 +202,10 @@ func (s *Service) buildCatalogMeta(r *http.Request, typeID int, filter VehicleFi
 		if modelCode != "" {
 			level = "model"
 			custom = modelCode
+			if equipmentCode != "" {
+				level = "equipment"
+				custom = equipmentCode
+			}
 		}
 	}
 
@@ -211,6 +236,7 @@ func (s *Service) buildCatalogMeta(r *http.Request, typeID int, filter VehicleFi
 	brandRuName := ""
 	modelName := ""
 	modelRuName := ""
+	equipmentName := ""
 	if brandCode != "" {
 		brandName = s.getBrandName(brandCode)
 		brandRuName = s.getBrandRuName(brandCode)
@@ -225,6 +251,19 @@ func (s *Service) buildCatalogMeta(r *http.Request, typeID int, filter VehicleFi
 	if modelCode != "" {
 		modelName = s.getModelName(modelCode, entity)
 		modelRuName = s.getModelRuName(modelCode, entity)
+	}
+	if equipmentCode != "" {
+		equipmentName = s.getEquipmentName(equipmentCode, brandCode, modelCode)
+	}
+
+	if seo == nil && level == "equipment" {
+		prefix := "Новый"
+		if typeID == 2 {
+			prefix = "Автомобиль с пробегом"
+		}
+		metaH1 = fmt.Sprintf("%s %s %s %s в Краснодаре | Юг-Авто", prefix, brandName, modelName, equipmentName)
+		metaTitle = fmt.Sprintf("Купить %s %s %s в комплектации %s по цене от {%%price%%} руб. у официального дилера Юг-Авто", brandName, modelName, prefix, equipmentName)
+		metaDescription = fmt.Sprintf("Продажа %s %s %s в наличии в автосалонах Юг-Авто. Комплектация %s, характеристики, фото, выгодные цены и спецпредложения.", brandName, modelName, prefix, equipmentName)
 	}
 
 	minPrice := s.getMinPrice(filter)
@@ -296,6 +335,8 @@ func (s *Service) buildCatalogMeta(r *http.Request, typeID int, filter VehicleFi
 		r = strings.ReplaceAll(r, "{%brand_rus%}", brandRuName)
 		r = strings.ReplaceAll(r, "{%model%}", modelName)
 		r = strings.ReplaceAll(r, "{%model_rus%}", modelRuName)
+		r = strings.ReplaceAll(r, "{%equipment%}", equipmentName)
+		r = strings.ReplaceAll(r, "{%complectation%}", equipmentName)
 		r = strings.ReplaceAll(r, "{%date%}", dateStr)
 		r = strings.ReplaceAll(r, "{%city%}", city)
 		r = strings.ReplaceAll(r, "{%price%}", formatNumber(minPrice))
@@ -338,6 +379,11 @@ func (s *Service) buildCatalogMeta(r *http.Request, typeID int, filter VehicleFi
 	if level == "model" {
 		res["brand"] = map[string]string{"code": brandCode, "name": brandName}
 		res["model"] = map[string]string{"code": modelCode, "name": modelName}
+	}
+	if level == "equipment" {
+		res["brand"] = map[string]string{"code": brandCode, "name": brandName}
+		res["model"] = map[string]string{"code": modelCode, "name": modelName}
+		res["equipment"] = map[string]string{"code": equipmentCode, "name": equipmentName}
 	}
 
 	return res

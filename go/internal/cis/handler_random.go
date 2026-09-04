@@ -43,23 +43,18 @@ func (s *Service) handleRandom(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Resolve dealership slugs to numeric IDs
-	if ds := q.Get("dealership"); ds != "" {
-		slugs := splitQuery(ds)
-		var ids []int
-		for _, slug := range slugs {
-			id, err := strconv.Atoi(slug)
-			if err == nil {
-				ids = append(ids, id)
-				continue
-			}
-			var row struct {
-				Code int `db:"code"`
-			}
-			if err := s.db.Get(&row, "SELECT code FROM yapps_app_cis_dealerships WHERE url = ?", slug); err == nil {
-				ids = append(ids, row.Code)
-			}
+	for _, slug := range getMultiQuery(q, "dealership") {
+		id, err := strconv.Atoi(slug)
+		if err == nil {
+			f.Dealership = append(f.Dealership, id)
+			continue
 		}
-		f.Dealership = ids
+		var row struct {
+			Code int `db:"code"`
+		}
+		if err := s.db.Get(&row, "SELECT code FROM yapps_app_cis_dealerships WHERE url = ?", slug); err == nil {
+			f.Dealership = append(f.Dealership, row.Code)
+		}
 	}
 
 	table := s.apiTable()
