@@ -69,16 +69,14 @@ func (s *Service) handleFilter(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Parse dealership param
-	if ds := q.Get("dealership"); ds != "" {
-		for _, slug := range splitQuery(ds) {
-			id, err := strconv.Atoi(slug)
-			if err == nil {
-				filter.Dealership = append(filter.Dealership, id)
-			} else {
-				var row struct{ Code int `db:"code"` }
-				if err := s.db.Get(&row, "SELECT code FROM yapps_app_cis_dealerships WHERE url = ?", slug); err == nil {
-					filter.Dealership = append(filter.Dealership, row.Code)
-				}
+	for _, slug := range getMultiQuery(q, "dealership") {
+		id, err := strconv.Atoi(slug)
+		if err == nil {
+			filter.Dealership = append(filter.Dealership, id)
+		} else {
+			var row struct{ Code int `db:"code"` }
+			if err := s.db.Get(&row, "SELECT code FROM yapps_app_cis_dealerships WHERE url = ?", slug); err == nil {
+				filter.Dealership = append(filter.Dealership, row.Code)
 			}
 		}
 	}
@@ -112,10 +110,15 @@ func (s *Service) handleFilter(w http.ResponseWriter, r *http.Request) {
 	filterNoPrice.PriceTo = 0
 	whereNoPrice, argsNoPrice := s.buildConditions(filterNoPrice)
 
+	filterNoEquipment := filter
+	filterNoEquipment.Equipment = nil
+	whereNoEquipment, argsNoEquipment := s.buildConditions(filterNoEquipment)
+
 	baseFrom := fmt.Sprintf("%s v\n%s", table, joins)
 
 	var brands []filterBrandRow
 	var modelBrandRows []filterModelBrandRow
+	var equipments []filterItemRow
 	var transmissions []filterItemRow
 	var engines []filterItemRow
 	var drives []filterItemRow
@@ -131,7 +134,27 @@ func (s *Service) handleFilter(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var wg sync.WaitGroup
-	wg.Add(9)
+	wg.Add(10)
+
+	go func() {
+		defer wg.Done()
+		if len(modelsParam) > 0 {
+			if err := s.db.Select(&equipments, fmt.Sprintf(`
+				SELECT eq.code, COALESCE(eq.ru_name, eq.name) AS name, COUNT(*) AS cnt
+				FROM %s
+				JOIN yapps_app_cis_equipments eq ON eq.brand_id = v.brand_id AND eq.model_id = v.model_id AND (
+					eq.name = JSON_UNQUOTE(JSON_EXTRACT(v.raw, '$.equipment')) OR 
+					eq.name = JSON_UNQUOTE(JSON_EXTRACT(v.raw, '$.equipment_name')) OR
+					JSON_UNQUOTE(JSON_EXTRACT(v.raw, '$.equipment')) LIKE CONCAT('%%', eq.name, '%%')
+				)
+				%s
+				GROUP BY eq.code, COALESCE(eq.ru_name, eq.name)
+				ORDER BY cnt DESC, name ASC
+			`, baseFrom, whereNoEquipment), argsNoEquipment...); err != nil {
+				log.Printf("filter equipments error: %v", err)
+			}
+		}
+	}()
 
 	go func() {
 		defer wg.Done()
@@ -151,7 +174,7 @@ func (s *Service) handleFilter(w http.ResponseWriter, r *http.Request) {
 
 	go func() {
 		defer wg.Done()
-		if len(brandsParam) > 0 || len(modelsParam) > 0 {
+		if len(brandsParam) > 0 || len(modelsParam) > 0 || len(filter.Dealership) > 0 {
 			if err := s.db.Select(&modelBrandRows, fmt.Sprintf(`
 				SELECT COALESCE(mn.code, mu.code) AS code,
 					COALESCE(mn.name, mu.name) AS name,
@@ -321,16 +344,18 @@ func (s *Service) handleFilter(w http.ResponseWriter, r *http.Request) {
 	}
 
 	modelsOut := make([]map[string]interface{}, 0, len(modelBrandRows))
-	for _, m := range modelBrandRows {
-		modelsOut = append(modelsOut, map[string]interface{}{
-			"code": m.Code,
-			"name": m.Name,
-			"vehicles": m.Vehicles,
-			"brand": map[string]interface{}{
-				"code": m.BrandCode,
-				"name": m.BrandName,
-			},
-		})
+	if len(brandsParam) > 0 || len(modelsParam) > 0 || len(brands) == 1 {
+		for _, m := range modelBrandRows {
+			modelsOut = append(modelsOut, map[string]interface{}{
+				"code": m.Code,
+				"name": m.Name,
+				"vehicles": m.Vehicles,
+				"brand": map[string]interface{}{
+					"code": m.BrandCode,
+					"name": m.BrandName,
+				},
+			})
+		}
 	}
 
 	dealershipsOut := make([]map[string]interface{}, 0, len(dealerships))
@@ -453,6 +478,7 @@ func (s *Service) handleFilter(w http.ResponseWriter, r *http.Request) {
 			"mode":          modeItems,
 			"brands":        brandsOut,
 			"models":        modelsOut,
+			"equipments":    equipments,
 			"transmissions": transmissions,
 			"engines":       engines,
 			"drives":        drives,
