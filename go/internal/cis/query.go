@@ -13,6 +13,7 @@ type VehicleFilter struct {
 	NotBrand      []string `json:"not_brand,omitempty"`
 	Model         []string `json:"model,omitempty"`
 	NotModel      []string `json:"not_model,omitempty"`
+	Equipment     []string `json:"equipment,omitempty"`
 	Transmission  []string `json:"transmission,omitempty"`
 	Engine        []string `json:"engine,omitempty"`
 	Drive         []string `json:"drive,omitempty"`
@@ -115,6 +116,15 @@ func (s *Service) buildConditions(f VehicleFilter) (string, []interface{}) {
 			args = append(args, m)
 		}
 		wheres = append(wheres, fmt.Sprintf("COALESCE(mn.code, mu.code) IN (%s)", strings.Join(placeholders, ",")))
+	}
+
+	if len(f.Equipment) > 0 {
+		placeholders := make([]string, len(f.Equipment))
+		for i, eq := range f.Equipment {
+			placeholders[i] = "?"
+			args = append(args, eq)
+		}
+		wheres = append(wheres, fmt.Sprintf("v.ext_id IN (SELECT v_sub.ext_id FROM %s v_sub LEFT JOIN yapps_app_cis_equipments eq_sub ON eq_sub.brand_id = v_sub.brand_id AND eq_sub.model_id = v_sub.model_id AND (eq_sub.name = JSON_UNQUOTE(JSON_EXTRACT(v_sub.raw, '$.equipment')) OR eq_sub.name = JSON_UNQUOTE(JSON_EXTRACT(v_sub.raw, '$.equipment_name')) OR JSON_UNQUOTE(JSON_EXTRACT(v_sub.raw, '$.equipment')) LIKE CONCAT('%%', eq_sub.name, '%%')) WHERE eq_sub.code IN (%s))", s.apiTable(), strings.Join(placeholders, ",")))
 	}
 
 	if len(f.Dealership) > 0 {

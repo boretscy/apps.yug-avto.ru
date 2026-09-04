@@ -109,16 +109,14 @@ func (s *Service) handleVehicles(w http.ResponseWriter, r *http.Request) {
 	alias := expandFilterBrands(&f, typeID)
 
 	// Parse dealership param
-	if ds := q.Get("dealership"); ds != "" {
-		for _, slug := range splitQuery(ds) {
-			id, err := strconv.Atoi(slug)
-			if err == nil {
-				f.Dealership = append(f.Dealership, id)
-			} else {
-				var row struct{ Code int `db:"code"` }
-				if err := s.db.Get(&row, "SELECT code FROM yapps_app_cis_dealerships WHERE url = ?", slug); err == nil {
-					f.Dealership = append(f.Dealership, row.Code)
-				}
+	for _, slug := range getMultiQuery(q, "dealership") {
+		id, err := strconv.Atoi(slug)
+		if err == nil {
+			f.Dealership = append(f.Dealership, id)
+		} else {
+			var row struct{ Code int `db:"code"` }
+			if err := s.db.Get(&row, "SELECT code FROM yapps_app_cis_dealerships WHERE url = ?", slug); err == nil {
+				f.Dealership = append(f.Dealership, row.Code)
 			}
 		}
 	}
@@ -404,19 +402,28 @@ func (s *Service) handleVehicle(w http.ResponseWriter, r *http.Request) {
 			}
 
 			if origEquipment != "" {
-				var ruName string
-				err := s.db.Get(&ruName, `
-					SELECT ru_name FROM yapps_app_cis_equipments 
-					WHERE brand_id = ? AND model_id = ? AND name = ? 
+				var eqRow struct {
+					RuName string `db:"ru_name"`
+					Code   string `db:"code"`
+				}
+				err := s.db.Get(&eqRow, `
+					SELECT ru_name, code FROM yapps_app_cis_equipments 
+					WHERE brand_id = ? AND model_id = ? AND (
+						name = ? OR ? LIKE CONCAT('%', name, '%')
+					)
+					ORDER BY LENGTH(name) DESC
 					LIMIT 1
-				`, row.BrandID, row.ModelID, origEquipment)
-				if err == nil && ruName != "" {
-					resp["equipment"] = ruName
+				`, row.BrandID, row.ModelID, origEquipment, origEquipment)
+				if err == nil && eqRow.RuName != "" {
+					resp["equipment"] = eqRow.RuName
+					resp["equipment_code"] = eqRow.Code
 				} else {
 					resp["equipment"] = origEquipment
+					resp["equipment_code"] = ""
 				}
 			} else {
 				resp["equipment"] = ""
+				resp["equipment_code"] = ""
 			}
 
 			// Structured general info
