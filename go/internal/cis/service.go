@@ -1147,7 +1147,7 @@ func generateBrandAlias(name string) string {
 		return "lada"
 	}
 
-	name = strings.NewReplacer(" ", "-", "_", "-", "/", "-", "\\", "-", "(", "-", ")", "-").Replace(name)
+	name = strings.NewReplacer("+", "-plus", " ", "-", "_", "-", "/", "-", "\\", "-", "(", "-", ")", "-").Replace(name)
 
 	var result strings.Builder
 	for _, r := range name {
@@ -1232,6 +1232,8 @@ func transliterateBrandToRu(text string) string {
 		"BYD": "БИД", "Voyah": "Воях", "Xcite": "Иксит",
 		"Nordcross":             "Нордкросс",
 		"Nordcross (Lynk & Co)": "Нордкросс",
+		"TENET":                 "Тенет",
+		"TENET+":                "Тенет+",
 	}
 	if v, ok := mapping[text]; ok {
 		return v
