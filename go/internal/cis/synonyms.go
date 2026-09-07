@@ -308,6 +308,8 @@ var synonymEntries = []synonymEntry{
 	{"СВМ", "SWM"},
 	{"ЭСВЭМ", "SWM"},
 	{"ТАНК", "TANK"},
+	{"ТЕНЕТ ПЛЮС", "TENET+"},
+	{"ТЕНЕТ+", "TENET+"},
 	{"ТЕНЕТ", "TENET"},
 	{"ВОЯХ", "VOYAH"},
 	{"ВОЯЖ", "VOYAH"},
