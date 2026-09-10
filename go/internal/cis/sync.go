@@ -450,6 +450,12 @@ func (s *Service) SyncUsedVehicles() (*SyncResult, error) {
 			log.Printf("used vehicles list error: giving up page %d: %v", page, err)
 			break
 		}
+		if page == 1 && resp.Filter != nil && len(resp.Filter.Models) > 0 {
+			if err := s.SyncUsedModels(resp.Filter.Models); err != nil {
+				log.Printf("sync used models error: %v", err)
+			}
+		}
+
 		metaInfo := "no meta"
 		if resp.Meta != nil {
 			metaInfo = fmt.Sprintf("page %d/%d, total %d", page, resp.Meta.PageCount, resp.Meta.TotalCount)

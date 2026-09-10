@@ -121,9 +121,20 @@ func (c *Client) GetModels(brandID int) (*ModelsResponse, error) {
 	return &resp, nil
 }
 
+type FilterModel struct {
+	ID      int    `json:"id"`
+	BrandID int    `json:"brand_id"`
+	Name    string `json:"name"`
+}
+
+type FilterInfo struct {
+	Models []FilterModel `json:"models,omitempty"`
+}
+
 type VehiclesPage struct {
-	Items []VehicleRaw `json:"items"`
-	Meta  *PageMeta    `json:"_meta,omitempty"`
+	Items  []VehicleRaw `json:"items"`
+	Meta   *PageMeta    `json:"_meta,omitempty"`
+	Filter *FilterInfo  `json:"filter,omitempty"`
 }
 
 type PageMeta struct {
