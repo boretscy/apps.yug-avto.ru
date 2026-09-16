@@ -268,6 +268,11 @@ func (s *Service) SyncNewVehicles() (*SyncResult, error) {
 			log.Printf("new vehicles list error (page %d, attempt %d): %v", page, attempt+1, err)
 		}
 		if err != nil {
+			projectRoot := filepath.Dir(filepath.Dir(s.uploadDir))
+			writeSyncLog(projectRoot, "new", start, len(allVehicles), []SyncLogEntry{{
+				Status:    "error",
+				ErrDetail: fmt.Sprintf("Ошибка получения списка новых авто (стр. %d): %v", page, err),
+			}})
 			return nil, err
 		}
 		metaInfo := "no meta"
@@ -289,7 +294,7 @@ func (s *Service) SyncNewVehicles() (*SyncResult, error) {
 			break
 		}
 		page++
-		time.Sleep(500 * time.Millisecond)
+		time.Sleep(1 * time.Second)
 	}
 
 	log.Printf("new vehicles list done: %d items, %d brands", len(allVehicles), brandCount)
@@ -450,6 +455,12 @@ func (s *Service) SyncUsedVehicles() (*SyncResult, error) {
 			log.Printf("used vehicles list error: giving up page %d: %v", page, err)
 			break
 		}
+		if page == 1 && resp.Filter != nil && len(resp.Filter.Models) > 0 {
+			if err := s.SyncUsedModels(resp.Filter.Models); err != nil {
+				log.Printf("sync used models error: %v", err)
+			}
+		}
+
 		metaInfo := "no meta"
 		if resp.Meta != nil {
 			metaInfo = fmt.Sprintf("page %d/%d, total %d", page, resp.Meta.PageCount, resp.Meta.TotalCount)

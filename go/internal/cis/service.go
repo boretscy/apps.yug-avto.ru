@@ -634,12 +634,45 @@ func (s *Service) SyncModels(brandExtID int, section string) error {
 		_, err := s.db.Exec(fmt.Sprintf(`
 			INSERT INTO %s (ext_id, brand_id, code, name, ru_name, image, body_id)
 			VALUES (?, ?, ?, ?, ?, ?, ?)
-			ON DUPLICATE KEY UPDATE name = VALUES(name), image = VALUES(image), body_id = VALUES(body_id)
+			ON DUPLICATE KEY UPDATE name = VALUES(name), code = VALUES(code), brand_id = VALUES(brand_id), image = VALUES(image), body_id = VALUES(body_id)
 		`, table), m.ID, brand.ID, code, m.Name, "", m.Image, bodyID)
 		if err != nil {
 			return fmt.Errorf("save model %s: %w", m.Name, err)
 		}
 	}
+	return nil
+}
+
+func (s *Service) SyncUsedModels(models []autocrm.FilterModel) error {
+	if len(models) == 0 {
+		return nil
+	}
+
+	var brands []Brand
+	if err := s.db.Select(&brands, "SELECT id, ext_id FROM yapps_app_cis_brands"); err != nil {
+		return fmt.Errorf("select brands: %w", err)
+	}
+	brandMap := make(map[int]int, len(brands))
+	for _, b := range brands {
+		brandMap[b.ExtID] = b.ID
+	}
+
+	for _, m := range models {
+		brandID, ok := brandMap[m.BrandID]
+		if !ok {
+			continue
+		}
+		code := generateModelAlias(m.Name, "used")
+		_, err := s.db.Exec(`
+			INSERT INTO yapps_app_cis_models_used (ext_id, brand_id, code, name, ru_name)
+			VALUES (?, ?, ?, ?, '')
+			ON DUPLICATE KEY UPDATE name = VALUES(name), code = VALUES(code), brand_id = VALUES(brand_id)
+		`, m.ID, brandID, code, m.Name)
+		if err != nil {
+			log.Printf("sync used model error (%d %s): %v", m.ID, m.Name, err)
+		}
+	}
+	log.Printf("synced %d used models from filter", len(models))
 	return nil
 }
 
@@ -863,6 +896,14 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 				return false, nil, fmt.Errorf("model %d brand %d: %w (after sync, fallback: %v)", modelExtID, brand.ID, err, fallbackErr)
 			}
 		}
+	}
+
+	if typeID == 2 && raw.RefModelName != "" && model.Name != raw.RefModelName {
+		log.Printf("model %d name mismatch (db: %s, autocrm: %s), updating", model.ID, model.Name, raw.RefModelName)
+		code := generateModelAlias(raw.RefModelName, "used")
+		_, _ = s.db.Exec("UPDATE yapps_app_cis_models_used SET name = ?, code = ?, brand_id = ? WHERE id = ?", raw.RefModelName, code, brand.ID, model.ID)
+		model.Name = raw.RefModelName
+		model.Code = code
 	}
 
 	price := raw.Price
