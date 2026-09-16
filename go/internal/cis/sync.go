@@ -268,6 +268,11 @@ func (s *Service) SyncNewVehicles() (*SyncResult, error) {
 			log.Printf("new vehicles list error (page %d, attempt %d): %v", page, attempt+1, err)
 		}
 		if err != nil {
+			projectRoot := filepath.Dir(filepath.Dir(s.uploadDir))
+			writeSyncLog(projectRoot, "new", start, len(allVehicles), []SyncLogEntry{{
+				Status:    "error",
+				ErrDetail: fmt.Sprintf("Ошибка получения списка новых авто (стр. %d): %v", page, err),
+			}})
 			return nil, err
 		}
 		metaInfo := "no meta"
@@ -289,7 +294,7 @@ func (s *Service) SyncNewVehicles() (*SyncResult, error) {
 			break
 		}
 		page++
-		time.Sleep(500 * time.Millisecond)
+		time.Sleep(1 * time.Second)
 	}
 
 	log.Printf("new vehicles list done: %d items, %d brands", len(allVehicles), brandCount)

@@ -4,14 +4,30 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
+	"net/url"
+	"os"
 	"time"
 )
 
-var defaultTransport = &http.Transport{
-	MaxIdleConns:        100,
-	MaxIdleConnsPerHost: 20,
-	IdleConnTimeout:     90 * time.Second,
+func createTransport() *http.Transport {
+	tr := &http.Transport{
+		MaxIdleConns:        100,
+		MaxIdleConnsPerHost: 20,
+		IdleConnTimeout:     90 * time.Second,
+	}
+
+	if proxyStr := os.Getenv("AUTOCRM_PROXY"); proxyStr != "" {
+		if proxyURL, err := url.Parse(proxyStr); err == nil {
+			tr.Proxy = http.ProxyURL(proxyURL)
+			log.Printf("autocrm client using proxy: %s", proxyStr)
+		} else {
+			log.Printf("autocrm client invalid proxy URL '%s': %v", proxyStr, err)
+		}
+	}
+
+	return tr
 }
 
 type Client struct {
@@ -26,7 +42,7 @@ func NewClient(baseURL, token string) *Client {
 		baseURL:   baseURL,
 		token:     token,
 		timeout:   60 * time.Second,
-		transport: defaultTransport,
+		transport: createTransport(),
 	}
 }
 
@@ -49,6 +65,7 @@ func (c *Client) request(path string, timeout time.Duration) ([]byte, error) {
 	}
 	req.Header.Set("Authorization", "Bearer "+c.token)
 	req.Header.Set("Accept", "application/json")
+	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; YugAvtoBot/1.0; +https://yug-avto.ru)")
 
 	cli := c.clientWithTimeout(timeout)
 	resp, err := cli.Do(req)
