@@ -40,7 +40,19 @@ type SyncResult struct {
 	EquipmentAlerts  []EquipmentAlert
 }
 
-const syncWorkers = 2
+const syncWorkers = 1
+
+func areImagesEqual(oldImgs, newImgs []autocrm.ImageInfo) bool {
+	if len(oldImgs) != len(newImgs) {
+		return false
+	}
+	for i := range oldImgs {
+		if oldImgs[i].Full != newImgs[i].Full {
+			return false
+		}
+	}
+	return true
+}
 
 func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResult {
 	result := &SyncResult{Total: len(items)}
@@ -115,11 +127,11 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 				ev.Mileage != mileage ||
 				ev.DealershipID != dealershipID
 
-			// Also compare first image if available
-			if !changed && len(v.Images) > 0 {
+			// Compare entire gallery (count, URLs, order)
+			if !changed {
 				var oldRaw autocrm.VehicleRaw
-				if json.Unmarshal([]byte(ev.RawJSON), &oldRaw) == nil && len(oldRaw.Images) > 0 {
-					if oldRaw.Images[0].Full != v.Images[0].Full {
+				if json.Unmarshal([]byte(ev.RawJSON), &oldRaw) == nil {
+					if !areImagesEqual(oldRaw.Images, v.Images) {
 						changed = true
 					}
 				}
@@ -180,12 +192,8 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 			for v := range toSyncCh {
 				if s.isBlocked() {
 					// Drain the queue to stop immediately
-					for len(toSyncCh) > 0 {
-						<-toSyncCh
-					}
 					break
 				}
-				time.Sleep(1 * time.Second) // Add a delay to prevent DDoS-Guard blocking
 				start := time.Now()
 				vin, updImg, alert, err := s.SyncVehicleDetail(v.ID, typeID, cronTable)
 				duration := time.Since(start)
@@ -294,7 +302,6 @@ func (s *Service) SyncNewVehicles() (*SyncResult, error) {
 			break
 		}
 		page++
-		time.Sleep(1 * time.Second)
 	}
 
 	log.Printf("new vehicles list done: %d items, %d brands", len(allVehicles), brandCount)
@@ -478,7 +485,6 @@ func (s *Service) SyncUsedVehicles() (*SyncResult, error) {
 			break
 		}
 		page++
-		time.Sleep(300 * time.Millisecond)
 	}
 
 	log.Printf("fetched %d used vehicles", len(allVehicles))
