@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"sync"
 	"time"
 )
 
@@ -30,11 +31,16 @@ func createTransport() *http.Transport {
 	return tr
 }
 
+// Global rate limiting to respect AutoCRM WAF rules (<= 1 request per 10 seconds)
+const minRequestInterval = 10500 * time.Millisecond
+
 type Client struct {
-	baseURL   string
-	token     string
-	timeout   time.Duration
-	transport *http.Transport
+	baseURL      string
+	token        string
+	timeout      time.Duration
+	transport    *http.Transport
+	rateMu       sync.Mutex
+	lastRequest  time.Time
 }
 
 func NewClient(baseURL, token string) *Client {
@@ -44,6 +50,19 @@ func NewClient(baseURL, token string) *Client {
 		timeout:   60 * time.Second,
 		transport: createTransport(),
 	}
+}
+
+func (c *Client) throttle() {
+	c.rateMu.Lock()
+	defer c.rateMu.Unlock()
+
+	now := time.Now()
+	elapsed := now.Sub(c.lastRequest)
+	if elapsed < minRequestInterval && !c.lastRequest.IsZero() {
+		sleepDuration := minRequestInterval - elapsed
+		time.Sleep(sleepDuration)
+	}
+	c.lastRequest = time.Now()
 }
 
 func (c *Client) clientWithTimeout(timeout time.Duration) *http.Client {
@@ -58,6 +77,8 @@ func (c *Client) clientWithTimeout(timeout time.Duration) *http.Client {
 }
 
 func (c *Client) request(path string, timeout time.Duration) ([]byte, error) {
+	c.throttle()
+
 	url := c.baseURL + path
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
