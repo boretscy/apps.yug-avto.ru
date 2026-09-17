@@ -172,12 +172,35 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 
 	log.Printf("sync: %d/%d vehicles need detail sync (others copied from %s)", len(toSync), len(items), prodTable)
 
+	// Save all toSync vehicles immediately into cronTable with their current basic API data (including photos)
+	for _, v := range toSync {
+		s.saveVehicle(&v, typeID, cronTable)
+	}
+
 	if len(toSync) == 0 {
 		return result
 	}
 
-	toSyncCh := make(chan autocrm.VehicleRaw, len(toSync))
-	for _, v := range toSync {
+	// Limit detailed network requests per sync cycle to avoid stalling the cron pipeline
+	const maxDetailPerSync = 15
+	detailQueue := toSync
+	if len(detailQueue) > maxDetailPerSync {
+		// Remaining vehicles are already saved with basic data
+		for _, v := range detailQueue[maxDetailPerSync:] {
+			result.OK++
+			result.LogEntries = append(result.LogEntries, SyncLogEntry{
+				ID:       v.ID,
+				VIN:      v.Vin,
+				Duration: 0,
+				Status:   "ok",
+			})
+		}
+		detailQueue = detailQueue[:maxDetailPerSync]
+		log.Printf("sync: fetching details for batch of %d vehicles", len(detailQueue))
+	}
+
+	toSyncCh := make(chan autocrm.VehicleRaw, len(detailQueue))
+	for _, v := range detailQueue {
 		toSyncCh <- v
 	}
 	close(toSyncCh)
