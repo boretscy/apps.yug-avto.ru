@@ -822,6 +822,14 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 	if raw.Status == nil || (raw.Status.ID != statusInStock && raw.Status.ID != statusOnWay) {
 		return false, nil, nil
 	}
+	if typeID == 2 {
+		if raw.ID == 1314264 {
+			return false, nil, nil
+		}
+		if raw.Dealership == nil || !allowedUsedDealerships[raw.Dealership.ID] {
+			return false, nil, nil
+		}
+	}
 
 	brandExtID := raw.BrandID
 	if typeID == 2 && raw.RefModelID > 0 {

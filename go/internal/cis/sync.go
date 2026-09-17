@@ -497,6 +497,12 @@ func (s *Service) SyncUsedVehicles() (*SyncResult, error) {
 		}
 		log.Printf("used page %d: %d items, %s", page, len(resp.Items), metaInfo)
 		for _, v := range resp.Items {
+			if v.ID == 1314264 {
+				continue
+			}
+			if v.Dealership == nil || !allowedUsedDealerships[v.Dealership.ID] {
+				continue
+			}
 			// Only include active vehicles (status 1: in stock, status 2: on way)
 			if v.Status != nil && v.Status.ID != statusInStock && v.Status.ID != statusOnWay {
 				continue
