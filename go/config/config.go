@@ -17,6 +17,7 @@ type Config struct {
 
 	AutoCRMBaseURL string `envconfig:"AUTOCRM_BASE_URL" default:"https://autos.autocrm.ru/api/v1"`
 	AutoCRMAPIKey  string `envconfig:"AUTOCRM_API_KEY"`
+	AutoCRMProxy   string `envconfig:"AUTOCRM_PROXY"`
 
 	CalltouchBaseURL string `envconfig:"CALLTOUCH_BASE_URL" default:"https://api.calltouch.ru"`
 	CalltouchAPIKey  string `envconfig:"CALLTOUCH_API_KEY"`

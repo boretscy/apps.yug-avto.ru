@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"sync/atomic"
 
 	"github.com/robfig/cron/v3"
 
@@ -67,8 +68,18 @@ func main() {
 		}
 	}
 
-	c.AddFunc("@every 2m", runSync)
-	go runSync()
+	var isSyncing atomic.Bool
+	safeRunSync := func() {
+		if !isSyncing.CompareAndSwap(false, true) {
+			log.Println("CIS sync already running, skipping")
+			return
+		}
+		defer isSyncing.Store(false)
+		runSync()
+	}
+
+	c.AddFunc("@every 2m", safeRunSync)
+	go safeRunSync()
 
 	c.AddFunc("0 6 * * *", func() {
 		log.Println("CIS brands/models daily sync")
@@ -88,7 +99,7 @@ func main() {
 		log.Println("brands/models sync done")
 	})
 
-	go cisSvc.StartBackgroundRefresher()
+	// go cisSvc.StartBackgroundRefresher()
 
 	c.Start()
 	log.Println("cron worker started")

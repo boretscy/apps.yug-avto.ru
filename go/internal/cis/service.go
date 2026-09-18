@@ -92,6 +92,9 @@ type Service struct {
 
 	blockedUntilMu sync.RWMutex
 	blockedUntil   time.Time
+
+	uaepMu     sync.RWMutex
+	uaepModels map[string]bool // key: "modelID:dealershipCode" (e.g. "3107433:1334")
 }
 
 func NewService(db *sqlx.DB, crm *autocrm.Client, uploadDir, imageBaseURL, onnxModelPath string) *Service {
@@ -117,6 +120,7 @@ func NewService(db *sqlx.DB, crm *autocrm.Client, uploadDir, imageBaseURL, onnxM
 		driveCodes:        make(map[string]bool),
 		transmissionCodes: make(map[string]bool),
 		colorCodes:        make(map[string]bool),
+		uaepModels:        make(map[string]bool),
 	}
 }
 
@@ -126,6 +130,9 @@ func (s *Service) Init() error {
 	}
 	if err := s.loadReferenceCodes(); err != nil {
 		log.Printf("load reference codes error: %v", err)
+	}
+	if err := s.loadUAEP(); err != nil {
+		log.Printf("load UAEP error: %v", err)
 	}
 	if err := s.LoadTableNames(); err != nil {
 		return fmt.Errorf("load table names: %w", err)
@@ -140,6 +147,9 @@ func (s *Service) Init() error {
 			}
 			if err := s.loadReferenceCodes(); err != nil {
 				log.Printf("loadReferenceCodes background error: %v", err)
+			}
+			if err := s.loadUAEP(); err != nil {
+				log.Printf("loadUAEP background error: %v", err)
 			}
 		}
 	}()
@@ -276,6 +286,38 @@ func (s *Service) loadReferenceCodes() error {
 	s.refCodesMu.Unlock()
 
 	return nil
+}
+
+func (s *Service) loadUAEP() error {
+	type uaepRow struct {
+		ModelID        int `db:"model_id"`
+		DealershipCode int `db:"dealership_code"`
+	}
+	var rows []uaepRow
+	err := s.db.Select(&rows, `
+		SELECT u.model_id, d.code AS dealership_code
+		FROM yapps_app_cis_models_dealerships_uaep u
+		JOIN yapps_app_cis_dealerships d ON d.id = u.dealership_id
+	`)
+	if err != nil {
+		return err
+	}
+
+	m := make(map[string]bool, len(rows))
+	for _, r := range rows {
+		m[fmt.Sprintf("%d:%d", r.ModelID, r.DealershipCode)] = true
+	}
+
+	s.uaepMu.Lock()
+	s.uaepModels = m
+	s.uaepMu.Unlock()
+	return nil
+}
+
+func (s *Service) IsUAEPActive(modelID int, dealershipCode int) bool {
+	s.uaepMu.RLock()
+	defer s.uaepMu.RUnlock()
+	return s.uaepModels[fmt.Sprintf("%d:%d", modelID, dealershipCode)]
 }
 
 // SanitizeFilter validates and sanitizes incoming filter fields against reference dictionaries.
@@ -634,12 +676,45 @@ func (s *Service) SyncModels(brandExtID int, section string) error {
 		_, err := s.db.Exec(fmt.Sprintf(`
 			INSERT INTO %s (ext_id, brand_id, code, name, ru_name, image, body_id)
 			VALUES (?, ?, ?, ?, ?, ?, ?)
-			ON DUPLICATE KEY UPDATE name = VALUES(name), image = VALUES(image), body_id = VALUES(body_id)
+			ON DUPLICATE KEY UPDATE name = VALUES(name), code = VALUES(code), brand_id = VALUES(brand_id), image = VALUES(image), body_id = VALUES(body_id)
 		`, table), m.ID, brand.ID, code, m.Name, "", m.Image, bodyID)
 		if err != nil {
 			return fmt.Errorf("save model %s: %w", m.Name, err)
 		}
 	}
+	return nil
+}
+
+func (s *Service) SyncUsedModels(models []autocrm.FilterModel) error {
+	if len(models) == 0 {
+		return nil
+	}
+
+	var brands []Brand
+	if err := s.db.Select(&brands, "SELECT id, ext_id FROM yapps_app_cis_brands"); err != nil {
+		return fmt.Errorf("select brands: %w", err)
+	}
+	brandMap := make(map[int]int, len(brands))
+	for _, b := range brands {
+		brandMap[b.ExtID] = b.ID
+	}
+
+	for _, m := range models {
+		brandID, ok := brandMap[m.BrandID]
+		if !ok {
+			continue
+		}
+		code := generateModelAlias(m.Name, "used")
+		_, err := s.db.Exec(`
+			INSERT INTO yapps_app_cis_models_used (ext_id, brand_id, code, name, ru_name)
+			VALUES (?, ?, ?, ?, '')
+			ON DUPLICATE KEY UPDATE name = VALUES(name), code = VALUES(code), brand_id = VALUES(brand_id)
+		`, m.ID, brandID, code, m.Name)
+		if err != nil {
+			log.Printf("sync used model error (%d %s): %v", m.ID, m.Name, err)
+		}
+	}
+	log.Printf("synced %d used models from filter", len(models))
 	return nil
 }
 
@@ -749,8 +824,12 @@ func (s *Service) processVehicle(raw *autocrm.VehicleRaw, section string) error 
 		if typeID == 2 && raw.RefModelID > 0 {
 			modelExtID = raw.RefModelID
 		}
-		if s.db.Get(&model, fmt.Sprintf("SELECT use_additional_equipment_in_price FROM %s WHERE ext_id = ?", modelTable), modelExtID) == nil {
-			if model.UseUAEP {
+		if s.db.Get(&model, fmt.Sprintf("SELECT id, ext_id, use_additional_equipment_in_price FROM %s WHERE ext_id = ?", modelTable), modelExtID) == nil {
+			dealershipCode := 0
+			if raw.Dealership != nil {
+				dealershipCode = raw.Dealership.ID
+			}
+			if (model.UseUAEP || s.IsUAEPActive(model.ID, dealershipCode)) && raw.AdditionalEquipmentPrice > 0 {
 				price -= raw.AdditionalEquipmentPrice
 				minPrice -= raw.AdditionalEquipmentPrice
 			}
@@ -788,6 +867,14 @@ func (s *Service) processVehicle(raw *autocrm.VehicleRaw, section string) error 
 func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName string) (bool, *EquipmentAlert, error) {
 	if raw.Status == nil || (raw.Status.ID != statusInStock && raw.Status.ID != statusOnWay) {
 		return false, nil, nil
+	}
+	if typeID == 2 {
+		if raw.ID == 1314264 {
+			return false, nil, nil
+		}
+		if raw.Dealership == nil || !allowedUsedDealerships[raw.Dealership.ID] {
+			return false, nil, nil
+		}
 	}
 
 	brandExtID := raw.BrandID
@@ -865,9 +952,21 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 		}
 	}
 
+	if typeID == 2 && raw.RefModelName != "" && model.Name != raw.RefModelName {
+		log.Printf("model %d name mismatch (db: %s, autocrm: %s), updating", model.ID, model.Name, raw.RefModelName)
+		code := generateModelAlias(raw.RefModelName, "used")
+		_, _ = s.db.Exec("UPDATE yapps_app_cis_models_used SET name = ?, code = ?, brand_id = ? WHERE id = ?", raw.RefModelName, code, brand.ID, model.ID)
+		model.Name = raw.RefModelName
+		model.Code = code
+	}
+
 	price := raw.Price
 	minPrice := raw.MinPrice
-	if model.UseUAEP {
+	dealershipCode := 0
+	if raw.Dealership != nil {
+		dealershipCode = raw.Dealership.ID
+	}
+	if (model.UseUAEP || s.IsUAEPActive(model.ID, dealershipCode)) && raw.AdditionalEquipmentPrice > 0 {
 		price -= raw.AdditionalEquipmentPrice
 		minPrice -= raw.AdditionalEquipmentPrice
 	}
@@ -1147,7 +1246,7 @@ func generateBrandAlias(name string) string {
 		return "lada"
 	}
 
-	name = strings.NewReplacer(" ", "-", "_", "-", "/", "-", "\\", "-", "(", "-", ")", "-").Replace(name)
+	name = strings.NewReplacer("+", "-plus", " ", "-", "_", "-", "/", "-", "\\", "-", "(", "-", ")", "-").Replace(name)
 
 	var result strings.Builder
 	for _, r := range name {
@@ -1232,6 +1331,8 @@ func transliterateBrandToRu(text string) string {
 		"BYD": "БИД", "Voyah": "Воях", "Xcite": "Иксит",
 		"Nordcross":             "Нордкросс",
 		"Nordcross (Lynk & Co)": "Нордкросс",
+		"TENET":                 "Тенет",
+		"TENET+":                "Тенет+",
 	}
 	if v, ok := mapping[text]; ok {
 		return v

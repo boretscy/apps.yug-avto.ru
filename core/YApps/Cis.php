@@ -420,6 +420,7 @@
             }
 
             $q = mb_strtolower($q);
+            $q = str_replace('+', '-plus', $q);
 
             // Сначала заменяем спецсимволы вроде амперсанда на пробел
             $q = preg_replace('/[^\p{L}\p{N}\s\-()]/u', ' ', $q);
@@ -672,6 +673,8 @@
                 'Polar Stone (Jishi)' => 'Поляр стоун', 'polar stone' => 'поляр стоун',
                 'LiXiang (Li Auto)'   => 'Ли авто', 'lixiang' => 'ли авто',
                 'Nordcross (Lynk & Co)'   => 'Нордкросс',
+                'TENET+'     => 'Тенет+',      'tenet+'     => 'тенет+',
+                'TENET'      => 'Тенет',       'tenet'      => 'тенет',
 
                 // --- Бренды из списка (Приоритет 2) ---
                 'Volkswagen' => 'Фольксваген', 'Mitsubishi' => 'Мицубиси',

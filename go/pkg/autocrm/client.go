@@ -4,21 +4,43 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
+	"net/url"
+	"os"
+	"sync"
 	"time"
 )
 
-var defaultTransport = &http.Transport{
-	MaxIdleConns:        100,
-	MaxIdleConnsPerHost: 20,
-	IdleConnTimeout:     90 * time.Second,
+func createTransport() *http.Transport {
+	tr := &http.Transport{
+		MaxIdleConns:        100,
+		MaxIdleConnsPerHost: 20,
+		IdleConnTimeout:     90 * time.Second,
+	}
+
+	if proxyStr := os.Getenv("AUTOCRM_PROXY"); proxyStr != "" {
+		if proxyURL, err := url.Parse(proxyStr); err == nil {
+			tr.Proxy = http.ProxyURL(proxyURL)
+			log.Printf("autocrm client using proxy: %s", proxyStr)
+		} else {
+			log.Printf("autocrm client invalid proxy URL '%s': %v", proxyStr, err)
+		}
+	}
+
+	return tr
 }
 
+// Global rate limiting to respect AutoCRM WAF rules (<= 1 request per 10 seconds)
+const minRequestInterval = 10500 * time.Millisecond
+
 type Client struct {
-	baseURL   string
-	token     string
-	timeout   time.Duration
-	transport *http.Transport
+	baseURL      string
+	token        string
+	timeout      time.Duration
+	transport    *http.Transport
+	rateMu       sync.Mutex
+	lastRequest  time.Time
 }
 
 func NewClient(baseURL, token string) *Client {
@@ -26,8 +48,21 @@ func NewClient(baseURL, token string) *Client {
 		baseURL:   baseURL,
 		token:     token,
 		timeout:   60 * time.Second,
-		transport: defaultTransport,
+		transport: createTransport(),
 	}
+}
+
+func (c *Client) throttle() {
+	c.rateMu.Lock()
+	defer c.rateMu.Unlock()
+
+	now := time.Now()
+	elapsed := now.Sub(c.lastRequest)
+	if elapsed < minRequestInterval && !c.lastRequest.IsZero() {
+		sleepDuration := minRequestInterval - elapsed
+		time.Sleep(sleepDuration)
+	}
+	c.lastRequest = time.Now()
 }
 
 func (c *Client) clientWithTimeout(timeout time.Duration) *http.Client {
@@ -42,6 +77,8 @@ func (c *Client) clientWithTimeout(timeout time.Duration) *http.Client {
 }
 
 func (c *Client) request(path string, timeout time.Duration) ([]byte, error) {
+	c.throttle()
+
 	url := c.baseURL + path
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -49,6 +86,7 @@ func (c *Client) request(path string, timeout time.Duration) ([]byte, error) {
 	}
 	req.Header.Set("Authorization", "Bearer "+c.token)
 	req.Header.Set("Accept", "application/json")
+	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; YugAvtoBot/1.0; +https://yug-avto.ru)")
 
 	cli := c.clientWithTimeout(timeout)
 	resp, err := cli.Do(req)
@@ -121,9 +159,20 @@ func (c *Client) GetModels(brandID int) (*ModelsResponse, error) {
 	return &resp, nil
 }
 
+type FilterModel struct {
+	ID      int    `json:"id"`
+	BrandID int    `json:"brand_id"`
+	Name    string `json:"name"`
+}
+
+type FilterInfo struct {
+	Models []FilterModel `json:"models,omitempty"`
+}
+
 type VehiclesPage struct {
-	Items []VehicleRaw `json:"items"`
-	Meta  *PageMeta    `json:"_meta,omitempty"`
+	Items  []VehicleRaw `json:"items"`
+	Meta   *PageMeta    `json:"_meta,omitempty"`
+	Filter *FilterInfo  `json:"filter,omitempty"`
 }
 
 type PageMeta struct {

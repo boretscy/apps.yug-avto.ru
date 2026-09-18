@@ -40,7 +40,19 @@ type SyncResult struct {
 	EquipmentAlerts  []EquipmentAlert
 }
 
-const syncWorkers = 2
+const syncWorkers = 1
+
+func areImagesEqual(oldImgs, newImgs []autocrm.ImageInfo) bool {
+	if len(oldImgs) != len(newImgs) {
+		return false
+	}
+	for i := range oldImgs {
+		if oldImgs[i].Full != newImgs[i].Full {
+			return false
+		}
+	}
+	return true
+}
 
 func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResult {
 	result := &SyncResult{Total: len(items)}
@@ -115,11 +127,11 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 				ev.Mileage != mileage ||
 				ev.DealershipID != dealershipID
 
-			// Also compare first image if available
-			if !changed && len(v.Images) > 0 {
+			// Compare entire gallery (count, URLs, order)
+			if !changed {
 				var oldRaw autocrm.VehicleRaw
-				if json.Unmarshal([]byte(ev.RawJSON), &oldRaw) == nil && len(oldRaw.Images) > 0 {
-					if oldRaw.Images[0].Full != v.Images[0].Full {
+				if json.Unmarshal([]byte(ev.RawJSON), &oldRaw) == nil {
+					if !areImagesEqual(oldRaw.Images, v.Images) {
 						changed = true
 					}
 				}
@@ -160,12 +172,35 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 
 	log.Printf("sync: %d/%d vehicles need detail sync (others copied from %s)", len(toSync), len(items), prodTable)
 
+	// Save all toSync vehicles immediately into cronTable with their current basic API data (including photos)
+	for _, v := range toSync {
+		s.saveVehicle(&v, typeID, cronTable)
+	}
+
 	if len(toSync) == 0 {
 		return result
 	}
 
-	toSyncCh := make(chan autocrm.VehicleRaw, len(toSync))
-	for _, v := range toSync {
+	// Limit detailed network requests per sync cycle to avoid stalling the cron pipeline
+	const maxDetailPerSync = 15
+	detailQueue := toSync
+	if len(detailQueue) > maxDetailPerSync {
+		// Remaining vehicles are already saved with basic data
+		for _, v := range detailQueue[maxDetailPerSync:] {
+			result.OK++
+			result.LogEntries = append(result.LogEntries, SyncLogEntry{
+				ID:       v.ID,
+				VIN:      v.Vin,
+				Duration: 0,
+				Status:   "ok",
+			})
+		}
+		detailQueue = detailQueue[:maxDetailPerSync]
+		log.Printf("sync: fetching details for batch of %d vehicles", len(detailQueue))
+	}
+
+	toSyncCh := make(chan autocrm.VehicleRaw, len(detailQueue))
+	for _, v := range detailQueue {
 		toSyncCh <- v
 	}
 	close(toSyncCh)
@@ -180,12 +215,8 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 			for v := range toSyncCh {
 				if s.isBlocked() {
 					// Drain the queue to stop immediately
-					for len(toSyncCh) > 0 {
-						<-toSyncCh
-					}
 					break
 				}
-				time.Sleep(1 * time.Second) // Add a delay to prevent DDoS-Guard blocking
 				start := time.Now()
 				vin, updImg, alert, err := s.SyncVehicleDetail(v.ID, typeID, cronTable)
 				duration := time.Since(start)
@@ -268,6 +299,11 @@ func (s *Service) SyncNewVehicles() (*SyncResult, error) {
 			log.Printf("new vehicles list error (page %d, attempt %d): %v", page, attempt+1, err)
 		}
 		if err != nil {
+			projectRoot := filepath.Dir(filepath.Dir(s.uploadDir))
+			writeSyncLog(projectRoot, "new", start, len(allVehicles), []SyncLogEntry{{
+				Status:    "error",
+				ErrDetail: fmt.Sprintf("Ошибка получения списка новых авто (стр. %d): %v", page, err),
+			}})
 			return nil, err
 		}
 		metaInfo := "no meta"
@@ -289,7 +325,6 @@ func (s *Service) SyncNewVehicles() (*SyncResult, error) {
 			break
 		}
 		page++
-		time.Sleep(500 * time.Millisecond)
 	}
 
 	log.Printf("new vehicles list done: %d items, %d brands", len(allVehicles), brandCount)
@@ -450,12 +485,24 @@ func (s *Service) SyncUsedVehicles() (*SyncResult, error) {
 			log.Printf("used vehicles list error: giving up page %d: %v", page, err)
 			break
 		}
+		if page == 1 && resp.Filter != nil && len(resp.Filter.Models) > 0 {
+			if err := s.SyncUsedModels(resp.Filter.Models); err != nil {
+				log.Printf("sync used models error: %v", err)
+			}
+		}
+
 		metaInfo := "no meta"
 		if resp.Meta != nil {
 			metaInfo = fmt.Sprintf("page %d/%d, total %d", page, resp.Meta.PageCount, resp.Meta.TotalCount)
 		}
 		log.Printf("used page %d: %d items, %s", page, len(resp.Items), metaInfo)
 		for _, v := range resp.Items {
+			if v.ID == 1314264 {
+				continue
+			}
+			if v.Dealership == nil || !allowedUsedDealerships[v.Dealership.ID] {
+				continue
+			}
 			// Only include active vehicles (status 1: in stock, status 2: on way)
 			if v.Status != nil && v.Status.ID != statusInStock && v.Status.ID != statusOnWay {
 				continue
@@ -467,7 +514,6 @@ func (s *Service) SyncUsedVehicles() (*SyncResult, error) {
 			break
 		}
 		page++
-		time.Sleep(300 * time.Millisecond)
 	}
 
 	log.Printf("fetched %d used vehicles", len(allVehicles))
