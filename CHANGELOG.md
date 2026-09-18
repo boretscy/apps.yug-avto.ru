@@ -1,5 +1,12 @@
 # Changelog - apps.yug-avto.ru (Монолит / Go API)
 
+## [2026-09-18]
+### Fixed
+- **Учет стоимости дополнительного оборудования в цене (UAEP) с привязкой к ДЦ:**
+  - В Go-сервис (`internal/cis/service.go`) внедрен механизм кэширования и динамической проверки связок модели и дилерского центра из таблицы `yapps_app_cis_models_dealerships_uaep`.
+  - Добавлены потокобезопасный кэш `uaepModels` и метод `loadUAEP()`, автоматически обновляющийся в фоне каждые 10 секунд.
+  - В методах `processVehicle` и `saveVehicle` при активной связке `(model_id, dealership_code)` обеспечено корректное вычитание стоимости доп. оборудования (`AdditionalEquipmentPrice`) из итоговых цен `price` и `min_price`.
+
 ## [2026-09-17]
 ### Changed
 - **Оптимизация клиента AutoCRM и контроль дельты изменений (Rate Limiter 10.5s):**

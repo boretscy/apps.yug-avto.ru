@@ -92,6 +92,9 @@ type Service struct {
 
 	blockedUntilMu sync.RWMutex
 	blockedUntil   time.Time
+
+	uaepMu     sync.RWMutex
+	uaepModels map[string]bool // key: "modelID:dealershipCode" (e.g. "3107433:1334")
 }
 
 func NewService(db *sqlx.DB, crm *autocrm.Client, uploadDir, imageBaseURL, onnxModelPath string) *Service {
@@ -117,6 +120,7 @@ func NewService(db *sqlx.DB, crm *autocrm.Client, uploadDir, imageBaseURL, onnxM
 		driveCodes:        make(map[string]bool),
 		transmissionCodes: make(map[string]bool),
 		colorCodes:        make(map[string]bool),
+		uaepModels:        make(map[string]bool),
 	}
 }
 
@@ -126,6 +130,9 @@ func (s *Service) Init() error {
 	}
 	if err := s.loadReferenceCodes(); err != nil {
 		log.Printf("load reference codes error: %v", err)
+	}
+	if err := s.loadUAEP(); err != nil {
+		log.Printf("load UAEP error: %v", err)
 	}
 	if err := s.LoadTableNames(); err != nil {
 		return fmt.Errorf("load table names: %w", err)
@@ -140,6 +147,9 @@ func (s *Service) Init() error {
 			}
 			if err := s.loadReferenceCodes(); err != nil {
 				log.Printf("loadReferenceCodes background error: %v", err)
+			}
+			if err := s.loadUAEP(); err != nil {
+				log.Printf("loadUAEP background error: %v", err)
 			}
 		}
 	}()
@@ -276,6 +286,38 @@ func (s *Service) loadReferenceCodes() error {
 	s.refCodesMu.Unlock()
 
 	return nil
+}
+
+func (s *Service) loadUAEP() error {
+	type uaepRow struct {
+		ModelID        int `db:"model_id"`
+		DealershipCode int `db:"dealership_code"`
+	}
+	var rows []uaepRow
+	err := s.db.Select(&rows, `
+		SELECT u.model_id, d.code AS dealership_code
+		FROM yapps_app_cis_models_dealerships_uaep u
+		JOIN yapps_app_cis_dealerships d ON d.id = u.dealership_id
+	`)
+	if err != nil {
+		return err
+	}
+
+	m := make(map[string]bool, len(rows))
+	for _, r := range rows {
+		m[fmt.Sprintf("%d:%d", r.ModelID, r.DealershipCode)] = true
+	}
+
+	s.uaepMu.Lock()
+	s.uaepModels = m
+	s.uaepMu.Unlock()
+	return nil
+}
+
+func (s *Service) IsUAEPActive(modelID int, dealershipCode int) bool {
+	s.uaepMu.RLock()
+	defer s.uaepMu.RUnlock()
+	return s.uaepModels[fmt.Sprintf("%d:%d", modelID, dealershipCode)]
 }
 
 // SanitizeFilter validates and sanitizes incoming filter fields against reference dictionaries.
@@ -782,8 +824,12 @@ func (s *Service) processVehicle(raw *autocrm.VehicleRaw, section string) error 
 		if typeID == 2 && raw.RefModelID > 0 {
 			modelExtID = raw.RefModelID
 		}
-		if s.db.Get(&model, fmt.Sprintf("SELECT use_additional_equipment_in_price FROM %s WHERE ext_id = ?", modelTable), modelExtID) == nil {
-			if model.UseUAEP {
+		if s.db.Get(&model, fmt.Sprintf("SELECT id, ext_id, use_additional_equipment_in_price FROM %s WHERE ext_id = ?", modelTable), modelExtID) == nil {
+			dealershipCode := 0
+			if raw.Dealership != nil {
+				dealershipCode = raw.Dealership.ID
+			}
+			if (model.UseUAEP || s.IsUAEPActive(model.ID, dealershipCode)) && raw.AdditionalEquipmentPrice > 0 {
 				price -= raw.AdditionalEquipmentPrice
 				minPrice -= raw.AdditionalEquipmentPrice
 			}
@@ -916,7 +962,11 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 
 	price := raw.Price
 	minPrice := raw.MinPrice
-	if model.UseUAEP {
+	dealershipCode := 0
+	if raw.Dealership != nil {
+		dealershipCode = raw.Dealership.ID
+	}
+	if (model.UseUAEP || s.IsUAEPActive(model.ID, dealershipCode)) && raw.AdditionalEquipmentPrice > 0 {
 		price -= raw.AdditionalEquipmentPrice
 		minPrice -= raw.AdditionalEquipmentPrice
 	}
