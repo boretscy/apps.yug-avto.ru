@@ -127,13 +127,17 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 				ev.Mileage != mileage ||
 				ev.DealershipID != dealershipID
 
-			// Compare entire gallery (count, URLs, order)
+			// Compare entire gallery (count, URLs, order) and check presence of detailed specs
 			if !changed {
 				var oldRaw autocrm.VehicleRaw
 				if json.Unmarshal([]byte(ev.RawJSON), &oldRaw) == nil {
 					if !areImagesEqual(oldRaw.Images, v.Images) {
 						changed = true
+					} else if len(oldRaw.Specifications) == 0 && len(oldRaw.Options) == 0 {
+						changed = true
 					}
+				} else {
+					changed = true
 				}
 			}
 

@@ -393,7 +393,24 @@ func (s *Service) handleVehicle(w http.ResponseWriter, r *http.Request) {
 	// Parse raw autocrm JSON for detailed fields
 	var raw autocrm.VehicleRaw
 	if row.Raw != "" {
-		if err := json.Unmarshal([]byte(row.Raw), &raw); err == nil {
+		_ = json.Unmarshal([]byte(row.Raw), &raw)
+	}
+
+	// On-demand fetch if vehicle lacks specifications and options in DB
+	if len(raw.Specifications) == 0 && len(raw.Options) == 0 {
+		if _, _, _, syncErr := s.SyncVehicleDetail(row.ExtID, typeID, table); syncErr == nil {
+			var updatedRaw string
+			if s.db.Get(&updatedRaw, fmt.Sprintf("SELECT raw FROM %s WHERE ext_id = ?", table), row.ExtID) == nil && updatedRaw != "" {
+				row.Raw = updatedRaw
+				_ = json.Unmarshal([]byte(row.Raw), &raw)
+			}
+		} else {
+			log.Printf("on-demand sync vehicle %d failed: %v", row.ExtID, syncErr)
+		}
+	}
+
+	if row.Raw != "" {
+		if true {
 			origEquipment := ""
 			if raw.EquipmentName != "" {
 				origEquipment = raw.EquipmentName
@@ -455,18 +472,43 @@ func (s *Service) handleVehicle(w http.ResponseWriter, r *http.Request) {
 			}
 			resp["_specifications"] = specGroups
 
-			// Options (filter empty strings)
+			// Options (support both grouped format from AutoCRM detail and flat list)
 			options := make([]map[string]interface{}, 0)
-			nonEmptyOpts := make([]string, 0, len(raw.Options))
-			for _, o := range raw.Options {
-				if o != "" {
-					nonEmptyOpts = append(nonEmptyOpts, o)
+			if len(raw.RawOptions) > 0 {
+				type rawOptionGroup struct {
+					Group   string                 `json:"group"`
+					Options map[string]interface{} `json:"options"`
+				}
+				var groups []rawOptionGroup
+				if err := json.Unmarshal(raw.RawOptions, &groups); err == nil && len(groups) > 0 {
+					for _, g := range groups {
+						groupOpts := make([]string, 0, len(g.Options))
+						for _, optVal := range g.Options {
+							if s, ok := optVal.(string); ok && s != "" {
+								groupOpts = append(groupOpts, s)
+							}
+						}
+						if len(groupOpts) > 0 {
+							options = append(options, map[string]interface{}{
+								"group":   g.Group,
+								"options": groupOpts,
+							})
+						}
+					}
 				}
 			}
-			if len(nonEmptyOpts) > 0 {
-				options = append(options, map[string]interface{}{
-					"group": "Комплектация", "options": nonEmptyOpts,
-				})
+			if len(options) == 0 {
+				nonEmptyOpts := make([]string, 0, len(raw.Options))
+				for _, o := range raw.Options {
+					if o != "" {
+						nonEmptyOpts = append(nonEmptyOpts, o)
+					}
+				}
+				if len(nonEmptyOpts) > 0 {
+					options = append(options, map[string]interface{}{
+						"group": "Комплектация", "options": nonEmptyOpts,
+					})
+				}
 			}
 			resp["options"] = options
 
