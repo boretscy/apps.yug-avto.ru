@@ -156,14 +156,18 @@ func (s *Service) rowToVehicleFull(row *VehicleRow, typeID int, images []ImageRe
 			}
 		}
 	}
-	if len(imgs) == 0 && body.Code != "" {
+	if len(imgs) == 0 {
+		bodyCode := body.Code
+		if bodyCode == "" {
+			bodyCode = "crossover"
+		}
 		base := s.imageBaseURL + "/upload/Cis/bodies"
 		imgs = append(imgs, ImageResp{
 			ID:           "0",
-			Detail:       fmt.Sprintf("%s/%s.jpg", base, body.Code),
-			Preview:      fmt.Sprintf("%s/%s_sm.jpg", base, body.Code),
-			PreviewLarge: fmt.Sprintf("%s/%s.jpg", base, body.Code),
-			PreviewSmall: fmt.Sprintf("%s/%s_sm.jpg", base, body.Code),
+			Detail:       fmt.Sprintf("%s/%s.jpg", base, bodyCode),
+			Preview:      fmt.Sprintf("%s/%s_sm.jpg", base, bodyCode),
+			PreviewLarge: fmt.Sprintf("%s/%s.jpg", base, bodyCode),
+			PreviewSmall: fmt.Sprintf("%s/%s_sm.jpg", base, bodyCode),
 		})
 	}
 
