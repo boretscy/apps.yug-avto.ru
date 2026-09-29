@@ -396,18 +396,6 @@ func (s *Service) handleVehicle(w http.ResponseWriter, r *http.Request) {
 		_ = json.Unmarshal([]byte(row.Raw), &raw)
 	}
 
-	// On-demand fetch if vehicle lacks specifications and options in DB
-	if len(raw.Specifications) == 0 && len(raw.Options) == 0 {
-		if _, _, _, syncErr := s.SyncVehicleDetail(row.ExtID, typeID, table); syncErr == nil {
-			var updatedRaw string
-			if s.db.Get(&updatedRaw, fmt.Sprintf("SELECT raw FROM %s WHERE ext_id = ?", table), row.ExtID) == nil && updatedRaw != "" {
-				row.Raw = updatedRaw
-				_ = json.Unmarshal([]byte(row.Raw), &raw)
-			}
-		} else {
-			log.Printf("on-demand sync vehicle %d failed: %v", row.ExtID, syncErr)
-		}
-	}
 
 	if row.Raw != "" {
 		if true {
