@@ -975,6 +975,14 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 	transmissionCode := resolveComparison(s.comparisons, "transmissions", extractGeneral(raw.General, "Трансмиссия"))
 	driveCode := resolveComparison(s.comparisons, "drives", extractSpec(raw.Specifications, 11))
 	bodyCode := resolveBody(s.comparisons, raw.BodyType, model.Name)
+	if bodyCode == "" && model.BodyID > 0 {
+		for _, b := range s.bodies {
+			if b.ID == model.BodyID {
+				bodyCode = b.Code
+				break
+			}
+		}
+	}
 	colorCode := resolveComparison(s.comparisons, "colors", extractGeneral(raw.General, "Цвет"))
 
 	// Resolve comparison ValueID → actual code from reference table
@@ -987,6 +995,10 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 				}
 			}
 		}
+	}
+	if bodyCode == "" {
+		// Fallback: кроссоверы и внедорожники как самый частый тип для новых китайских авто
+		bodyCode = "crossover"
 	}
 	if engineCode != "" {
 		if id, err := strconv.Atoi(engineCode); err == nil {
