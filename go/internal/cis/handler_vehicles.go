@@ -161,6 +161,15 @@ func (s *Service) handleVehicles(w http.ResponseWriter, r *http.Request) {
 
 	// Insert CTA cards if not getting by id
 	idParam := r.URL.Query().Get("id")
+	if idParam != "" && len(rows) == 1 {
+		if len(respItems) > 0 {
+			if vf, ok := respItems[0].(VehicleFull); ok {
+				if len(vf.Specifications) == 0 {
+					s.EnqueuePriorityDetail(rows[0].ExtID, rows[0].TypeID)
+				}
+			}
+		}
+	}
 	if idParam == "" && len(respItems) > 0 {
 		perPage := f.PerPage
 		if perPage <= 0 {
@@ -448,6 +457,10 @@ func (s *Service) handleVehicle(w http.ResponseWriter, r *http.Request) {
 				})
 			}
 			resp["specifications"] = specs
+
+			if len(specs) == 0 && len(raw.Options) == 0 {
+				s.EnqueuePriorityDetail(row.ExtID, row.TypeID)
+			}
 
 			// Split specs into 2 groups for 2-column layout
 			specGroups := make([][]map[string]string, 0, 2)

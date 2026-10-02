@@ -54,6 +54,22 @@ func areImagesEqual(oldImgs, newImgs []autocrm.ImageInfo) bool {
 	return true
 }
 
+func hasSpecs(rawJSON string) bool {
+	if rawJSON == "" {
+		return false
+	}
+	var raw struct {
+		Specifications []interface{}   `json:"specifications"`
+		Options        []interface{}   `json:"options"`
+		RawOptions     json.RawMessage `json:"raw_options"`
+	}
+	if json.Unmarshal([]byte(rawJSON), &raw) != nil {
+		return false
+	}
+	return len(raw.Specifications) > 0 || len(raw.Options) > 0 || len(raw.RawOptions) > 0
+}
+
+
 func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResult {
 	result := &SyncResult{Total: len(items)}
 	result.LogEntries = make([]SyncLogEntry, 0, len(items))
@@ -91,6 +107,12 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 		if err == nil {
 			for _, ev := range existingCron {
 				ev.FromCron = true
+				if prev, ok := existingMap[ev.ExtID]; ok {
+					// Если в prodTable уже есть характеристики, а в cronTable их нет — не понижаем полноту данных
+					if hasSpecs(prev.RawJSON) && !hasSpecs(ev.RawJSON) {
+						continue
+					}
+				}
 				existingMap[ev.ExtID] = ev
 			}
 		}
@@ -189,18 +211,38 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 	const maxDetailPerSync = 15
 	detailQueue := toSync
 	if len(detailQueue) > maxDetailPerSync {
-		// Remaining vehicles are already saved with basic data
-		for _, v := range detailQueue[maxDetailPerSync:] {
-			result.OK++
-			result.LogEntries = append(result.LogEntries, SyncLogEntry{
-				ID:       v.ID,
-				VIN:      v.Vin,
-				Duration: 0,
-				Status:   "ok",
-			})
+		// Приоритезируем автомобили, у которых характеристик вообще нет в базе данных
+		var withoutSpecs []autocrm.VehicleRaw
+		var withSpecs []autocrm.VehicleRaw
+		for _, v := range toSync {
+			ev, exists := existingMap[v.ID]
+			if !exists || !hasSpecs(ev.RawJSON) {
+				withoutSpecs = append(withoutSpecs, v)
+			} else {
+				withSpecs = append(withSpecs, v)
+			}
 		}
-		detailQueue = detailQueue[:maxDetailPerSync]
-		log.Printf("sync: fetching details for batch of %d vehicles", len(detailQueue))
+
+		// Ротируем очередь без характеристик по текущему времени/минуте, чтобы очередь непрерывно продвигалась
+		var selected []autocrm.VehicleRaw
+		if len(withoutSpecs) > 0 {
+			offset := (int(time.Now().Unix()/120) * maxDetailPerSync) % len(withoutSpecs)
+			for i := 0; i < len(withoutSpecs) && len(selected) < maxDetailPerSync; i++ {
+				idx := (offset + i) % len(withoutSpecs)
+				selected = append(selected, withoutSpecs[idx])
+			}
+		}
+		if len(selected) < maxDetailPerSync && len(withSpecs) > 0 {
+			rem := maxDetailPerSync - len(selected)
+			if rem > len(withSpecs) {
+				rem = len(withSpecs)
+			}
+			selected = append(selected, withSpecs[:rem]...)
+		}
+
+		// Остальные автомобили уже сохранены с базовыми данными в saveVehicle
+		detailQueue = selected
+		log.Printf("sync: fetching details for batch of %d vehicles (%d without specs available)", len(detailQueue), len(withoutSpecs))
 	}
 
 	toSyncCh := make(chan autocrm.VehicleRaw, len(detailQueue))

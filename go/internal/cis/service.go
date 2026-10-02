@@ -95,7 +95,17 @@ type Service struct {
 
 	uaepMu     sync.RWMutex
 	uaepModels map[string]bool // key: "modelID:dealershipCode" (e.g. "3107433:1334")
+
+	priorityDetailCh chan priorityReq
+	priorityInQueue  map[int]bool
+	priorityMu       sync.Mutex
 }
+
+type priorityReq struct {
+	ExtID  int
+	TypeID int
+}
+
 
 func NewService(db *sqlx.DB, crm *autocrm.Client, uploadDir, imageBaseURL, onnxModelPath string) *Service {
 	var det *orientation.Detector
@@ -121,6 +131,8 @@ func NewService(db *sqlx.DB, crm *autocrm.Client, uploadDir, imageBaseURL, onnxM
 		transmissionCodes: make(map[string]bool),
 		colorCodes:        make(map[string]bool),
 		uaepModels:        make(map[string]bool),
+		priorityDetailCh:  make(chan priorityReq, 200),
+		priorityInQueue:   make(map[int]bool),
 	}
 }
 
@@ -153,6 +165,8 @@ func (s *Service) Init() error {
 			}
 		}
 	}()
+
+	s.startPriorityWorker()
 
 	return nil
 }
@@ -1060,6 +1074,9 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 	cronTable := tableName
 	var oldRawJSON string
 	s.db.Get(&oldRawJSON, "SELECT raw FROM "+s.apiTable()+" WHERE ext_id = ?", raw.ID)
+	if oldRawJSON == "" && cronTable != "" && cronTable != s.apiTable() {
+		s.db.Get(&oldRawJSON, "SELECT raw FROM "+cronTable+" WHERE ext_id = ?", raw.ID)
+	}
 	updateImages := true
 	if oldRawJSON != "" {
 		var oldRaw autocrm.VehicleRaw
@@ -1067,6 +1084,28 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 			oldJSON, _ := json.Marshal(oldRaw.Images)
 			newJSON, _ := json.Marshal(raw.Images)
 			updateImages = string(oldJSON) != string(newJSON)
+
+			// Если во входящем объекте нет характеристик, но в базе они уже были — сохраняем их
+			if len(raw.Specifications) == 0 && (len(oldRaw.Specifications) > 0 || len(oldRaw.Options) > 0 || len(oldRaw.RawOptions) > 0) {
+				raw.Specifications = oldRaw.Specifications
+				raw.Options = oldRaw.Options
+				raw.RawOptions = oldRaw.RawOptions
+				if raw.ModificationName == "" {
+					raw.ModificationName = oldRaw.ModificationName
+				}
+				if raw.EquipmentName == "" {
+					raw.EquipmentName = oldRaw.EquipmentName
+				}
+				if raw.GenerationName == "" {
+					raw.GenerationName = oldRaw.GenerationName
+				}
+				if len(raw.Discounts) == 0 {
+					raw.Discounts = oldRaw.Discounts
+				}
+				if raw.BodyType == "" {
+					raw.BodyType = oldRaw.BodyType
+				}
+			}
 		}
 	}
 
@@ -1405,4 +1444,48 @@ func (s *Service) setBlock(duration time.Duration) {
 	s.blockedUntilMu.Lock()
 	defer s.blockedUntilMu.Unlock()
 	s.blockedUntil = time.Now().Add(duration)
+}
+
+func (s *Service) EnqueuePriorityDetail(extID, typeID int) {
+	s.priorityMu.Lock()
+	defer s.priorityMu.Unlock()
+	if s.priorityInQueue[extID] {
+		return
+	}
+	select {
+	case s.priorityDetailCh <- priorityReq{ExtID: extID, TypeID: typeID}:
+		s.priorityInQueue[extID] = true
+	default:
+		// Queue full, drop
+	}
+}
+
+func (s *Service) startPriorityWorker() {
+	go func() {
+		for req := range s.priorityDetailCh {
+			if s.isBlocked() {
+				time.Sleep(10 * time.Second)
+			}
+			prodTable := s.apiTable()
+			cronTable := s.vehicleTable()
+
+			log.Printf("priority detail sync: ext_id=%d type_id=%d", req.ExtID, req.TypeID)
+			if prodTable != "" {
+				_, _, _, err := s.SyncVehicleDetail(req.ExtID, req.TypeID, prodTable)
+				if err != nil {
+					log.Printf("priority detail sync error (prod): %v", err)
+				}
+			}
+			if cronTable != "" && cronTable != prodTable {
+				_, _, _, err := s.SyncVehicleDetail(req.ExtID, req.TypeID, cronTable)
+				if err != nil {
+					log.Printf("priority detail sync error (cron): %v", err)
+				}
+			}
+
+			s.priorityMu.Lock()
+			delete(s.priorityInQueue, req.ExtID)
+			s.priorityMu.Unlock()
+		}
+	}()
 }
