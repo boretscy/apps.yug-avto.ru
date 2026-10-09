@@ -863,7 +863,12 @@
 			$this->MySQL->query('DELETE FROM yapps_app_widgets_urls WHERE widget_id = ?i', (int)$id);
 			$this->delEHItems($id);
 			
-			Helper::removeDirectory( __DIR__.'/../..'.$this->Conf->FileDir.'/'.$widget['public_key'] );
+			if ( !empty($widget['public_key']) && preg_match('/^[a-f0-9]{32}$/', $widget['public_key']) ) {
+				$widgetDir = __DIR__.'/../..'.$this->Conf->FileDir.'/'.$widget['public_key'];
+				if ( is_dir($widgetDir) ) {
+					Helper::removeDirectory( $widgetDir );
+				}
+			}
 			
 			return Helper::getRes(0);
 		}

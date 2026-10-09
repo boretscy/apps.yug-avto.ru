@@ -47,23 +47,26 @@
 		}
 		
 		public static function removeDirectory($dir) {
-	
-			if ($objs = glob($dir."/*")) {
+			$cleanDir = rtrim((string)$dir, '/\\');
+			if ( empty($cleanDir) || !is_dir($cleanDir) ) return;
+
+			// Защита от случайного удаления корня или базовых каталогов upload
+			$real = realpath($cleanDir);
+			$docRoot = realpath(__DIR__.'/../..');
+			if ( !$real || $real === '/' || $real === $docRoot || $real === $docRoot.'/upload' || $real === $docRoot.'/upload/Widgets' || $real === $docRoot.'/upload/Widgets3' ) {
+				return;
+			}
+
+			if ($objs = glob($cleanDir."/*")) {
 				foreach($objs as $obj) {
 					is_dir($obj) ? self::removeDirectory($obj) : unlink($obj);
 				}
 			}
-			rmdir($dir);
+			@rmdir($cleanDir);
 		}
 		
 		public static function rmDir($dir) {
-	
-			if ($objs = glob($dir."/*")) {
-				foreach($objs as $obj) {
-					is_dir($obj) ? self::rmDir($obj) : unlink($obj);
-				}
-			}
-			rmdir($dir);
+			self::removeDirectory($dir);
 		}
 		
 		public static function clearDir($dir) {
