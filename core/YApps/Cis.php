@@ -1437,7 +1437,7 @@
             // );
             if ( $activate ) {
                 $this->MySQL->query(
-                    'INSERT INTO yapps_app_cis_models_dealerships_uaep SET ?u', 
+                    'INSERT IGNORE INTO yapps_app_cis_models_dealerships_uaep SET ?u', 
                     [
                         'model_id' => $id,
                         'dealership_id' => $dc
@@ -1460,7 +1460,7 @@
             if ( $activate ) {
                 foreach ( $models as $model ) {
                     $this->MySQL->query(
-                        'INSERT INTO yapps_app_cis_models_dealerships_uaep SET ?u', 
+                        'INSERT IGNORE INTO yapps_app_cis_models_dealerships_uaep SET ?u', 
                         [
                             'model_id' => $model,
                             'dealership_id' => $dc
