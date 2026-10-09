@@ -308,50 +308,29 @@
 
 			if ( $POST['id'] ) $widget = $this->getWidgetById( $POST['id'] );
 			
-			if ( $FILES && $FILES['lg_image_back']['error'] == 0 && $arIns['public_key'] ) {
+			if ( !empty($arIns['public_key']) && preg_match('/^[a-f0-9]{32}$/', $arIns['public_key']) ) {
+				$widgetUploadDir = __DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key'];
 
-				if ( !file_exists(__DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key']) ) 
-					mkdir( __DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key'] );
-				if ( $POST['id'] ) unlink( __DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key'].'/'.explode('/', $widget['lg_image_back'])[6] );
-				
-				$arIns['lg_image_back'] = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$this->Conf->FileDir.'/'.$arIns['public_key'].'/'.$FILES['lg_image_back']['name'];
-				
-				$file = __DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key'].'/'.$FILES['lg_image_back']['name'];
-				move_uploaded_file( $FILES['lg_image_back']['tmp_name'], $file );
-			}
-			if ( $FILES && $FILES['lg_image_front']['error'] == 0 && $arIns['public_key'] ) {
+				$imageFields = ['lg_image_back', 'lg_image_front', 'cb_image_back', 'cb_image_front'];
+				foreach ( $imageFields as $field ) {
+					if ( $FILES && isset($FILES[$field]) && $FILES[$field]['error'] === 0 && !empty($FILES[$field]['name']) ) {
+						if ( !file_exists($widgetUploadDir) ) {
+							mkdir( $widgetUploadDir, 0775, true );
+						}
+						if ( !empty($POST['id']) && !empty($widget[$field]) ) {
+							$oldFileName = basename(parse_url($widget[$field], PHP_URL_PATH));
+							$oldFilePath = $widgetUploadDir.'/'.$oldFileName;
+							if ( !empty($oldFileName) && is_file($oldFilePath) ) {
+								@unlink( $oldFilePath );
+							}
+						}
 
-				if ( !file_exists(__DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key']) ) 
-					mkdir( __DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key'] );
-				if ( $POST['id'] ) unlink( __DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key'].'/'.explode('/', $widget['lg_image_front'])[6] );
-				
-				$arIns['lg_image_front'] = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$this->Conf->FileDir.'/'.$arIns['public_key'].'/'.$FILES['lg_image_front']['name'];
-				
-				$file = __DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key'].'/'.$FILES['lg_image_front']['name'];
-				move_uploaded_file( $FILES['lg_image_front']['tmp_name'], $file );
-			}
-
-			if ( $FILES && $FILES['cb_image_back']['error'] == 0 && $arIns['public_key'] ) {
-
-				if ( !file_exists(__DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key']) ) 
-					mkdir( __DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key'] );
-				if ( $POST['id'] ) unlink( __DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key'].'/'.explode('/', $widget['cb_image_back'])[6] );
-				
-				$arIns['cb_image_back'] = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$this->Conf->FileDir.'/'.$arIns['public_key'].'/'.$FILES['cb_image_back']['name'];
-				
-				$file = __DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key'].'/'.$FILES['cb_image_back']['name'];
-				move_uploaded_file( $FILES['cb_image_back']['tmp_name'], $file );
-			}
-			if ( $FILES && $FILES['cb_image_front']['error'] == 0 && $arIns['public_key'] ) {
-
-				if ( !file_exists(__DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key']) ) 
-					mkdir( __DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key'] );
-				if ( $POST['id'] ) unlink( __DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key'].'/'.explode('/', $widget['cb_image_front'])[6] );
-				
-				$arIns['cb_image_front'] = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$this->Conf->FileDir.'/'.$arIns['public_key'].'/'.$FILES['cb_image_front']['name'];
-				
-				$file = __DIR__.'/../..'.$this->Conf->FileDir.'/'.$arIns['public_key'].'/'.$FILES['cb_image_front']['name'];
-				move_uploaded_file( $FILES['cb_image_front']['tmp_name'], $file );
+						$destFile = $widgetUploadDir.'/'.$FILES[$field]['name'];
+						if ( move_uploaded_file( $FILES[$field]['tmp_name'], $destFile ) ) {
+							$arIns[$field] = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$this->Conf->FileDir.'/'.$arIns['public_key'].'/'.$FILES[$field]['name'];
+						}
+					}
+				}
 			}
 			
 			if ( $POST['id'] ) {
@@ -451,7 +430,12 @@
 			$this->MySQL->query('DELETE FROM yapps_goals WHERE widget_id = ?i', (int)$id);
 			$this->MySQL->query('DELETE FROM yapps_app_widgets_v3_urls WHERE widget_id = ?i', (int)$id);
 			
-			Helper::removeDirectory( __DIR__.'/../..'.$this->Conf->FileDir.'/'.$widget['public_key'] );
+			if ( !empty($widget['public_key']) && preg_match('/^[a-f0-9]{32}$/', $widget['public_key']) ) {
+				$widgetDir = __DIR__.'/../..'.$this->Conf->FileDir.'/'.$widget['public_key'];
+				if ( is_dir($widgetDir) ) {
+					Helper::removeDirectory( $widgetDir );
+				}
+			}
 			
 			return Helper::getRes(0);
 		}
