@@ -93,8 +93,9 @@ type Service struct {
 	blockedUntilMu sync.RWMutex
 	blockedUntil   time.Time
 
-	uaepMu     sync.RWMutex
-	uaepModels map[string]bool // key: "modelID:dealershipCode" (e.g. "3107433:1334")
+	uaepMu           sync.RWMutex
+	uaepModels       map[string]bool // key: "modelID:dealershipCode" (e.g. "3107433:1334")
+	uaepModelExtMap  map[int]int     // key: modelExtID -> internal modelID
 
 	priorityDetailCh chan priorityReq
 	priorityInQueue  map[int]bool
@@ -131,6 +132,7 @@ func NewService(db *sqlx.DB, crm *autocrm.Client, uploadDir, imageBaseURL, onnxM
 		transmissionCodes: make(map[string]bool),
 		colorCodes:        make(map[string]bool),
 		uaepModels:        make(map[string]bool),
+		uaepModelExtMap:   make(map[int]int),
 		priorityDetailCh:  make(chan priorityReq, 200),
 		priorityInQueue:   make(map[int]bool),
 	}
@@ -322,8 +324,20 @@ func (s *Service) loadUAEP() error {
 		m[fmt.Sprintf("%d:%d", r.ModelID, r.DealershipCode)] = true
 	}
 
+	type extRow struct {
+		ID    int `db:"id"`
+		ExtID int `db:"ext_id"`
+	}
+	var extRows []extRow
+	_ = s.db.Select(&extRows, "SELECT id, ext_id FROM yapps_app_cis_models_new WHERE ext_id > 0")
+	extMap := make(map[int]int, len(extRows))
+	for _, er := range extRows {
+		extMap[er.ExtID] = er.ID
+	}
+
 	s.uaepMu.Lock()
 	s.uaepModels = m
+	s.uaepModelExtMap = extMap
 	s.uaepMu.Unlock()
 	return nil
 }
@@ -332,6 +346,16 @@ func (s *Service) IsUAEPActive(modelID int, dealershipCode int) bool {
 	s.uaepMu.RLock()
 	defer s.uaepMu.RUnlock()
 	return s.uaepModels[fmt.Sprintf("%d:%d", modelID, dealershipCode)]
+}
+
+func (s *Service) IsUAEPActiveByExtID(modelExtID int, dealershipCode int) bool {
+	s.uaepMu.RLock()
+	defer s.uaepMu.RUnlock()
+	internalID := s.uaepModelExtMap[modelExtID]
+	if internalID == 0 {
+		return false
+	}
+	return s.uaepModels[fmt.Sprintf("%d:%d", internalID, dealershipCode)]
 }
 
 // SanitizeFilter validates and sanitizes incoming filter fields against reference dictionaries.

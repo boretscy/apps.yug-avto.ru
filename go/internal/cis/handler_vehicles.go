@@ -458,7 +458,8 @@ func (s *Service) handleVehicle(w http.ResponseWriter, r *http.Request) {
 			}
 			resp["specifications"] = specs
 
-			if len(specs) == 0 && len(raw.Options) == 0 {
+			isUAEPPending := row.TypeID == 1 && s.IsUAEPActive(row.ModelID, row.DealershipID) && !strings.Contains(row.Raw, `"additional_equipment_price"`)
+			if (len(specs) == 0 && len(raw.Options) == 0) || isUAEPPending {
 				s.EnqueuePriorityDetail(row.ExtID, row.TypeID)
 			}
 
