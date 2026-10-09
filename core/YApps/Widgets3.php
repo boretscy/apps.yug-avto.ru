@@ -396,7 +396,11 @@
 			if ( $this->isShutdownBySite($sets['site_id']) ) return false;
 			
 			$id = false;
-			if ( time() >= strtotime(date('Y-m-d').' '.$this->Conf->Defaults['CB']['work_start']) && time() <= strtotime(date('Y-m-d').' '.$this->Conf->Defaults['CB']['work_end']) ) {
+			$tz = new \DateTimeZone('Europe/Moscow');
+			$now = new \DateTime('now', $tz);
+			$start = new \DateTime('today ' . $this->Conf->Defaults['CB']['work_start'], $tz);
+			$end = new \DateTime('today ' . $this->Conf->Defaults['CB']['work_end'], $tz);
+			if ( $now >= $start && $now <= $end ) {
 				$ids = $this->MySQL->getCol(
 					'SELECT widget_id FROM yapps_app_widgets_v3_urls WHERE value = ?s',
 					( $this->YApps_GetLandIdByUrl( Helper::parseHostLink($url) ) ) ? Helper::parseHostLink($url) : Helper::parseWidgetURL($url)
@@ -515,7 +519,8 @@
 				$html['widgets']['CB'] = str_replace('%% WIDGET_TERM_PERSONAL %%', (($widget['CB']['term_personal'])?:$settings['term_personal']), $html['widgets']['CB']);
 				$html['widgets']['CB'] = str_replace('%% WIDGET_TERM_COMMUNICATIONS %%', (($widget['CB']['term_politic'])?:$settings['term_communications']), $html['widgets']['CB']);
 				$repl = '';
-				for ( $i = date('H'); $i < 20; $i++ ) $repl .= "<option value='".$i."' '.(($i==date('H'))?'selected':'').'>".$i."</option>";
+				$mskHour = (int)(new \DateTime('now', new \DateTimeZone('Europe/Moscow')))->format('H');
+				for ( $i = $mskHour; $i < 20; $i++ ) $repl .= "<option value='".$i."' ".(($i == $mskHour)?'selected':'').">".$i."</option>";
 				$html['widgets']['CB'] = str_replace('%% WIDGET_HOUR_OPTIONS %%', $repl, $html['widgets']['CB']);
 				
 				$html['widgets']['LG'] = str_replace('%% WIDGET_ID %%', $widget['LG']['id'], $html['widgets']['LG']);
