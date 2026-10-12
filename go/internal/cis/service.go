@@ -619,6 +619,30 @@ func (s *Service) IsOK() (bool, error) {
 			return false, nil
 		}
 	}
+	// Проверка корректности цен: недопустимы нулевые или отрицательные цены
+	var invalidPriceCount int
+	if err := s.db.Get(&invalidPriceCount, fmt.Sprintf("SELECT COUNT(*) FROM %s WHERE price <= 0", cron)); err != nil {
+		return false, fmt.Errorf("check invalid prices: %w", err)
+	}
+	if invalidPriceCount > 0 {
+		log.Printf("cron table has %d vehicles with non-positive prices, waiting for full sync", invalidPriceCount)
+		return false, nil
+	}
+
+	// Проверка полноты характеристик (specifications/options):
+	// В cronTable доля машин без характеристик не должна превышать prodTable
+	var cronMissingSpecs int
+	if err := s.db.Get(&cronMissingSpecs, fmt.Sprintf("SELECT COUNT(*) FROM %s WHERE raw_json NOT LIKE '%%\"specifications\"%%' AND raw_json NOT LIKE '%%\"options\"%%'", cron)); err != nil {
+		return false, fmt.Errorf("check cron missing specs: %w", err)
+	}
+	var prodMissingSpecs int
+	_ = s.db.Get(&prodMissingSpecs, fmt.Sprintf("SELECT COUNT(*) FROM %s WHERE raw_json NOT LIKE '%%\"specifications\"%%' AND raw_json NOT LIKE '%%\"options\"%%'", prod))
+
+	if cronMissingSpecs > prodMissingSpecs && cronMissingSpecs > 10 {
+		log.Printf("cron has %d vehicles without specs (prod has %d), waiting for details to complete", cronMissingSpecs, prodMissingSpecs)
+		return false, nil
+	}
+
 	return true, nil
 }
 
