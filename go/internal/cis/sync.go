@@ -40,7 +40,7 @@ type SyncResult struct {
 	EquipmentAlerts  []EquipmentAlert
 }
 
-const syncWorkers = 1
+const syncWorkers = 5
 
 func areImagesEqual(oldImgs, newImgs []autocrm.ImageInfo) bool {
 	if len(oldImgs) != len(newImgs) {
@@ -212,59 +212,12 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 
 	log.Printf("sync: %d/%d vehicles need detail sync (others copied from %s)", len(toSync), len(items), prodTable)
 
-	// Save all toSync vehicles immediately into cronTable with their current basic API data (including photos)
-	for _, v := range toSync {
-		s.saveVehicle(&v, typeID, cronTable)
-	}
-
 	if len(toSync) == 0 {
 		return result
 	}
 
-	// Limit detailed network requests per sync cycle to avoid stalling the cron pipeline
-	const maxDetailPerSync = 15
 	detailQueue := toSync
-	if len(detailQueue) > maxDetailPerSync {
-		// Приоритезируем автомобили:
-		// 1. У которых нет характеристик в базе
-		// 2. Новые авто с активным UAEP, у которых еще не получена стоимость доп. оборудования
-		var highPriority []autocrm.VehicleRaw
-		var normalPriority []autocrm.VehicleRaw
-		for _, v := range toSync {
-			ev, exists := existingMap[v.ID]
-			dcID := 0
-			if v.Dealership != nil {
-				dcID = v.Dealership.ID
-			}
-			isUAEPPending := typeID == 1 && s.IsUAEPActiveByExtID(v.ModelID, dcID) && (!exists || !strings.Contains(ev.RawJSON, `"additional_equipment_price"`))
-			if !exists || !hasSpecs(ev.RawJSON) || isUAEPPending {
-				highPriority = append(highPriority, v)
-			} else {
-				normalPriority = append(normalPriority, v)
-			}
-		}
-
-		// Ротируем очередь высокого приоритета по текущему времени/минуте, чтобы очередь непрерывно продвигалась
-		var selected []autocrm.VehicleRaw
-		if len(highPriority) > 0 {
-			offset := (int(time.Now().Unix()/120) * maxDetailPerSync) % len(highPriority)
-			for i := 0; i < len(highPriority) && len(selected) < maxDetailPerSync; i++ {
-				idx := (offset + i) % len(highPriority)
-				selected = append(selected, highPriority[idx])
-			}
-		}
-		if len(selected) < maxDetailPerSync && len(normalPriority) > 0 {
-			rem := maxDetailPerSync - len(selected)
-			if rem > len(normalPriority) {
-				rem = len(normalPriority)
-			}
-			selected = append(selected, normalPriority[:rem]...)
-		}
-
-		// Остальные автомобили уже сохранены с базовыми данными в saveVehicle
-		detailQueue = selected
-		log.Printf("sync: fetching details for batch of %d vehicles (%d high priority available)", len(detailQueue), len(highPriority))
-	}
+	log.Printf("sync: fetching full details for all %d vehicles needing update", len(detailQueue))
 
 	toSyncCh := make(chan autocrm.VehicleRaw, len(detailQueue))
 	for _, v := range detailQueue {

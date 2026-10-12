@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 	"sync"
 	"time"
 )
@@ -31,16 +32,16 @@ func createTransport() *http.Transport {
 	return tr
 }
 
-// Global rate limiting to respect AutoCRM WAF rules (<= 1 request per 10 seconds)
-const minRequestInterval = 10500 * time.Millisecond
+// Rate limiting for bulk listing endpoints (/vehicles/all, /tradein/vehicles) to respect AutoCRM WAF rules
+const minListRequestInterval = 10500 * time.Millisecond
 
 type Client struct {
-	baseURL      string
-	token        string
-	timeout      time.Duration
-	transport    *http.Transport
-	rateMu       sync.Mutex
-	lastRequest  time.Time
+	baseURL         string
+	token           string
+	timeout         time.Duration
+	transport       *http.Transport
+	listRateMu      sync.Mutex
+	lastListRequest time.Time
 }
 
 func NewClient(baseURL, token string) *Client {
@@ -52,17 +53,18 @@ func NewClient(baseURL, token string) *Client {
 	}
 }
 
-func (c *Client) throttle() {
-	c.rateMu.Lock()
-	defer c.rateMu.Unlock()
+// throttleList applies the 10.5s pause strictly to catalog listing endpoints
+func (c *Client) throttleList() {
+	c.listRateMu.Lock()
+	defer c.listRateMu.Unlock()
 
 	now := time.Now()
-	elapsed := now.Sub(c.lastRequest)
-	if elapsed < minRequestInterval && !c.lastRequest.IsZero() {
-		sleepDuration := minRequestInterval - elapsed
+	elapsed := now.Sub(c.lastListRequest)
+	if elapsed < minListRequestInterval && !c.lastListRequest.IsZero() {
+		sleepDuration := minListRequestInterval - elapsed
 		time.Sleep(sleepDuration)
 	}
-	c.lastRequest = time.Now()
+	c.lastListRequest = time.Now()
 }
 
 func (c *Client) clientWithTimeout(timeout time.Duration) *http.Client {
@@ -77,7 +79,10 @@ func (c *Client) clientWithTimeout(timeout time.Duration) *http.Client {
 }
 
 func (c *Client) request(path string, timeout time.Duration) ([]byte, error) {
-	c.throttle()
+	// Apply rate limiting only to bulk list queries
+	if strings.Contains(path, "/vehicles/all") || strings.Contains(path, "/tradein/vehicles") {
+		c.throttleList()
+	}
 
 	url := c.baseURL + path
 	req, err := http.NewRequest("GET", url, nil)
