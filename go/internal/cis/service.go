@@ -1076,7 +1076,14 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 
 	engineCode := resolveComparison(s.comparisons, "engines", extractGeneral(raw.General, "Двигатель"))
 	transmissionCode := resolveComparison(s.comparisons, "transmissions", extractGeneral(raw.General, "Трансмиссия"))
-	driveCode := resolveComparison(s.comparisons, "drives", extractSpec(raw.Specifications, 11))
+	driveVal := extractSpecByName(raw.Specifications, "Привод")
+	if driveVal == "" {
+		driveVal = extractSpec(raw.Specifications, 11)
+	}
+	driveCode := resolveComparison(s.comparisons, "drives", driveVal)
+	if driveCode == "" && raw.ModificationName != "" {
+		driveCode = resolveComparison(s.comparisons, "drives", raw.ModificationName)
+	}
 	bodyCode := resolveBody(s.comparisons, raw.BodyType, model.Name)
 	if bodyCode == "" && model.BodyID > 0 {
 		for _, b := range s.bodies {
@@ -1300,6 +1307,15 @@ func extractGeneral(general []autocrm.GeneralField, name string) string {
 func extractSpec(specs []autocrm.SpecField, index int) string {
 	if index < len(specs) {
 		return fmt.Sprintf("%v", specs[index].Value)
+	}
+	return ""
+}
+
+func extractSpecByName(specs []autocrm.SpecField, name string) string {
+	for _, s := range specs {
+		if strings.EqualFold(strings.TrimSpace(s.Name), name) {
+			return fmt.Sprintf("%v", s.Value)
+		}
 	}
 	return ""
 }
