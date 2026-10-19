@@ -158,8 +158,8 @@ func (s *Service) rowToVehicleFull(row *VehicleRow, typeID int, images []ImageRe
 	}
 	if len(imgs) == 0 {
 		bodyCode := body.Code
-		if bodyCode == "" {
-			bodyCode = "crossover"
+		if bodyCode == "" || bodyCode == "none" {
+			bodyCode = "none"
 		}
 		base := s.imageBaseURL + "/upload/Cis/bodies"
 		imgs = append(imgs, ImageResp{

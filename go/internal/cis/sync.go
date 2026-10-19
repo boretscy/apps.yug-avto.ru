@@ -86,6 +86,11 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 		OnWay             bool    `db:"onway"`
 		Mileage           int     `db:"mileage"`
 		DealershipID      int     `db:"dealership_id"`
+		Body              string  `db:"body"`
+		Drive             string  `db:"drive"`
+		Engine            string  `db:"engine"`
+		Transmission      string  `db:"transmission"`
+		Color             string  `db:"color"`
 		RawJSON           string  `db:"raw"`
 		FromCron          bool
 	}
@@ -93,7 +98,7 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 	var existing []existingVehicle
 	existingMap := make(map[int]existingVehicle)
 	if prodTable != "" {
-		err := s.db.Select(&existing, fmt.Sprintf("SELECT ext_id, price, min_price, instock, onway, mileage, dealership_id, raw FROM %s", prodTable))
+		err := s.db.Select(&existing, fmt.Sprintf("SELECT ext_id, price, min_price, instock, onway, mileage, dealership_id, body, drive, engine, transmission, color, raw FROM %s", prodTable))
 		if err == nil {
 			for _, ev := range existing {
 				ev.FromCron = false
@@ -103,7 +108,7 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 	}
 	if cronTable != "" {
 		var existingCron []existingVehicle
-		err := s.db.Select(&existingCron, fmt.Sprintf("SELECT ext_id, price, min_price, instock, onway, mileage, dealership_id, raw FROM %s", cronTable))
+		err := s.db.Select(&existingCron, fmt.Sprintf("SELECT ext_id, price, min_price, instock, onway, mileage, dealership_id, body, drive, engine, transmission, color, raw FROM %s", cronTable))
 		if err == nil {
 			for _, ev := range existingCron {
 				ev.FromCron = true
@@ -168,6 +173,14 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 						} else {
 							// Связка неактивна, но цена в базе была с вычетом допов
 							if ev.Price != v.Price || ev.MinPrice != v.MinPrice {
+								changed = true
+							}
+						}
+					}
+					// Если в базе кузов или привод пустые/неопределенные, а в сырых данных есть информация
+					if !changed {
+						if ev.Body == "" || ev.Body == "none" || ev.Drive == "" || ev.Drive == "none" {
+							if oldRaw.BodyType != "" || v.BodyType != "" || len(oldRaw.Specifications) > 0 {
 								changed = true
 							}
 						}

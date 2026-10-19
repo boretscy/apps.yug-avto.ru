@@ -1033,92 +1033,6 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 		minPrice -= raw.AdditionalEquipmentPrice
 	}
 
-	engineCode := resolveComparison(s.comparisons, "engines", extractGeneral(raw.General, "Двигатель"))
-	transmissionCode := resolveComparison(s.comparisons, "transmissions", extractGeneral(raw.General, "Трансмиссия"))
-	driveCode := resolveComparison(s.comparisons, "drives", extractSpec(raw.Specifications, 11))
-	bodyCode := resolveBody(s.comparisons, raw.BodyType, model.Name)
-	if bodyCode == "" && model.BodyID > 0 {
-		for _, b := range s.bodies {
-			if b.ID == model.BodyID {
-				bodyCode = b.Code
-				break
-			}
-		}
-	}
-	colorCode := resolveComparison(s.comparisons, "colors", extractGeneral(raw.General, "Цвет"))
-
-	// Resolve comparison ValueID → actual code from reference table
-	if bodyCode != "" {
-		if id, err := strconv.Atoi(bodyCode); err == nil {
-			for _, b := range s.bodies {
-				if b.ID == id {
-					bodyCode = b.Code
-					break
-				}
-			}
-		}
-	}
-	if bodyCode == "" {
-		// Fallback: кроссоверы и внедорожники как самый частый тип для новых китайских авто
-		bodyCode = "crossover"
-	}
-	if engineCode != "" {
-		if id, err := strconv.Atoi(engineCode); err == nil {
-			for _, e := range s.engines {
-				if e.ID == id {
-					engineCode = e.Code
-					break
-				}
-			}
-		}
-	}
-	if transmissionCode != "" {
-		if id, err := strconv.Atoi(transmissionCode); err == nil {
-			for _, t := range s.transmissions {
-				if t.ID == id {
-					transmissionCode = t.Code
-					break
-				}
-			}
-		}
-	}
-	if driveCode != "" {
-		if id, err := strconv.Atoi(driveCode); err == nil {
-			for _, d := range s.drives {
-				if d.ID == id {
-					driveCode = d.Code
-					break
-				}
-			}
-		}
-	}
-	if colorCode != "" {
-		if id, err := strconv.Atoi(colorCode); err == nil {
-			for _, c := range s.colors {
-				if c.ID == id {
-					colorCode = c.Code
-					break
-				}
-			}
-		}
-	}
-
-	volume, power := parseEngine(extractGeneral(raw.General, "Двигатель"))
-	year := parseIntField(raw.General, 4)
-	mileage := 0
-	if typeID == 2 {
-		mileage = parseIntField(raw.General, 5)
-	}
-
-	instock := raw.Status.ID == statusInStock
-	onway := raw.Status.ID == statusOnWay
-	discount := raw.Price > raw.MinPrice
-
-	created := parseDate(raw.VehicleEntryDate)
-	if created == 0 {
-		created = parseDate(raw.VehicleReceiptDate)
-	}
-
 	cronTable := tableName
 	var oldRawJSON string
 	s.db.Get(&oldRawJSON, "SELECT raw FROM "+s.apiTable()+" WHERE ext_id = ?", raw.ID)
@@ -1150,11 +1064,111 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 				if len(raw.Discounts) == 0 {
 					raw.Discounts = oldRaw.Discounts
 				}
-				if raw.BodyType == "" {
-					raw.BodyType = oldRaw.BodyType
+			}
+			if raw.BodyType == "" && oldRaw.BodyType != "" {
+				raw.BodyType = oldRaw.BodyType
+			}
+			if len(raw.General) == 0 && len(oldRaw.General) > 0 {
+				raw.General = oldRaw.General
+			}
+		}
+	}
+
+	engineCode := resolveComparison(s.comparisons, "engines", extractGeneral(raw.General, "Двигатель"))
+	transmissionCode := resolveComparison(s.comparisons, "transmissions", extractGeneral(raw.General, "Трансмиссия"))
+	driveCode := resolveComparison(s.comparisons, "drives", extractSpec(raw.Specifications, 11))
+	bodyCode := resolveBody(s.comparisons, raw.BodyType, model.Name)
+	if bodyCode == "" && model.BodyID > 0 {
+		for _, b := range s.bodies {
+			if b.ID == model.BodyID {
+				bodyCode = b.Code
+				break
+			}
+		}
+	}
+	colorCode := resolveComparison(s.comparisons, "colors", extractGeneral(raw.General, "Цвет"))
+
+	// Resolve comparison ValueID → actual code from reference table
+	if bodyCode != "" {
+		if id, err := strconv.Atoi(bodyCode); err == nil {
+			for _, b := range s.bodies {
+				if b.ID == id {
+					bodyCode = b.Code
+					break
 				}
 			}
 		}
+	}
+	if bodyCode == "" {
+		bodyCode = "none"
+	}
+	if engineCode != "" {
+		if id, err := strconv.Atoi(engineCode); err == nil {
+			for _, e := range s.engines {
+				if e.ID == id {
+					engineCode = e.Code
+					break
+				}
+			}
+		}
+	}
+	if engineCode == "" {
+		engineCode = "none"
+	}
+	if transmissionCode != "" {
+		if id, err := strconv.Atoi(transmissionCode); err == nil {
+			for _, t := range s.transmissions {
+				if t.ID == id {
+					transmissionCode = t.Code
+					break
+				}
+			}
+		}
+	}
+	if transmissionCode == "" {
+		transmissionCode = "none"
+	}
+	if driveCode != "" {
+		if id, err := strconv.Atoi(driveCode); err == nil {
+			for _, d := range s.drives {
+				if d.ID == id {
+					driveCode = d.Code
+					break
+				}
+			}
+		}
+	}
+	if driveCode == "" {
+		driveCode = "none"
+	}
+	if colorCode != "" {
+		if id, err := strconv.Atoi(colorCode); err == nil {
+			for _, c := range s.colors {
+				if c.ID == id {
+					colorCode = c.Code
+					break
+				}
+			}
+		}
+	}
+	if colorCode == "" {
+		colorCode = "none"
+	}
+
+	volume, power := parseEngine(extractGeneral(raw.General, "Двигатель"))
+	year := parseIntField(raw.General, 4)
+	mileage := 0
+	if typeID == 2 {
+		mileage = parseIntField(raw.General, 5)
+	}
+
+	instock := raw.Status.ID == statusInStock
+	onway := raw.Status.ID == statusOnWay
+	discount := raw.Price > raw.MinPrice
+
+	created := parseDate(raw.VehicleEntryDate)
+	if created == 0 {
+		created = parseDate(raw.VehicleReceiptDate)
 	}
 
 	// Preserve use_internal_images from prod table (carry over if already processed)
