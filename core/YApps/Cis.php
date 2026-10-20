@@ -239,6 +239,10 @@
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            if ( !empty($this->Conf->proxy) ) {
+                curl_setopt($curl, CURLOPT_PROXY, $this->Conf->proxy);
+            }
+            curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
             if ( $timeout ) curl_setopt($curl, CURLOPT_TIMEOUT, $this->Conf->cURL_timeout);
             curl_setopt($curl, CURLOPT_HTTPHEADER, [
                 'Content-Type: application/json',

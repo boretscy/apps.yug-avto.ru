@@ -1,5 +1,12 @@
 # Changelog - apps.yug-avto.ru (Монолит / Go API)
 
+## [2026-10-20]
+### Fixed
+- **Восстановление работы сырых данных AutoCRM в PHP-монолите (`/cis/autocrm/`):**
+  - **Маршрутизация cURL через SOCKS5-прокси холдинга (`core/YApps/Cis.php`):** Из-за блокировки WAF ServicePipe прямого IP-адреса сервера `yapps` (`46.29.9.98`, HTTP 403 Forbidden) в метод `Cis::request()` добавлена поддержка SOCKS5-прокси (`CURLOPT_PROXY`) и браузерный User-Agent.
+  - **Конфигурация модуля Cis (`core/YApps/Configs/App/Cis.php`):** Добавлен параметр `'proxy' => 'socks5h://127.0.0.1:1080'` для использования существующего защищенного туннеля.
+  - **Защита шаблона от невалидных ответов API (`views/cis/layouts/lists/_autocrm.php`):** Добавлена строгая проверка и инициализация массивов `$arRes['items']` и `$arRes['dealerships']` для предотвращения ошибок типов в PHP 8.x.
+
 ## [2026-10-19]
 ### Fixed
 - **Динамический резолв привода (`drive`) в Go API (`internal/cis/service.go`):**
