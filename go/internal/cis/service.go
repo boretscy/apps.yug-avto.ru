@@ -1286,13 +1286,19 @@ func resolveComparison(comparisons []Comparison, entity, value string) string {
 }
 
 func resolveBody(comparisons []Comparison, bodyType, modelName string) string {
+	if modelName != "" {
+		r := resolveComparison(comparisons, "bodies", modelName)
+		if r != "" {
+			return r
+		}
+	}
 	if bodyType != "" {
 		r := resolveComparison(comparisons, "bodies", bodyType)
 		if r != "" {
 			return r
 		}
 	}
-	return resolveComparison(comparisons, "bodies", modelName)
+	return ""
 }
 
 func extractGeneral(general []autocrm.GeneralField, name string) string {
