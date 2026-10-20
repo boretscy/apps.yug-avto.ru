@@ -23,7 +23,14 @@
         $arRes['title'] = 'Доступные бренды';
         $arRes['dealerships'] = $app->Cis->getDealershipsAutoCRM();
         break;
-} ?>
+} 
+if ( !isset($arRes['items']) || !is_array($arRes['items']) ) {
+    $arRes['items'] = [];
+}
+if ( !isset($arRes['dealerships']) || !is_array($arRes['dealerships']) ) {
+    $arRes['dealerships'] = [];
+}
+?>
 
 <div class="box box-primary">
             
