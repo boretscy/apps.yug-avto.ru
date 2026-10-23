@@ -8,8 +8,8 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/yugavto/apps/pkg/autocrm"
@@ -40,7 +40,11 @@ type SyncResult struct {
 	EquipmentAlerts  []EquipmentAlert
 }
 
-const syncWorkers = 5
+const (
+	syncWorkers           = 1
+	maxDetailBatch        = 20
+	detailRequestInterval = 600 * time.Millisecond
+)
 
 func areImagesEqual(oldImgs, newImgs []autocrm.ImageInfo) bool {
 	if len(oldImgs) != len(newImgs) {
@@ -79,26 +83,27 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 
 	// Load existing vehicles basic fields from prodTable and cronTable
 	type existingVehicle struct {
-		ExtID             int     `db:"ext_id"`
-		Price             float64 `db:"price"`
-		MinPrice          float64 `db:"min_price"`
-		InStock           bool    `db:"instock"`
-		OnWay             bool    `db:"onway"`
-		Mileage           int     `db:"mileage"`
-		DealershipID      int     `db:"dealership_id"`
-		Body              string  `db:"body"`
-		Drive             string  `db:"drive"`
-		Engine            string  `db:"engine"`
-		Transmission      string  `db:"transmission"`
-		Color             string  `db:"color"`
-		RawJSON           string  `db:"raw"`
+		ExtID             int        `db:"ext_id"`
+		Price             float64    `db:"price"`
+		MinPrice          float64    `db:"min_price"`
+		InStock           bool       `db:"instock"`
+		OnWay             bool       `db:"onway"`
+		Mileage           int        `db:"mileage"`
+		DealershipID      int        `db:"dealership_id"`
+		Body              string     `db:"body"`
+		Drive             string     `db:"drive"`
+		Engine            string     `db:"engine"`
+		Transmission      string     `db:"transmission"`
+		Color             string     `db:"color"`
+		RawJSON           string     `db:"raw"`
+		SyncedAt          *time.Time `db:"synced_at"`
 		FromCron          bool
 	}
 
 	var existing []existingVehicle
 	existingMap := make(map[int]existingVehicle)
 	if prodTable != "" {
-		err := s.db.Select(&existing, fmt.Sprintf("SELECT ext_id, price, min_price, instock, onway, mileage, dealership_id, body, drive, engine, transmission, color, raw FROM %s", prodTable))
+		err := s.db.Select(&existing, fmt.Sprintf("SELECT ext_id, price, min_price, instock, onway, mileage, dealership_id, body, drive, engine, transmission, color, raw, synced_at FROM %s", prodTable))
 		if err == nil {
 			for _, ev := range existing {
 				ev.FromCron = false
@@ -108,7 +113,7 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 	}
 	if cronTable != "" {
 		var existingCron []existingVehicle
-		err := s.db.Select(&existingCron, fmt.Sprintf("SELECT ext_id, price, min_price, instock, onway, mileage, dealership_id, body, drive, engine, transmission, color, raw FROM %s", cronTable))
+		err := s.db.Select(&existingCron, fmt.Sprintf("SELECT ext_id, price, min_price, instock, onway, mileage, dealership_id, body, drive, engine, transmission, color, raw, synced_at FROM %s", cronTable))
 		if err == nil {
 			for _, ev := range existingCron {
 				ev.FromCron = true
@@ -229,76 +234,127 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 		return result
 	}
 
-	detailQueue := toSync
-	log.Printf("sync: fetching full details for all %d vehicles needing update", len(detailQueue))
-
-	toSyncCh := make(chan autocrm.VehicleRaw, len(detailQueue))
-	for _, v := range detailQueue {
-		toSyncCh <- v
+	type syncQueueItem struct {
+		vehicle  autocrm.VehicleRaw
+		syncedAt time.Time
+		isNew    bool
 	}
-	close(toSyncCh)
 
-	var mu sync.Mutex
-	var wg sync.WaitGroup
+	var queueItems []syncQueueItem
+	for _, v := range toSync {
+		ev, exists := existingMap[v.ID]
+		if !exists || ev.SyncedAt == nil {
+			queueItems = append(queueItems, syncQueueItem{
+				vehicle:  v,
+				syncedAt: time.Time{},
+				isNew:    !exists,
+			})
+		} else {
+			queueItems = append(queueItems, syncQueueItem{
+				vehicle:  v,
+				syncedAt: *ev.SyncedAt,
+				isNew:    false,
+			})
+		}
+	}
 
-	for range syncWorkers {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			for v := range toSyncCh {
-				if s.isBlocked() {
-					// Drain the queue to stop immediately
-					break
-				}
-				start := time.Now()
-				vin, updImg, alert, err := s.SyncVehicleDetail(v.ID, typeID, cronTable)
-				duration := time.Since(start)
+	// Сортировка: сначала новые авто, затем самые старые по дате синка
+	sort.Slice(queueItems, func(i, j int) bool {
+		if queueItems[i].isNew != queueItems[j].isNew {
+			return queueItems[i].isNew
+		}
+		return queueItems[i].syncedAt.Before(queueItems[j].syncedAt)
+	})
 
-				entry := SyncLogEntry{
-					ID:        v.ID,
-					VIN:       vin,
-					Duration:  duration,
-					Status:    "ok",
-					UpdateImg: updImg,
-				}
+	var detailQueue []autocrm.VehicleRaw
+	var deferredQueue []autocrm.VehicleRaw
 
-				mu.Lock()
-				if alert != nil {
-					result.EquipmentAlerts = append(result.EquipmentAlerts, *alert)
-				}
-				if err != nil {
-					isTimeout := duration > 9*time.Second || strings.Contains(strings.ToLower(err.Error()), "timeout") || strings.Contains(strings.ToLower(err.Error()), "deadline")
-					if isTimeout {
-						result.Timeouts++
-						entry.Status = "timeout"
-					} else {
-						result.Errors++
-						entry.Status = "error"
-						entry.ErrDetail = err.Error()
-					}
-					log.Printf("vehicle %d error: %v", v.ID, err)
+	for i, item := range queueItems {
+		if i < maxDetailBatch {
+			detailQueue = append(detailQueue, item.vehicle)
+		} else {
+			deferredQueue = append(deferredQueue, item.vehicle)
+		}
+	}
 
-					if strings.Contains(err.Error(), "status 403") || strings.Contains(err.Error(), "forbidden") {
-						log.Printf("DDoS-Guard block detected. Initiating cooldown...")
-						s.setBlock(3 * time.Minute)
-						// Drain the queue to stop immediately
-						for len(toSyncCh) > 0 {
-							<-toSyncCh
-						}
-					}
-				} else {
-					result.OK++
-					if updImg {
-						result.UpdatedImages++
-					}
-				}
-				result.LogEntries = append(result.LogEntries, entry)
-				mu.Unlock()
+	// Для автомобилей сверх лимита текущей пачки: если они уже есть в prodTable,
+	// копируем их в cronTable, чтобы не создавать дефицит в каталоге
+	for _, v := range deferredQueue {
+		if prodTable != "" {
+			_, err := s.db.Exec(fmt.Sprintf("INSERT INTO %s SELECT * FROM %s WHERE ext_id = ? ON DUPLICATE KEY UPDATE ext_id=ext_id", cronTable, prodTable), v.ID)
+			if err == nil {
+				result.OK++
+				result.LogEntries = append(result.LogEntries, SyncLogEntry{
+					ID:       v.ID,
+					VIN:      v.Vin,
+					Duration: 0,
+					Status:   "ok",
+				})
 			}
-		}()
+		}
 	}
 
-	wg.Wait()
+	log.Printf("sync: %d vehicles selected for detail batch (%d deferred/copied from %s)", len(detailQueue), len(deferredQueue), prodTable)
+
+	for _, v := range detailQueue {
+		if s.isBlocked() {
+			// Если сработал блок, для оставшихся в пачке копируем из prodTable
+			if prodTable != "" {
+				s.db.Exec(fmt.Sprintf("INSERT INTO %s SELECT * FROM %s WHERE ext_id = ? ON DUPLICATE KEY UPDATE ext_id=ext_id", cronTable, prodTable), v.ID)
+			}
+			continue
+		}
+
+		start := time.Now()
+		vin, updImg, alert, err := s.SyncVehicleDetail(v.ID, typeID, cronTable)
+		duration := time.Since(start)
+
+		entry := SyncLogEntry{
+			ID:        v.ID,
+			VIN:       vin,
+			Duration:  duration,
+			Status:    "ok",
+			UpdateImg: updImg,
+		}
+
+		if alert != nil {
+			result.EquipmentAlerts = append(result.EquipmentAlerts, *alert)
+		}
+
+		if err != nil {
+			isTimeout := duration > 9*time.Second || strings.Contains(strings.ToLower(err.Error()), "timeout") || strings.Contains(strings.ToLower(err.Error()), "deadline")
+			if isTimeout {
+				result.Timeouts++
+				entry.Status = "timeout"
+			} else {
+				result.Errors++
+				entry.Status = "error"
+				entry.ErrDetail = err.Error()
+			}
+			log.Printf("vehicle %d error: %v", v.ID, err)
+
+			// Если произошла ошибка, сохраняем версию из prodTable, чтобы не потерять авто
+			if prodTable != "" {
+				s.db.Exec(fmt.Sprintf("INSERT INTO %s SELECT * FROM %s WHERE ext_id = ? ON DUPLICATE KEY UPDATE ext_id=ext_id", cronTable, prodTable), v.ID)
+			}
+
+			if strings.Contains(err.Error(), "status 403") || strings.Contains(err.Error(), "forbidden") {
+				log.Printf("DDoS-Guard block detected. Initiating cooldown...")
+				s.setBlock(3 * time.Minute)
+			}
+		} else {
+			result.OK++
+			if updImg {
+				result.UpdatedImages++
+			}
+		}
+
+		result.LogEntries = append(result.LogEntries, entry)
+
+		// Пауза между детальными запросами для защиты от WAF ServicePipe
+		time.Sleep(detailRequestInterval)
+	}
+
 	return result
 }
 

@@ -632,11 +632,11 @@ func (s *Service) IsOK() (bool, error) {
 	// Проверка полноты характеристик (specifications/options):
 	// В cronTable доля машин без характеристик не должна превышать prodTable
 	var cronMissingSpecs int
-	if err := s.db.Get(&cronMissingSpecs, fmt.Sprintf("SELECT COUNT(*) FROM %s WHERE raw_json NOT LIKE '%%\"specifications\"%%' AND raw_json NOT LIKE '%%\"options\"%%'", cron)); err != nil {
+	if err := s.db.Get(&cronMissingSpecs, fmt.Sprintf("SELECT COUNT(*) FROM %s WHERE raw NOT LIKE '%%\"specifications\"%%' AND raw NOT LIKE '%%\"options\"%%'", cron)); err != nil {
 		return false, fmt.Errorf("check cron missing specs: %w", err)
 	}
 	var prodMissingSpecs int
-	_ = s.db.Get(&prodMissingSpecs, fmt.Sprintf("SELECT COUNT(*) FROM %s WHERE raw_json NOT LIKE '%%\"specifications\"%%' AND raw_json NOT LIKE '%%\"options\"%%'", prod))
+	_ = s.db.Get(&prodMissingSpecs, fmt.Sprintf("SELECT COUNT(*) FROM %s WHERE raw NOT LIKE '%%\"specifications\"%%' AND raw NOT LIKE '%%\"options\"%%'", prod))
 
 	if cronMissingSpecs > prodMissingSpecs && cronMissingSpecs > 10 {
 		log.Printf("cron has %d vehicles without specs (prod has %d), waiting for details to complete", cronMissingSpecs, prodMissingSpecs)
