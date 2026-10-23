@@ -1046,6 +1046,14 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 			oldJSON, _ := json.Marshal(oldRaw.Images)
 			newJSON, _ := json.Marshal(raw.Images)
 			updateImages = string(oldJSON) != string(newJSON)
+			if !updateImages && len(raw.Images) > 0 {
+				var dbImgCount int
+				if err := s.db.Get(&dbImgCount, "SELECT COUNT(*) FROM yapps_app_cis_images WHERE ext_id = ?", raw.ID); err == nil {
+					if dbImgCount != len(raw.Images) {
+						updateImages = true
+					}
+				}
+			}
 
 			// Если во входящем объекте нет характеристик, но в базе они уже были — сохраняем их
 			if len(raw.Specifications) == 0 && (len(oldRaw.Specifications) > 0 || len(oldRaw.Options) > 0 || len(oldRaw.RawOptions) > 0) {
