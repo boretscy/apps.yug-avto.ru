@@ -8,7 +8,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"sort"
 	"strings"
 	"time"
 
@@ -42,7 +41,6 @@ type SyncResult struct {
 
 const (
 	syncWorkers           = 1
-	maxDetailBatch        = 20
 	detailRequestInterval = 600 * time.Millisecond
 )
 
@@ -234,73 +232,10 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 		return result
 	}
 
-	type syncQueueItem struct {
-		vehicle  autocrm.VehicleRaw
-		syncedAt time.Time
-		isNew    bool
-	}
-
-	var queueItems []syncQueueItem
 	for _, v := range toSync {
-		ev, exists := existingMap[v.ID]
-		if !exists || ev.SyncedAt == nil {
-			queueItems = append(queueItems, syncQueueItem{
-				vehicle:  v,
-				syncedAt: time.Time{},
-				isNew:    !exists,
-			})
-		} else {
-			queueItems = append(queueItems, syncQueueItem{
-				vehicle:  v,
-				syncedAt: *ev.SyncedAt,
-				isNew:    false,
-			})
-		}
-	}
-
-	// Сортировка: сначала новые авто, затем самые старые по дате синка
-	sort.Slice(queueItems, func(i, j int) bool {
-		if queueItems[i].isNew != queueItems[j].isNew {
-			return queueItems[i].isNew
-		}
-		return queueItems[i].syncedAt.Before(queueItems[j].syncedAt)
-	})
-
-	var detailQueue []autocrm.VehicleRaw
-	var deferredQueue []autocrm.VehicleRaw
-
-	for i, item := range queueItems {
-		if i < maxDetailBatch {
-			detailQueue = append(detailQueue, item.vehicle)
-		} else {
-			deferredQueue = append(deferredQueue, item.vehicle)
-		}
-	}
-
-	// Для автомобилей сверх лимита текущей пачки: если они уже есть в prodTable,
-	// копируем их в cronTable, чтобы не создавать дефицит в каталоге
-	for _, v := range deferredQueue {
-		if prodTable != "" {
-			_, err := s.db.Exec(fmt.Sprintf("INSERT INTO %s SELECT * FROM %s WHERE ext_id = ? ON DUPLICATE KEY UPDATE ext_id=ext_id", cronTable, prodTable), v.ID)
-			if err == nil {
-				result.OK++
-				result.LogEntries = append(result.LogEntries, SyncLogEntry{
-					ID:       v.ID,
-					VIN:      v.Vin,
-					Duration: 0,
-					Status:   "ok",
-				})
-			}
-		}
-	}
-
-	log.Printf("sync: %d vehicles selected for detail batch (%d deferred/copied from %s)", len(detailQueue), len(deferredQueue), prodTable)
-
-	for _, v := range detailQueue {
 		if s.isBlocked() {
-			// Если сработал блок, для оставшихся в пачке копируем из prodTable
 			if prodTable != "" {
-				s.db.Exec(fmt.Sprintf("INSERT INTO %s SELECT * FROM %s WHERE ext_id = ? ON DUPLICATE KEY UPDATE ext_id=ext_id", cronTable, prodTable), v.ID)
+				s.db.Exec(fmt.Sprintf("INSERT IGNORE INTO %s SELECT * FROM %s WHERE ext_id = ?", cronTable, prodTable), v.ID)
 			}
 			continue
 		}
@@ -335,7 +270,7 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 
 			// Если произошла ошибка, сохраняем версию из prodTable, чтобы не потерять авто
 			if prodTable != "" {
-				s.db.Exec(fmt.Sprintf("INSERT INTO %s SELECT * FROM %s WHERE ext_id = ? ON DUPLICATE KEY UPDATE ext_id=ext_id", cronTable, prodTable), v.ID)
+				s.db.Exec(fmt.Sprintf("INSERT IGNORE INTO %s SELECT * FROM %s WHERE ext_id = ?", cronTable, prodTable), v.ID)
 			}
 
 			if strings.Contains(err.Error(), "status 403") || strings.Contains(err.Error(), "forbidden") {
