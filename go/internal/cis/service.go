@@ -1554,22 +1554,49 @@ func (s *Service) startPriorityWorker() {
 			cronTable := s.vehicleTable()
 
 			log.Printf("priority detail sync: ext_id=%d type_id=%d", req.ExtID, req.TypeID)
-			if prodTable != "" {
-				_, _, _, err := s.SyncVehicleDetail(req.ExtID, req.TypeID, prodTable)
-				if err != nil {
-					log.Printf("priority detail sync error (prod): %v", err)
+
+			raw, err := s.crm.GetVehicleDetail(req.ExtID)
+			if err != nil {
+				log.Printf("priority detail fetch error (ext_id=%d): %v", req.ExtID, err)
+			} else {
+				canSave := true
+				if raw.Status == nil || (raw.Status.ID != statusInStock && raw.Status.ID != statusOnWay) {
+					canSave = false
 				}
-			}
-			if cronTable != "" && cronTable != prodTable {
-				_, _, _, err := s.SyncVehicleDetail(req.ExtID, req.TypeID, cronTable)
-				if err != nil {
-					log.Printf("priority detail sync error (cron): %v", err)
+				if req.TypeID == 2 {
+					if req.ExtID == 1314264 || raw.Dealership == nil || !allowedUsedDealerships[raw.Dealership.ID] {
+						canSave = false
+					}
+				} else if req.TypeID == 1 {
+					if raw.Dealership != nil && raw.Dealership.ID == 1514 {
+						canSave = false
+					}
+				}
+
+				if canSave {
+					if prodTable != "" {
+						_, alert, err := s.saveVehicle(raw, req.TypeID, prodTable)
+						if err != nil {
+							log.Printf("priority detail sync error (prod): %v", err)
+						}
+						if alert != nil {
+							log.Printf("priority detail alert: %s %s %s", alert.Brand, alert.Model, alert.Equipment)
+						}
+					}
+					if cronTable != "" && cronTable != prodTable {
+						_, _, err := s.saveVehicle(raw, req.TypeID, cronTable)
+						if err != nil {
+							log.Printf("priority detail sync error (cron): %v", err)
+						}
+					}
 				}
 			}
 
 			s.priorityMu.Lock()
 			delete(s.priorityInQueue, req.ExtID)
 			s.priorityMu.Unlock()
+
+			time.Sleep(600 * time.Millisecond)
 		}
 	}()
 }
