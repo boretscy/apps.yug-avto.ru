@@ -43,16 +43,15 @@ func (s *Service) ProcessImages() error {
 	var extIDs []int
 	err := s.db.Select(&extIDs, fmt.Sprintf(`
 		SELECT v.ext_id FROM %s v
-		LEFT JOIN yapps_app_cis_images i ON i.ext_id = v.ext_id
-			AND i.preview LIKE ? AND i.preview LIKE '%%.webp%%'
-		WHERE (v.update_images = 1 OR v.use_internal_images = 0
-			OR NOT EXISTS (SELECT 1 FROM yapps_app_cis_images w
-				WHERE w.ext_id = v.ext_id AND w.preview LIKE '%%.webp%%'))
-			AND v.raw IS NOT NULL AND v.raw != ''
-		GROUP BY v.ext_id
-		HAVING COUNT(i.id) = 0 OR MAX(v.update_images) = 1
+		WHERE (
+			v.update_images = 1 
+			OR v.use_internal_images = 0
+			OR NOT EXISTS (SELECT 1 FROM yapps_app_cis_images w WHERE w.ext_id = v.ext_id)
+			OR (JSON_LENGTH(v.raw, '$.images') > 0 AND (SELECT COUNT(*) FROM yapps_app_cis_images w WHERE w.ext_id = v.ext_id) != JSON_LENGTH(v.raw, '$.images'))
+		)
+		AND v.raw IS NOT NULL AND v.raw != ''
 		LIMIT ?
-	`, prodTable), s.imageBaseURL+"%", imagesBatchSize)
+	`, prodTable), imagesBatchSize)
 	if err != nil {
 		return fmt.Errorf("query vehicles needing images: %w", err)
 	}

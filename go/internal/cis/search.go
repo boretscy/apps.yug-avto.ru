@@ -3,6 +3,7 @@ package cis
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math"
 	"net/http"
 	"regexp"
@@ -560,13 +561,19 @@ func (s *Service) fillCounts(res *SearchResult) {
 
 	newF := res.Filter
 	newF.TypeID = 1
-	q, args, _ := s.BuildVehicleQuery(newF)
-	s.db.Get(&res.Counts.New, "SELECT COALESCE(COUNT(*), 0) FROM ("+q+") AS cnt", args...)
+	if cnt, err := s.CountVehicles(newF); err == nil {
+		res.Counts.New = cnt
+	} else {
+		log.Printf("fillCounts new error: %v", err)
+	}
 
 	usedF := res.Filter
 	usedF.TypeID = 2
-	q2, args2, _ := s.BuildVehicleQuery(usedF)
-	s.db.Get(&res.Counts.Used, "SELECT COALESCE(COUNT(*), 0) FROM ("+q2+") AS cnt", args2...)
+	if cnt, err := s.CountVehicles(usedF); err == nil {
+		res.Counts.Used = cnt
+	} else {
+		log.Printf("fillCounts used error: %v", err)
+	}
 }
 
 func parseHumanNumber(s string) float64 {
@@ -677,16 +684,21 @@ func (s *Service) handleSearch(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	if query == "" {
-		http.Error(w, `{"error":"missing q param"}`, http.StatusBadRequest)
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(`{"error":"missing q param"}`))
 		return
 	}
 
 	res, err := s.SearchVehicles(query)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Printf("handleSearch error: %v", err)
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(`{"error":"internal server error"}`))
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	json.NewEncoder(w).Encode(res)
 }

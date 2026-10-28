@@ -34,6 +34,8 @@ func main() {
 
 	c := cron.New(cron.WithChain(cron.SkipIfStillRunning(cron.DefaultLogger)))
 
+	var isProcessingImages atomic.Bool
+
 	runSync := func() {
 		log.Println("CIS new vehicles sync start")
 		newResult, err := cisSvc.SyncNewVehicles()
@@ -62,9 +64,16 @@ func main() {
 			}
 			log.Println("tables toggled")
 
-			if err := cisSvc.ProcessImages(); err != nil {
-				log.Printf("process images error: %v", err)
-			}
+			go func() {
+				if !isProcessingImages.CompareAndSwap(false, true) {
+					log.Println("images processing already in progress, skipping")
+					return
+				}
+				defer isProcessingImages.Store(false)
+				if err := cisSvc.ProcessImages(); err != nil {
+					log.Printf("process images error: %v", err)
+				}
+			}()
 		}
 	}
 

@@ -91,7 +91,7 @@ func (c *Client) request(path string, timeout time.Duration) ([]byte, error) {
 	}
 	req.Header.Set("Authorization", "Bearer "+c.token)
 	req.Header.Set("Accept", "application/json")
-	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; YugAvtoBot/1.0; +https://yug-avto.ru)")
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36")
 
 	cli := c.clientWithTimeout(timeout)
 	resp, err := cli.Do(req)

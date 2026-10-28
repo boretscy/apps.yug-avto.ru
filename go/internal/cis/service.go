@@ -1046,6 +1046,14 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 			oldJSON, _ := json.Marshal(oldRaw.Images)
 			newJSON, _ := json.Marshal(raw.Images)
 			updateImages = string(oldJSON) != string(newJSON)
+			if !updateImages && len(raw.Images) > 0 {
+				var dbImgCount int
+				if err := s.db.Get(&dbImgCount, "SELECT COUNT(*) FROM yapps_app_cis_images WHERE ext_id = ?", raw.ID); err == nil {
+					if dbImgCount != len(raw.Images) {
+						updateImages = true
+					}
+				}
+			}
 
 			// Если во входящем объекте нет характеристик, но в базе они уже были — сохраняем их
 			if len(raw.Specifications) == 0 && (len(oldRaw.Specifications) > 0 || len(oldRaw.Options) > 0 || len(oldRaw.RawOptions) > 0) {
@@ -1554,22 +1562,49 @@ func (s *Service) startPriorityWorker() {
 			cronTable := s.vehicleTable()
 
 			log.Printf("priority detail sync: ext_id=%d type_id=%d", req.ExtID, req.TypeID)
-			if prodTable != "" {
-				_, _, _, err := s.SyncVehicleDetail(req.ExtID, req.TypeID, prodTable)
-				if err != nil {
-					log.Printf("priority detail sync error (prod): %v", err)
+
+			raw, err := s.crm.GetVehicleDetail(req.ExtID)
+			if err != nil {
+				log.Printf("priority detail fetch error (ext_id=%d): %v", req.ExtID, err)
+			} else {
+				canSave := true
+				if raw.Status == nil || (raw.Status.ID != statusInStock && raw.Status.ID != statusOnWay) {
+					canSave = false
 				}
-			}
-			if cronTable != "" && cronTable != prodTable {
-				_, _, _, err := s.SyncVehicleDetail(req.ExtID, req.TypeID, cronTable)
-				if err != nil {
-					log.Printf("priority detail sync error (cron): %v", err)
+				if req.TypeID == 2 {
+					if req.ExtID == 1314264 || raw.Dealership == nil || !allowedUsedDealerships[raw.Dealership.ID] {
+						canSave = false
+					}
+				} else if req.TypeID == 1 {
+					if raw.Dealership != nil && raw.Dealership.ID == 1514 {
+						canSave = false
+					}
+				}
+
+				if canSave {
+					if prodTable != "" {
+						_, alert, err := s.saveVehicle(raw, req.TypeID, prodTable)
+						if err != nil {
+							log.Printf("priority detail sync error (prod): %v", err)
+						}
+						if alert != nil {
+							log.Printf("priority detail alert: %s %s %s", alert.Brand, alert.Model, alert.Equipment)
+						}
+					}
+					if cronTable != "" && cronTable != prodTable {
+						_, _, err := s.saveVehicle(raw, req.TypeID, cronTable)
+						if err != nil {
+							log.Printf("priority detail sync error (cron): %v", err)
+						}
+					}
 				}
 			}
 
 			s.priorityMu.Lock()
 			delete(s.priorityInQueue, req.ExtID)
 			s.priorityMu.Unlock()
+
+			time.Sleep(600 * time.Millisecond)
 		}
 	}()
 }
