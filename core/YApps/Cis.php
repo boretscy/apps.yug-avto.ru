@@ -2134,10 +2134,19 @@
             return $res['items'];
         } 
 
+        public function getVehicleAutoCRMUrl($id) {
+
+            return static::URL_BASE.static::URL_VEHICLES.($id ? '/'.$id : '');
+        }
+
         public function getVehicleAutoCRM($id) {
 
+            if ( empty($id) ) {
+                return false;
+            }
+
             $res = $this->request(
-                static::URL_BASE.static::URL_VEHICLES.'/'.$id,
+                $this->getVehicleAutoCRMUrl($id),
                 [],
                 true // включить сброс по таймауту
             );
