@@ -1,5 +1,13 @@
 # Changelog - apps.yug-avto.ru (Монолит / Go API)
 
+## [2026-11-03]
+### Added
+- **Вывод полного URL эндпоинта сырых данных AutoCRM на странице автомобиля (`core/YApps/Cis.php`, `views/cis/layouts/lists/_autocrm.php`):**
+  - В класс `Cis` добавлен публичный метод `getVehicleAutoCRMUrl($id)` для детерминированного формирования URL эндпоинта AutoCRM API (`https://autos.autocrm.ru/api/v1/vehicles/{id}`).
+  - В методе `getVehicleAutoCRM($id)` добавлена защита от пустого ID и вызов `getVehicleAutoCRMUrl($id)`.
+  - В представлении `/cis/autocrm/vehicle/` добавлен блок с полем `readonly` и кнопкой быстрого перехода в новой вкладке, выводящий полный URL эндпоинта AutoCRM API для просматриваемого автомобиля.
+  - Повышена стабильность шаблона под PHP 8.x: безопасное извлечение `vehicle_id`, защита от обращений к неопределенным ключам (`vin`) при ошибках API.
+
 ## [2026-10-23]
 ### Fixed
 - **Системное исправление синхронизации и обновления галерей изображений (`go/internal/cis/images.go`, `go/internal/cis/service.go`):**
