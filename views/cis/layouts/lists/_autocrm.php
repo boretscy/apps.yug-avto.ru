@@ -10,9 +10,12 @@
         break;
 
     case 'vehicle':
-        $get_id = !empty($currentRoute->id) ? $currentRoute->id : (!empty($_GET['vehicle_id']) ? $_GET['vehicle_id'] : null);
-        $rawEndpointUrl = $get_id ? $app->Cis->getVehicleAutoCRMUrl($get_id) : '';
-        $arRes = $get_id ? $app->Cis->getVehicleAutoCRM( $get_id ) : [];
+        $get_id = !empty($_GET['vehicle_id']) ? trim((string)$_GET['vehicle_id']) : (!empty($currentRoute->id) ? trim((string)$currentRoute->id) : null);
+        if ( !empty($get_id) && strpos($get_id, '?') !== false ) {
+            $get_id = explode('?', $get_id)[0];
+        }
+        $rawEndpointUrl = !empty($get_id) ? $app->Cis->getVehicleAutoCRMUrl($get_id) : '';
+        $arRes = !empty($get_id) ? $app->Cis->getVehicleAutoCRM( $get_id ) : [];
         if ( !is_array($arRes) ) {
             $arRes = [];
         }
