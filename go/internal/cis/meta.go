@@ -16,6 +16,7 @@ type SEORow struct {
 	Level           string `db:"level"`
 	Custom          string `db:"custom"`
 	MetaH1          string `db:"meta_h1"`
+	MetaH1City      string `db:"meta_h1_city"`
 	MetaTitle       string `db:"meta_title"`
 	MetaDescription string `db:"meta_description"`
 	SeoTitle        string `db:"seo_title"`
@@ -318,6 +319,9 @@ func (s *Service) buildCatalogMeta(r *http.Request, typeID int, filter VehicleFi
 	filterStr := strings.Join(filterParts, ", ")
 
 	inCity := "Краснодаре, Майкопе, Новороссийске и Яблоновском"
+	if seo != nil && strings.TrimSpace(seo.MetaH1City) != "" {
+		inCity = strings.TrimSpace(seo.MetaH1City)
+	}
 
 	now := time.Now()
 	months := []string{"январь", "февраль", "март", "апрель", "май", "июнь",
@@ -520,6 +524,10 @@ func (s *Service) buildVehicleMeta(r *http.Request, typeID int, row *VehicleRow,
 		if inCity != "" {
 			city = "в " + inCity
 		}
+	}
+	if seo != nil && strings.TrimSpace(seo.MetaH1City) != "" {
+		inCity = strings.TrimSpace(seo.MetaH1City)
+		city = "в " + inCity
 	}
 
 	replace := func(tmpl string) string {
