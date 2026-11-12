@@ -172,8 +172,10 @@ func (s *Service) buildCatalogMeta(r *http.Request, typeID int, filter VehicleFi
 	if site == "" {
 		site = r.Host
 	}
-	if site == "" || site == "apps.avatr-yugavto.ru" || site == "apps.yug-avto.ru" || strings.HasSuffix(site, "localhost") || strings.Contains(site, ":808") {
+	if site == "" || site == "apps.avatr-yugavto.ru" || site == "apps.yug-avto.ru" || site == "atest.yug-avto.ru" || site == "htest.yug-avto.ru" || strings.HasSuffix(site, "localhost") || strings.Contains(site, ":808") {
 		site = "yug-avto.ru"
+	} else if site == "etest.yug-avto.ru" {
+		site = "yug-avto-expert.ru"
 	}
 
 	entity := "new"
@@ -214,11 +216,13 @@ func (s *Service) buildCatalogMeta(r *http.Request, typeID int, filter VehicleFi
 		seo = s.querySEOTemplate(site, entity, level, "")
 	}
 
-	var metaH1, metaTitle, metaDescription string
+	var metaH1, metaTitle, metaDescription, seoTitle, seoText string
 	if seo != nil {
 		metaH1 = seo.MetaH1
 		metaTitle = seo.MetaTitle
 		metaDescription = seo.MetaDescription
+		seoTitle = seo.SeoTitle
+		seoText = seo.SeoText
 		_ = metaDescription
 	} else {
 		prefix := "Новые"
@@ -358,11 +362,15 @@ func (s *Service) buildCatalogMeta(r *http.Request, typeID int, filter VehicleFi
 		title = strings.TrimSpace(title) + fmt.Sprintf(" — Страница #%d", pageNum)
 	}
 	description := replace(metaDescription)
+	outSeoTitle := replace(seoTitle)
+	outSeoText := replace(seoText)
 
 	meta := map[string]interface{}{
 		"title":       title,
 		"description": description,
 		"h1":          h1,
+		"seo_title":   outSeoTitle,
+		"seo_text":    outSeoText,
 	}
 
 	res := map[string]interface{}{
@@ -394,8 +402,10 @@ func (s *Service) buildVehicleMeta(r *http.Request, typeID int, row *VehicleRow,
 	if site == "" {
 		site = r.Host
 	}
-	if site == "" || site == "apps.avatr-yugavto.ru" || site == "apps.yug-avto.ru" || strings.HasSuffix(site, "localhost") || strings.Contains(site, ":808") {
+	if site == "" || site == "apps.avatr-yugavto.ru" || site == "apps.yug-avto.ru" || site == "atest.yug-avto.ru" || site == "htest.yug-avto.ru" || strings.HasSuffix(site, "localhost") || strings.Contains(site, ":808") {
 		site = "yug-avto.ru"
+	} else if site == "etest.yug-avto.ru" {
+		site = "yug-avto-expert.ru"
 	}
 
 	entity := "new"
@@ -550,6 +560,8 @@ func (s *Service) buildVehicleMeta(r *http.Request, typeID int, row *VehicleRow,
 		"title":       replace(seo.MetaTitle),
 		"description": replace(seo.MetaDescription),
 		"h1":          replace(seo.MetaH1),
+		"seo_title":   replace(seo.SeoTitle),
+		"seo_text":    replace(seo.SeoText),
 		"image":       image,
 		"brand":       row.BrandName,
 		"price":       row.MinPrice,

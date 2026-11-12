@@ -1,5 +1,11 @@
 # Changelog - apps.yug-avto.ru (Монолит / Go API)
 
+## [2026-11-12]
+### Fixed
+- **Отдача `seo_title` и `seo_text` в Go API и маппинг DEV-доменов (`go/internal/cis/meta.go`):**
+  - В `buildCatalogMeta` и `buildVehicleMeta` добавлены извлечение `seo.SeoTitle` и `seo.SeoText`, подстановка макросов через `replace(...)` и возврат полей `seo_title` и `seo_text` в объекте `meta`.
+  - В маппинг `site` добавлена нормализация DEV-доменов `atest.yug-avto.ru` / `htest.yug-avto.ru` → `yug-avto.ru` и `etest.yug-avto.ru` → `yug-avto-expert.ru`.
+
 ## [2026-11-03]
 ### Added
 - **Вывод полного URL эндпоинта сырых данных AutoCRM на странице автомобиля (`core/YApps/Cis.php`, `views/cis/layouts/lists/_autocrm.php`):**
