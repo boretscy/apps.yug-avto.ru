@@ -71,6 +71,13 @@
 						'class' => ''
 					],
 					[
+						'type' => 'text',
+						'name' => 'meta_h1_city',
+						'placeholder' => 'H1 - города',
+						'value' => $arRes['meta_h1_city'] ?? '',
+						'description' => 'Если заполнено — выводится в H1 вместо стандартного списка городов и подставляется в {%city%} (с предлогом "в "). Например: Краснодаре'
+					],
+					[
 						'type' => 'textarea',
 						'name' => 'meta_title',
 						'placeholder' => 'Title',

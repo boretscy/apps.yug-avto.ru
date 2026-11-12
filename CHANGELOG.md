@@ -1,6 +1,12 @@
 # Changelog - apps.yug-avto.ru (Монолит / Go API)
 
 ## [2026-11-12]
+### Added
+- **Кастомное поле городов `meta_h1_city` (`views/cis/layouts/forms/_seo.php`, `go/internal/cis/meta.go`, БД `yapps_app_cis_seo`):**
+  - В таблицу `yapps_app_cis_seo` добавлена колонка `meta_h1_city VARCHAR(255) NOT NULL DEFAULT '' AFTER meta_h1`.
+  - В форму редактирования SEO (`/cis/seo/edit/<id>/`) после поля `meta_h1` добавлено поле `meta_h1_city` («H1 - города»).
+  - В `buildCatalogMeta` и `buildVehicleMeta` (`meta.go`) при заполненном `meta_h1_city` переопределяется `in_city` (подзаголовок H1 на витрине) и переменная `{%city%}` (`"в " + meta_h1_city`); при пустом значении используется стандартный список городов.
+
 ### Fixed
 - **Отдача `seo_title` и `seo_text` в Go API и маппинг DEV-доменов (`go/internal/cis/meta.go`):**
   - В `buildCatalogMeta` и `buildVehicleMeta` добавлены извлечение `seo.SeoTitle` и `seo.SeoText`, подстановка макросов через `replace(...)` и возврат полей `seo_title` и `seo_text` в объекте `meta`.
