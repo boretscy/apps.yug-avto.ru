@@ -29,14 +29,24 @@ type EquipmentAlert struct {
 	Equipment string `json:"equipment"`
 }
 
+type MissingModelAlert struct {
+	ID         int    `json:"id"`
+	VIN        string `json:"vin"`
+	Brand      string `json:"brand"`
+	BrandExtID int    `json:"brand_ext_id"`
+	RefModel   string `json:"ref_model"`
+	Dealership string `json:"dealership"`
+}
+
 type SyncResult struct {
-	Total            int
-	OK               int
-	Errors           int
-	Timeouts         int
-	UpdatedImages    int
-	LogEntries       []SyncLogEntry
-	EquipmentAlerts  []EquipmentAlert
+	Total              int
+	OK                 int
+	Errors             int
+	Timeouts           int
+	UpdatedImages      int
+	LogEntries         []SyncLogEntry
+	EquipmentAlerts    []EquipmentAlert
+	MissingModelAlerts []MissingModelAlert
 }
 
 const (
@@ -226,6 +236,25 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 		}
 	}
 
+	// Ensure vehicles known to have missing models in active alerts are prioritized in toSync for re-check
+	var knownMissingVINs []string
+	if s.db.Select(&knownMissingVINs, "SELECT REPLACE(alert_key, \x27model:\x27, \x27\x27) FROM yapps_app_cis_alert_history WHERE is_active = 1 AND alert_key LIKE \x27model:%\x27") == nil && len(knownMissingVINs) > 0 {
+		missingSet := make(map[string]bool, len(knownMissingVINs))
+		for _, vin := range knownMissingVINs {
+			missingSet[vin] = true
+		}
+		inToSync := make(map[int]bool, len(toSync))
+		for _, v := range toSync {
+			inToSync[v.ID] = true
+		}
+		for _, v := range items {
+			if missingSet[v.Vin] && !inToSync[v.ID] {
+				toSync = append(toSync, v)
+				inToSync[v.ID] = true
+			}
+		}
+	}
+
 	log.Printf("sync: %d/%d vehicles need detail sync (others copied from %s)", len(toSync), len(items), prodTable)
 
 	if len(toSync) == 0 {
@@ -241,7 +270,7 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 		}
 
 		start := time.Now()
-		vin, updImg, alert, err := s.SyncVehicleDetail(v.ID, typeID, cronTable)
+		vin, updImg, alert, missingModel, err := s.SyncVehicleDetail(v.ID, typeID, cronTable)
 		duration := time.Since(start)
 
 		entry := SyncLogEntry{
@@ -254,6 +283,9 @@ func (s *Service) syncVehicles(items []autocrm.VehicleRaw, typeID int) *SyncResu
 
 		if alert != nil {
 			result.EquipmentAlerts = append(result.EquipmentAlerts, *alert)
+		}
+		if missingModel != nil {
+			result.MissingModelAlerts = append(result.MissingModelAlerts, *missingModel)
 		}
 
 		if err != nil {
@@ -359,45 +391,130 @@ func (s *Service) SyncNewVehicles() (*SyncResult, error) {
 
 	log.Printf("new vehicles done: %d ok, %d err, %d timeout", result.OK, result.Errors, result.Timeouts)
 
-	if len(result.EquipmentAlerts) > 0 {
-		uniqueAlerts := make(map[string]EquipmentAlert)
-		for _, a := range result.EquipmentAlerts {
-			key := fmt.Sprintf("%s|%s|%s", a.Brand, a.Model, a.Equipment)
-			uniqueAlerts[key] = a
+	recipients := []string{
+		"yuliya.stolbovaya@yug-avto.ru",
+		"natalya.davidova@yug-avto.ru",
+		"nataliya.ivanova@yug-avto.ru",
+		"vera.golubeva@yug-avto.ru",
+		"viktoriya.lopatkina@yug-avto.ru",
+		"yuliya.davidyan@yug-avto.ru",
+		"darya.ermolaeva@yug-avto.ru",
+		"ekaterina.shepetilo@yug-avto.ru",
+		"yuliya.martinova@yug-avto.ru",
+		"elvina.maksimova@yug-avto.ru",
+		"yuliya.kudinova@yug-avto.ru",
+		"natalya.kobeleva@yug-avto.ru",
+		"anton.boreckiy@yug-avto.ru",
+	}
+
+	hasEquipmentAlerts := len(result.EquipmentAlerts) > 0
+	hasMissingModels := len(result.MissingModelAlerts) > 0
+
+	// Collect current alert keys to check throttling policy
+	currentAlertMap := make(map[string]string)
+	for _, m := range result.MissingModelAlerts {
+		currentAlertMap[fmt.Sprintf("model:%s", m.VIN)] = "missing_model"
+	}
+	for _, a := range result.EquipmentAlerts {
+		currentAlertMap[fmt.Sprintf("equip:%s|%s|%s", a.Brand, a.Model, a.Equipment)] = "english_equipment"
+	}
+
+	shouldSend, sendReason := s.shouldNotifyAlerts(currentAlertMap)
+
+	if (hasEquipmentAlerts || hasMissingModels) && shouldSend {
+		var text strings.Builder
+
+		if hasMissingModels {
+			uniqueMissing := make(map[int]MissingModelAlert)
+			for _, m := range result.MissingModelAlerts {
+				uniqueMissing[m.ID] = m
+			}
+
+			text.WriteString("<b>Внимание! Обнаружены новые автомобили с не указанной моделью (model_id отсутствует в AutoCRM):</b><br />\n")
+			text.WriteString("<i>Возможная причина: у API-ключа нет прав на модель в AutoCRM, либо модель не заведена в CRM-системе. Такие авто не выгружаются на витрину.</i><br /><br />\n")
+			text.WriteString(fmt.Sprintf("Количество автомобилей: %d<br />\n", len(uniqueMissing)))
+			text.WriteString("<table border=\"1\" cellpadding=\"5\" cellspacing=\"0\" style=\"border-collapse: collapse; font-family: sans-serif; font-size: 13px;\">\n")
+			text.WriteString("<tr style=\"background: #f2f2f2;\"><th>ID AutoCRM</th><th>VIN</th><th>ДЦ</th><th>Марка</th><th>Ожидаемая модель (RefModel)</th></tr>\n")
+			for _, m := range uniqueMissing {
+				text.WriteString(fmt.Sprintf("<tr><td>%d</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n",
+					m.ID, m.VIN, m.Dealership, m.Brand, m.RefModel))
+			}
+			text.WriteString("</table><br />\n")
+
+			// Формируем сгруппированный шаблон обращения в техподдержку AutoCRM
+			type brandModelKey struct {
+				Brand      string
+				BrandExtID int
+				RefModel   string
+			}
+			groupedModels := make(map[brandModelKey]bool)
+			for _, m := range uniqueMissing {
+				ref := m.RefModel
+				if ref == "" {
+					ref = "Не указана"
+				}
+				key := brandModelKey{
+					Brand:      m.Brand,
+					BrandExtID: m.BrandExtID,
+					RefModel:   ref,
+				}
+				groupedModels[key] = true
+			}
+
+			text.WriteString("<b>Шаблоны писем для отправки в техподдержку AutoCRM (support@autocrm.ru):</b><br /><br />\n")
+			apiBaseURL := s.crm.BaseURL()
+			maskedToken := ""
+			rawToken := s.crm.Token()
+			if len(rawToken) > 8 {
+				maskedToken = rawToken[:4] + "..." + rawToken[len(rawToken)-4:]
+			}
+
+			for bm := range groupedModels {
+				fullModelTitle := strings.TrimSpace(bm.Brand + " " + bm.RefModel)
+				brandModelsURL := fmt.Sprintf("%s/brands/%d/models", apiBaseURL, bm.BrandExtID)
+
+				text.WriteString("<div style=\"background: #f9f9f9; border-left: 4px solid #007bff; padding: 10px 15px; margin-bottom: 15px; font-family: monospace; font-size: 13px; line-height: 1.5;\">\n")
+				text.WriteString(fmt.Sprintf("<b>Тема:</b> Права на модель %s<br /><br />\n", fullModelTitle))
+				text.WriteString("Добрый день.<br /><br />\n")
+				text.WriteString(fmt.Sprintf("Нам нужны права на модель %s<br /><br />\n", fullModelTitle))
+				text.WriteString(fmt.Sprintf("<a href=\"%s\">%s</a><br />\n", brandModelsURL, brandModelsURL))
+				if maskedToken != "" {
+					text.WriteString(fmt.Sprintf("Наш токен: %s\n", maskedToken))
+				}
+				text.WriteString("</div>\n")
+			}
+			text.WriteString("<br />\n")
 		}
 
-		if len(uniqueAlerts) > 0 {
-			var text strings.Builder
-			text.WriteString("Внимание! Обнаружены англоязычные комплектации.<br /><br />\n")
-			text.WriteString(fmt.Sprintf("Комплектаций: %d<br />\n", len(uniqueAlerts)))
-			for _, a := range uniqueAlerts {
-				text.WriteString(fmt.Sprintf("%s | %s | %s<br />\n", a.Brand, a.Model, a.Equipment))
-			}
-			text.WriteString("<br />Внести исправления можно здесь: <a href=\"https://apps.yug-avto.ru/cis/equipments/\">https://apps.yug-avto.ru/cis/equipments/</a>\n")
-
-			recipients := []string{
-				"yuliya.stolbovaya@yug-avto.ru",
-				"natalya.davidova@yug-avto.ru",
-				"nataliya.ivanova@yug-avto.ru",
-				"vera.golubeva@yug-avto.ru",
-				"viktoriya.lopatkina@yug-avto.ru",
-				"yuliya.davidyan@yug-avto.ru",
-				"darya.ermolaeva@yug-avto.ru",
-				"ekaterina.shepetilo@yug-avto.ru",
-				"yuliya.martinova@yug-avto.ru",
-				"elvina.maksimova@yug-avto.ru",
-				"yuliya.kudinova@yug-avto.ru",
-				"natalya.kobeleva@yug-avto.ru",
-				"anton.boreckiy@yug-avto.ru",
+		if hasEquipmentAlerts {
+			uniqueAlerts := make(map[string]EquipmentAlert)
+			for _, a := range result.EquipmentAlerts {
+				key := fmt.Sprintf("%s|%s|%s", a.Brand, a.Model, a.Equipment)
+				uniqueAlerts[key] = a
 			}
 
-			errMail := sendMail("Оповещения Юг-Авто Apps. Витрина.", text.String(), recipients)
-			if errMail != nil {
-				log.Printf("failed to send equipment alerts mail: %v", errMail)
-			} else {
-				log.Printf("sent %d equipment alerts email to %d recipients", len(uniqueAlerts), len(recipients))
+			if len(uniqueAlerts) > 0 {
+				text.WriteString("<b>Внимание! Обнаружены англоязычные комплектации:</b><br /><br />\n")
+				text.WriteString(fmt.Sprintf("Комплектаций: %d<br />\n", len(uniqueAlerts)))
+				for _, a := range uniqueAlerts {
+					text.WriteString(fmt.Sprintf("%s | %s | %s<br />\n", a.Brand, a.Model, a.Equipment))
+				}
+				text.WriteString("<br />Внести исправления можно здесь: <a href=\"https://apps.yug-avto.ru/cis/equipments/\">https://apps.yug-avto.ru/cis/equipments/</a><br />\n")
 			}
 		}
+
+		errMail := sendMail("Оповещения Юг-Авто Apps. Витрина.", text.String(), recipients)
+		if errMail != nil {
+			log.Printf("failed to send alerts mail: %v", errMail)
+		} else {
+			s.recordAlertsSent(currentAlertMap, sendReason)
+			log.Printf("sent alerts email (missing models: %d, equipment: %d) to %d recipients [reason: %s]", len(result.MissingModelAlerts), len(result.EquipmentAlerts), len(recipients), sendReason)
+		}
+	}
+
+	// Resolve alerts for vehicles that were fixed or removed
+	if len(allVehicles) > 0 {
+		s.resolveResolvedAlerts(allVehicles)
 	}
 
 	// Delete new vehicles that are no longer in the API response (sold or removed)
@@ -409,6 +526,142 @@ func (s *Service) SyncNewVehicles() (*SyncResult, error) {
 	writeSyncLog(projectRoot, "new", start, len(allVehicles), result.LogEntries)
 
 	return result, nil
+}
+
+
+// shouldNotifyAlerts determines if alerts should be sent according to the policy:
+// 1. Immediately upon first detection of any new alert (new missing model or new english equipment).
+// 2. Once per day after 09:00 MSK for ongoing/unresolved alerts.
+func (s *Service) shouldNotifyAlerts(currentAlerts map[string]string) (bool, string) {
+	if len(currentAlerts) == 0 {
+		return false, ""
+	}
+
+	// 1. Load alert history (all keys seen within the last 24 hours)
+	// An alert is truly "new" only if its key has NEVER been seen or not notified in the last 24h.
+	var notifiedRows []struct {
+		AlertKey       string `db:"alert_key"`
+		LastNotifiedAt string `db:"last_notified_at"`
+	}
+	s.db.Select(&notifiedRows, "SELECT alert_key, last_notified_at FROM yapps_app_cis_alert_history WHERE last_notified_at >= NOW() - INTERVAL 24 HOUR")
+	recentlyNotified := make(map[string]bool, len(notifiedRows))
+	for _, r := range notifiedRows {
+		recentlyNotified[r.AlertKey] = true
+	}
+
+	hasNewAlert := false
+	for key := range currentAlerts {
+		if !recentlyNotified[key] {
+			hasNewAlert = true
+			break
+		}
+	}
+
+	if hasNewAlert {
+		return true, "first_detection"
+	}
+
+	// 2. Check daily reminder condition: after 09:00 MSK, once per calendar day
+	loc, err := time.LoadLocation("Europe/Moscow")
+	if err != nil {
+		loc = time.FixedZone("MSK", 3*3600)
+	}
+	nowMsk := time.Now().In(loc)
+
+	if nowMsk.Hour() >= 9 {
+		var rawTime string
+		err := s.db.Get(&rawTime, "SELECT last_notified_at FROM yapps_app_cis_alert_history WHERE alert_key = \x27meta:daily_digest\x27")
+		alreadySentToday := false
+		if err == nil && rawTime != "" {
+			t, errParse := time.ParseInLocation("2006-01-02 15:04:05", rawTime, loc)
+			if errParse == nil {
+				alreadySentToday = t.Year() == nowMsk.Year() &&
+					t.Month() == nowMsk.Month() &&
+					t.Day() == nowMsk.Day()
+			}
+		}
+
+		if !alreadySentToday {
+			return true, "daily_digest"
+		}
+	}
+
+	return false, ""
+}
+
+func (s *Service) recordAlertsSent(currentAlerts map[string]string, reason string) {
+	// 1. Insert or update notified alerts
+	for key, alertType := range currentAlerts {
+		s.db.Exec(`
+			INSERT INTO yapps_app_cis_alert_history (alert_key, alert_type, first_seen_at, last_notified_at, is_active)
+			VALUES (?, ?, NOW(), NOW(), 1)
+			ON DUPLICATE KEY UPDATE
+				alert_type = VALUES(alert_type),
+				last_notified_at = NOW(),
+				is_active = 1
+		`, key, alertType)
+	}
+
+	// 2. If daily digest or after 09:00, update meta:daily_digest
+	loc, err := time.LoadLocation("Europe/Moscow")
+	if err != nil {
+		loc = time.FixedZone("MSK", 3*3600)
+	}
+	nowMsk := time.Now().In(loc)
+
+	if reason == "daily_digest" || (nowMsk.Hour() >= 9 && reason == "first_detection") {
+		s.db.Exec(`
+			INSERT INTO yapps_app_cis_alert_history (alert_key, alert_type, first_seen_at, last_notified_at, is_active)
+			VALUES (\x27meta:daily_digest\x27, \x27meta\x27, NOW(), NOW(), 1)
+			ON DUPLICATE KEY UPDATE last_notified_at = NOW(), is_active = 1
+		`)
+	}
+}
+
+// resolveResolvedAlerts scans currently active alerts and marks resolved ones as is_active = 0
+func (s *Service) resolveResolvedAlerts(allVehicles []autocrm.VehicleRaw) {
+	var activeRows []struct {
+		AlertKey  string `db:"alert_key"`
+		AlertType string `db:"alert_type"`
+	}
+	s.db.Select(&activeRows, "SELECT alert_key, alert_type FROM yapps_app_cis_alert_history WHERE is_active = 1 AND alert_key NOT LIKE \x27meta:%\x27")
+	if len(activeRows) == 0 {
+		return
+	}
+
+	// Map of active vehicles in CRM response by VIN and ModelID
+	vehicleByVIN := make(map[string]autocrm.VehicleRaw, len(allVehicles))
+	for _, v := range allVehicles {
+		vehicleByVIN[v.Vin] = v
+	}
+
+	for _, r := range activeRows {
+		if r.AlertType == "missing_model" && strings.HasPrefix(r.AlertKey, "model:") {
+			vin := strings.TrimPrefix(r.AlertKey, "model:")
+			v, exists := vehicleByVIN[vin]
+			// Resolved if vehicle is no longer in CRM response, or model_id is now populated > 0
+			if !exists || v.ModelID > 0 {
+				s.db.Exec("UPDATE yapps_app_cis_alert_history SET is_active = 0 WHERE alert_key = ?", r.AlertKey)
+				log.Printf("alert %s resolved (vehicle exists: %v, model_id: %d)", r.AlertKey, exists, v.ModelID)
+			}
+		} else if r.AlertType == "english_equipment" && strings.HasPrefix(r.AlertKey, "equip:") {
+			parts := strings.Split(strings.TrimPrefix(r.AlertKey, "equip:"), "|")
+			if len(parts) == 3 {
+				brandName, modelName, equipName := parts[0], parts[1], parts[2]
+				var count int
+				checkErr := s.db.Get(&count, `
+					SELECT COUNT(*) FROM yapps_app_cis_equipments e
+					JOIN yapps_app_cis_brands b ON b.id = e.brand_id
+					JOIN yapps_app_cis_models_new m ON m.id = e.model_id
+					WHERE b.name = ? AND m.name = ? AND e.name = ?
+				`, brandName, modelName, equipName)
+				if checkErr == nil && count > 0 {
+					s.db.Exec("UPDATE yapps_app_cis_alert_history SET is_active = 0 WHERE alert_key = ?", r.AlertKey)
+					log.Printf("alert %s resolved (translation added to yapps_app_cis_equipments)", r.AlertKey)
+				}
+			}
+		}
+	}
 }
 
 func (s *Service) deleteSoldVehicles(tableName string, typeID int, activeVehicles []autocrm.VehicleRaw) {

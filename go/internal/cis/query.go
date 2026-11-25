@@ -35,6 +35,7 @@ type VehicleFilter struct {
 	Page          int      `json:"page,omitempty"`
 	PerPage       int      `json:"per_page,omitempty"`
 	Limit         int      `json:"limit,omitempty"`
+	NoCTA         bool     `json:"no_cta,omitempty"`
 }
 
 type VehicleRow struct {
@@ -321,7 +322,14 @@ func (s *Service) BuildVehicleQuery(f VehicleFilter) (string, []interface{}, err
 	limit := perPage
 	offset := 0
 
-	if f.Limit > 0 {
+	if f.Limit > 0 || f.NoCTA {
+		if f.Limit > 0 {
+			limit = f.Limit
+		}
+		if f.Page > 0 {
+			offset = (f.Page - 1) * limit
+		}
+	} else if false {
 		limit = f.Limit
 		if f.Page > 0 {
 			offset = (f.Page - 1) * limit

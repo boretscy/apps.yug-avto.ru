@@ -109,8 +109,8 @@ func parseFilter(r *http.Request) VehicleFilter {
 	if l, err := strconv.Atoi(q.Get("limit")); err == nil && l > 0 {
 		f.Limit = l
 	}
-	if f.Limit > 100 {
-		f.Limit = 100
+	if f.Limit > 250 {
+		f.Limit = 250
 	}
 
 	if perPage, err := strconv.Atoi(q.Get("perpage")); err == nil && perPage > 0 {
@@ -118,8 +118,12 @@ func parseFilter(r *http.Request) VehicleFilter {
 	} else if perPage, err := strconv.Atoi(q.Get("per_page")); err == nil && perPage > 0 {
 		f.PerPage = perPage
 	}
-	if f.PerPage > 100 {
-		f.PerPage = 100
+	if f.PerPage > 250 {
+		f.PerPage = 250
+	}
+
+	if q.Get("no_cta") == "1" || q.Get("no_cta") == "true" {
+		f.NoCTA = true
 	}
 
 	if page, err := strconv.Atoi(q.Get("page")); err == nil && page > 0 {

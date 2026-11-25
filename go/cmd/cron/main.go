@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"sync/atomic"
+	"time"
 
 	"github.com/robfig/cron/v3"
 
@@ -104,6 +105,7 @@ func main() {
 			if err := cisSvc.SyncModels(b.ID, "new"); err != nil {
 				log.Printf("models sync %d error: %v", b.ID, err)
 			}
+			time.Sleep(1500 * time.Millisecond)
 		}
 		log.Println("brands/models sync done")
 	})

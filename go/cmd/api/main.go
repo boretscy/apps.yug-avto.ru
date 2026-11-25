@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"log"
+	"net"
 	"net/http"
+	"sync"
 	"os"
 	"os/signal"
 	"strings"
@@ -17,6 +19,64 @@ import (
 	"github.com/yugavto/apps/pkg/autocrm"
 	"github.com/yugavto/apps/pkg/db"
 )
+
+
+type ipBucket struct {
+	tokens float64
+	last   time.Time
+}
+
+func rateLimitMiddleware(rps float64, burst float64) mux.MiddlewareFunc {
+	var mu sync.Mutex
+	buckets := make(map[string]*ipBucket)
+	trusted := map[string]bool{
+		"127.0.0.1":      true,
+		"::1":            true,
+		"45.128.207.240": true,
+		"89.191.225.51":  true,
+	}
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			ip := r.Header.Get("X-Real-IP")
+			if ip == "" {
+				host, _, err := net.SplitHostPort(r.RemoteAddr)
+				if err == nil {
+					ip = host
+				} else {
+					ip = r.RemoteAddr
+				}
+			}
+			if trusted[ip] {
+				next.ServeHTTP(w, r)
+				return
+			}
+			now := time.Now()
+			mu.Lock()
+			b, ok := buckets[ip]
+			if !ok {
+				b = &ipBucket{tokens: burst, last: now}
+				buckets[ip] = b
+			} else {
+				elapsed := now.Sub(b.last).Seconds()
+				b.tokens += elapsed * rps
+				if b.tokens > burst {
+					b.tokens = burst
+				}
+				b.last = now
+			}
+			if b.tokens < 1.0 {
+				mu.Unlock()
+				w.Header().Set("Content-Type", "application/json; charset=utf-8")
+				w.WriteHeader(http.StatusTooManyRequests)
+				w.Write([]byte(`{"error":"rate limit exceeded"}`))
+				return
+			}
+			b.tokens -= 1.0
+			mu.Unlock()
+			next.ServeHTTP(w, r)
+		})
+	}
+}
 
 func tokenAuth(token string) mux.MiddlewareFunc {
 	return func(next http.Handler) http.Handler {
@@ -63,6 +123,7 @@ func main() {
 	widgetsHdr := widgets.NewHandler(widgetsSvc)
 
 	r := mux.NewRouter()
+	r.Use(rateLimitMiddleware(60, 120))
 
 	if cfg.APIToken != "" {
 		r.Use(tokenAuth(cfg.APIToken))

@@ -170,7 +170,7 @@ func (s *Service) handleVehicles(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	if idParam == "" && len(respItems) > 0 {
+	if !f.NoCTA && idParam == "" && len(respItems) > 0 {
 		perPage := f.PerPage
 		if perPage <= 0 {
 			perPage = 30
@@ -271,7 +271,8 @@ func (s *Service) handleVehicles(w http.ResponseWriter, r *http.Request) {
 
 	writeJSON(w, http.StatusOK, map[string]interface{}{
 		"items":       respItems,
-		"totalCount":  totalCount,
+		"totalCount":    totalCount,
+		"vehiclesCount": len(rows),
 		"Discount":    hasDiscount > 0,
 		"InStock":     hasInStock > 0,
 		"OnWay":       hasOnWay > 0,
