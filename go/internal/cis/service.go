@@ -730,6 +730,9 @@ func (s *Service) SyncModels(brandExtID int, section string) error {
 
 	for _, m := range models.Items {
 		code := generateModelAlias(m.Name, section)
+		if m.ID == 2016 {
+			code = "new-tugella"
+		}
 		code = strings.ToLower(code)
 		code = strings.NewReplacer(" ", "-", "_", "-", "--", "-").Replace(code)
 
@@ -738,10 +741,11 @@ func (s *Service) SyncModels(brandExtID int, section string) error {
 		_, err := s.db.Exec(fmt.Sprintf(`
 			INSERT INTO %s (ext_id, brand_id, code, name, ru_name, image, body_id)
 			VALUES (?, ?, ?, ?, ?, ?, ?)
-			ON DUPLICATE KEY UPDATE name = VALUES(name), code = VALUES(code), brand_id = VALUES(brand_id), image = VALUES(image), body_id = VALUES(body_id)
+			ON DUPLICATE KEY UPDATE name = VALUES(name), code = IF(code = '' OR code LIKE 'novaya-%%' OR code LIKE 'novyy-%%', VALUES(code), code), brand_id = VALUES(brand_id), image = VALUES(image), body_id = VALUES(body_id)
 		`, table), m.ID, brand.ID, code, m.Name, "", m.Image, bodyID)
 		if err != nil {
-			return fmt.Errorf("save model %s: %w", m.Name, err)
+			log.Printf("save model %d (%s): %v", m.ID, m.Name, err)
+			continue
 		}
 	}
 	return nil
@@ -836,25 +840,25 @@ var allowedUsedDealerships = map[int]bool{
 	1489: true, 1492: true, 1499: true, 1502: true,
 	1533: true, 1328: true,
 }
-func (s *Service) SyncVehicleDetail(extID int, typeID int, tableName string) (vin string, updateImages bool, alert *EquipmentAlert, err error) {
+func (s *Service) SyncVehicleDetail(extID int, typeID int, tableName string) (vin string, updateImages bool, alert *EquipmentAlert, missingModel *MissingModelAlert, err error) {
 	raw, err := s.crm.GetVehicleDetail(extID)
 	if err != nil {
-		return "", false, nil, err
+		return "", false, nil, nil, err
 	}
 	vin = raw.Vin
 
 	// Filter used vehicles by allowed dealerships
 	if typeID == 2 {
 		if extID == 1314264 {
-			return vin, false, nil, nil
+			return vin, false, nil, nil, nil
 		}
 		if raw.Dealership == nil || !allowedUsedDealerships[raw.Dealership.ID] {
-			return vin, false, nil, nil
+			return vin, false, nil, nil, nil
 		}
 	}
 
-	updImg, alert, err := s.saveVehicle(raw, typeID, tableName)
-	return vin, updImg, alert, err
+	updImg, alert, missingModel, err := s.saveVehicle(raw, typeID, tableName)
+	return vin, updImg, alert, missingModel, err
 }
 
 func (s *Service) processVehicle(raw *autocrm.VehicleRaw, section string) error {
@@ -922,20 +926,20 @@ func (s *Service) processVehicle(raw *autocrm.VehicleRaw, section string) error 
 	}
 
 	// 2. В противном случае делаем детальный запрос к AutoCRM
-	_, _, _, err = s.SyncVehicleDetail(raw.ID, typeID, cronTable)
+	_, _, _, _, err = s.SyncVehicleDetail(raw.ID, typeID, cronTable)
 	return err
 }
 
-func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName string) (bool, *EquipmentAlert, error) {
+func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName string) (bool, *EquipmentAlert, *MissingModelAlert, error) {
 	if raw.Status == nil || (raw.Status.ID != statusInStock && raw.Status.ID != statusOnWay) {
-		return false, nil, nil
+		return false, nil, nil, nil
 	}
 	if typeID == 2 {
 		if raw.ID == 1314264 {
-			return false, nil, nil
+			return false, nil, nil, nil
 		}
 		if raw.Dealership == nil || !allowedUsedDealerships[raw.Dealership.ID] {
-			return false, nil, nil
+			return false, nil, nil, nil
 		}
 	}
 
@@ -947,7 +951,32 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 	var brand Brand
 	err := s.db.Get(&brand, "SELECT id, ext_id, code, name, ru_name FROM yapps_app_cis_brands WHERE ext_id = ?", brandExtID)
 	if err != nil {
-		return false, nil, fmt.Errorf("brand %d: %w", brandExtID, err)
+		return false, nil, nil, fmt.Errorf("brand %d: %w", brandExtID, err)
+	}
+
+	// Для новых автомобилей (typeID == 1) проверяем наличие model_id
+	if typeID == 1 && raw.ModelID == 0 {
+		dlName := ""
+		if raw.Dealership != nil {
+			dlName = raw.Dealership.Name
+		}
+		refModel := raw.RefModelName
+		if refModel == "" && raw.ModelName != "" {
+			refModel = raw.ModelName
+		}
+		brandTitle := brand.Name
+		if brandTitle == "" {
+			brandTitle = raw.BrandName
+		}
+		missingAlert := &MissingModelAlert{
+			ID:         raw.ID,
+			VIN:        raw.Vin,
+			Brand:      brandTitle,
+			BrandExtID: brandExtID,
+			RefModel:   refModel,
+			Dealership: dlName,
+		}
+		return false, nil, missingAlert, fmt.Errorf("new vehicle %d (vin: %s) has no model_id in AutoCRM (ref_model: %s)", raw.ID, raw.Vin, refModel)
 	}
 
 	modelExtID := raw.ModelID
@@ -972,14 +1001,14 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 		brandFailed := s.failedBrands[brandExtID]
 		s.failedBrandsMu.RUnlock()
 		if brandFailed {
-			return false, nil, fmt.Errorf("model %d brand %d: %w (brand previously failed)", modelExtID, brand.ID, err)
+			return false, nil, nil, fmt.Errorf("model %d brand %d: %w (brand previously failed)", modelExtID, brand.ID, err)
 		}
 		log.Printf("model %d brand %d not found, syncing %s models for brand %d", modelExtID, brand.ID, section, brandExtID)
 		if syncErr := s.SyncModels(brandExtID, section); syncErr != nil {
 			s.failedBrandsMu.Lock()
 			s.failedBrands[brandExtID] = true
 			s.failedBrandsMu.Unlock()
-			return false, nil, fmt.Errorf("model %d brand %d: %w (sync models failed: %v)", modelExtID, brand.ID, err, syncErr)
+			return false, nil, nil, fmt.Errorf("model %d brand %d: %w (sync models failed: %v)", modelExtID, brand.ID, err, syncErr)
 		}
 		if typeID == 2 && raw.RefModelID > 0 {
 			err = s.db.Get(&model, fmt.Sprintf("SELECT id, ext_id, brand_id, code, name, ru_name, image, body_id FROM %s WHERE ext_id = ? AND brand_id = ?", modelTable), modelExtID, brand.ID)
@@ -1003,13 +1032,13 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 					s.failedBrandsMu.Lock()
 					s.failedBrands[brandExtID] = true
 					s.failedBrandsMu.Unlock()
-					return false, nil, fmt.Errorf("model %d brand %d not found in brands: %w", model.ID, model.BrandID, fbErr)
+					return false, nil, nil, fmt.Errorf("model %d brand %d not found in brands: %w", model.ID, model.BrandID, fbErr)
 				}
 			} else {
 				s.failedBrandsMu.Lock()
 				s.failedBrands[brandExtID] = true
 				s.failedBrandsMu.Unlock()
-				return false, nil, fmt.Errorf("model %d brand %d: %w (after sync, fallback: %v)", modelExtID, brand.ID, err, fallbackErr)
+				return false, nil, nil, fmt.Errorf("model %d brand %d: %w (after sync, fallback: %v)", modelExtID, brand.ID, err, fallbackErr)
 			}
 		}
 	}
@@ -1278,7 +1307,7 @@ func (s *Service) saveVehicle(raw *autocrm.VehicleRaw, typeID int, tableName str
 		}
 	}
 
-	return updateImages, alert, err
+	return updateImages, alert, nil, err
 }
 
 func resolveComparison(comparisons []Comparison, entity, value string) string {
@@ -1403,29 +1432,130 @@ func generateBrandAlias(name string) string {
 	return strings.Trim(alias, "-")
 }
 
-func generateModelAlias(name, section string) string {
-	nameTrim := strings.TrimSpace(name)
-	isNewPrefix := false
+var (
+	reModelDup          = regexp.MustCompile(`^(.*?)\s*[/|(]\s*(.*?)[ )]*$`)
+	reModelGen          = regexp.MustCompile(`(\d+)\s*(?:поколение|пок|генерация|gen)`)
+	reModelNewWord      = regexp.MustCompile(`(?:^|[\s\[\(])(?:новый|новая|новое|новые|new)(?:$|[\s\]\)])`)
+	reModelRestyling    = regexp.MustCompile(`рестайлинг|рестайл`)
+	reModelNonAlnum     = regexp.MustCompile(`[^a-z0-9]+`)
+	reModelLetterDigit  = regexp.MustCompile(`([a-z])-(\d+)`)
+	reModelDigitLetter  = regexp.MustCompile(`(\d+)-([a-z])([^a-z]|$)`)
+	phoneticTranslitRep = strings.NewReplacer(
+		"эй", "a", "ай", "a", "би", "b", "си", "c", "це", "c", "ди", "d",
+		"эф", "f", "джи", "g", "эйч", "h", "джей", "j", "кей", "k", "ка", "k",
+		"эль", "l", "эм", "m", "эн", "n", "пи", "p", "ку", "q", "кью", "q",
+		"эр", "r", "эс", "s", "ти", "t", "ви", "v", "дабл", "w", "икс", "x",
+		"игрек", "y", "уай", "y", "зет", "z", "зед", "z",
+		"а", "a", "б", "b", "в", "v", "г", "g", "д", "d", "е", "e", "ё", "yo",
+		"ж", "zh", "з", "z", "и", "i", "й", "y", "к", "k", "л", "l", "м", "m",
+		"н", "n", "о", "o", "п", "p", "р", "r", "с", "s", "т", "t", "у", "u",
+		"ф", "f", "х", "kh", "ц", "ts", "ч", "ch", "ш", "sh", "щ", "shch",
+		"ы", "y", "э", "e", "ю", "yu", "я", "ya", "ъ", "", "ь", "",
+	)
+	modelAliasReplacer = strings.NewReplacer(
+		// Символы
+		"+", "plus",
+		"&", "and",
+		".", "",
+		// Длинные фразы и коммерческая/кузовная специфика (из Cis.php)
+		"бортовая платформа с тентом", "flatbed-van",
+		"с увеличенной крышей", "big-roof",
+		"цельнометаллический", "cargo",
+		"грузопассажирский", "cargo-passenger",
+		"изотермический", "isothermal",
+		"маршрутное такси", "taxi",
+		"рефрижератор", "refrigerator",
+		"универсал", "wagon",
+		"пригород", "suburb",
+		"евроборт", "euroboard",
+		"минивэн", "minivan",
+		"минивен", "minivan",
+		"автобус", "bus",
+		"турист", "tourist",
+		"серия", "series",
+		"шасси", "chassis",
+		"фургон", "van",
+		"бортовой", "board",
+		"борт", "board",
+		"3-дв.", "3-door",
+		"3-дв", "3-door",
+		"5-дв.", "5-door",
+		"5-дв", "5-door",
+		// Фонетические индексы
+		"эй", "a", "ай", "a", "би", "b", "си", "c", "це", "c", "ди", "d",
+		"эф", "f", "джи", "g", "эйч", "h", "джей", "j", "кей", "k", "ка", "k",
+		"эль", "l", "эм", "m", "эн", "n", "пи", "p", "ку", "q", "кью", "q",
+		"эр", "r", "эс", "s", "ти", "t", "ви", "v", "дабл", "w", "икс", "x",
+		"игрек", "y", "уай", "y", "зет", "z", "зед", "z",
+		// Стандартная транслитерация
+		"а", "a", "б", "b", "в", "v", "г", "g", "д", "d", "е", "e", "ё", "yo",
+		"ж", "zh", "з", "z", "и", "i", "й", "y", "к", "k", "л", "l", "м", "m",
+		"н", "n", "о", "o", "п", "p", "р", "r", "с", "s", "т", "t", "у", "u",
+		"ф", "f", "х", "kh", "ц", "ts", "ч", "ch", "ш", "sh", "щ", "shch",
+		"ы", "y", "э", "e", "ю", "yu", "я", "ya", "ъ", "", "ь", "",
+	)
+)
 
-	lowerName := strings.ToLower(nameTrim)
-	for _, prefix := range []string{"новый ", "новая ", "новое ", "новые ", "new "} {
-		if strings.HasPrefix(lowerName, prefix) {
-			nameTrim = strings.TrimSpace(nameTrim[len(prefix):])
-			isNewPrefix = true
-			break
+func generateModelAlias(name, section string) string {
+	text := strings.TrimSpace(name)
+
+	// 1. Предварительная очистка дублей: "Икс 55 (X55)" или "БиДжей 60 (BJ60)"
+	if m := reModelDup.FindStringSubmatch(text); len(m) == 3 {
+		part1 := strings.TrimSpace(m[1])
+		part2 := strings.TrimSpace(m[2])
+
+		temp := phoneticTranslitRep.Replace(strings.ToLower(part1))
+		clean1 := reModelNonAlnum.ReplaceAllString(temp, "")
+		clean2 := reModelNonAlnum.ReplaceAllString(strings.ToLower(part2), "")
+		if clean1 != "" && clean1 == clean2 {
+			text = part1
 		}
 	}
 
-	alias := transliterate(nameTrim)
-	alias = strings.ToLower(alias)
-	alias = strings.NewReplacer(" ", "-", "_", "-", "--", "-").Replace(alias)
-	alias = strings.Trim(alias, "-")
+	text = strings.ToLower(text)
 
-	if isNewPrefix && !strings.HasSuffix(alias, "-new") && alias != "new" {
-		alias = alias + "-new"
+	// 2. Обработка поколений (например, "3 поколение" -> gen3)
+	generation := ""
+	if gm := reModelGen.FindStringSubmatch(text); len(gm) == 2 {
+		generation = "gen" + gm[1]
+		text = strings.Replace(text, gm[0], "", 1)
 	}
 
-	return alias
+	// 3. Суффиксы состояния (выносятся в конец алиаса: new, restyling)
+	var suffixes []string
+	if reModelNewWord.MatchString(text) {
+		text = reModelNewWord.ReplaceAllString(text, " ")
+		suffixes = append(suffixes, "new")
+	}
+	if reModelRestyling.MatchString(text) {
+		text = reModelRestyling.ReplaceAllString(text, " ")
+		suffixes = append(suffixes, "restyling")
+	}
+
+	// 4. Словарь замен и транслитерация
+	text = modelAliasReplacer.Replace(text)
+
+	// 5. Очистка и схлопывание дефисов между буквами и цифрами
+	text = reModelNonAlnum.ReplaceAllString(text, "-")
+	text = strings.Trim(text, "-")
+	text = reModelLetterDigit.ReplaceAllString(text, "$1$2")
+	text = reModelDigitLetter.ReplaceAllString(text, "$1$2$3")
+
+	// 6. Сборка итогового слага
+	var parts []string
+	if text != "" {
+		parts = append(parts, text)
+	}
+	if generation != "" {
+		parts = append(parts, generation)
+	}
+	for _, s := range suffixes {
+		if s != "" {
+			parts = append(parts, s)
+		}
+	}
+
+	return strings.Join(parts, "-")
 }
 
 func transliterate(text string) string {
@@ -1512,7 +1642,7 @@ func (s *Service) StartBackgroundRefresher() {
 		}
 
 		log.Printf("Background sync vehicle detail: ext_id=%d type_id=%d", oldest.ExtID, oldest.TypeID)
-		_, _, _, err = s.SyncVehicleDetail(oldest.ExtID, oldest.TypeID, prodTable)
+		_, _, _, _, err = s.SyncVehicleDetail(oldest.ExtID, oldest.TypeID, prodTable)
 		if err != nil {
 			log.Printf("Background sync vehicle detail error for %d: %v", oldest.ExtID, err)
 			if strings.Contains(err.Error(), "status 403") || strings.Contains(err.Error(), "forbidden") {
@@ -1583,7 +1713,7 @@ func (s *Service) startPriorityWorker() {
 
 				if canSave {
 					if prodTable != "" {
-						_, alert, err := s.saveVehicle(raw, req.TypeID, prodTable)
+						_, alert, _, err := s.saveVehicle(raw, req.TypeID, prodTable)
 						if err != nil {
 							log.Printf("priority detail sync error (prod): %v", err)
 						}
@@ -1592,7 +1722,7 @@ func (s *Service) startPriorityWorker() {
 						}
 					}
 					if cronTable != "" && cronTable != prodTable {
-						_, _, err := s.saveVehicle(raw, req.TypeID, cronTable)
+						_, _, _, err := s.saveVehicle(raw, req.TypeID, cronTable)
 						if err != nil {
 							log.Printf("priority detail sync error (cron): %v", err)
 						}

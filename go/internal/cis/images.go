@@ -91,19 +91,23 @@ func (s *Service) ProcessImages() error {
 		}()
 	}
 
+	done := make(chan struct{})
 	go func() {
 		ticker := time.NewTicker(30 * time.Second)
 		defer ticker.Stop()
-		for range ticker.C {
-			p := processed.Load()
-			log.Printf("images: %d/%d processed (%d errors)", p, len(extIDs), errCount.Load())
-			if p >= int32(len(extIDs)) {
+		for {
+			select {
+			case <-done:
 				return
+			case <-ticker.C:
+				p := processed.Load()
+				log.Printf("images: %d/%d processed (%d errors)", p, len(extIDs), errCount.Load())
 			}
 		}
 	}()
 
 	wg.Wait()
+	close(done)
 	log.Printf("images: done %d/%d (%d errors)", processed.Load(), len(extIDs), errCount.Load())
 	return nil
 }

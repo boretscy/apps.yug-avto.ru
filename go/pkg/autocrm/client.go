@@ -53,6 +53,14 @@ func NewClient(baseURL, token string) *Client {
 	}
 }
 
+func (c *Client) Token() string {
+	return c.token
+}
+
+func (c *Client) BaseURL() string {
+	return c.baseURL
+}
+
 // throttleList applies the 10.5s pause strictly to catalog listing endpoints
 func (c *Client) throttleList() {
 	c.listRateMu.Lock()
