@@ -455,19 +455,31 @@
             
             // if ($_GET['s']) Helper::sp( $_GET );
 
-			$host = parse_url( $URL )['host'];
+			$host = parse_url((string)$URL, PHP_URL_HOST) ?: '';
 
-			$land = $this->YApps_GetLandSettings( $this->YApps_GetLandIdByUrl('https://'.$host.'/') );
-			if ( $land ) $host = $this->YApps_GetSiteByID( $land['site_id'] )['url'];
+			$landId = $this->YApps_GetLandIdByUrl($URL);
+			if ( !$landId && $host !== '' ) {
+				$landId = $this->YApps_GetLandIdByUrl('https://'.$host.'/');
+			}
+			$land = $landId ? $this->YApps_GetLandSettings($landId) : false;
+			if ( !empty($land) && is_array($land) ) {
+				$landSite = $this->YApps_GetSiteByID($land['site_id']);
+				if ( !empty($landSite['url']) ) $host = $landSite['url'];
+			}
 			$settings = $this->getSettingsByHost( $host );
 			if ( !$settings ) $settings = $this->getSettingsByShowroom( $URL );
 
-			$site = $this->YApps_GetSiteByID($settings['site_id']);
+			$site = ( !empty($settings) && is_array($settings) && !empty($settings['site_id']) )
+				? $this->YApps_GetSiteByID($settings['site_id'])
+				: false;
 
-			if ( $land['calltouch_id'] ) $site['calltouch_id'] = $land['calltouch_id'];
-			if ( $land['calltouch_sess'] ) $site['calltouch_sess'] = $land['calltouch_sess'];
+			if ( !empty($land) && is_array($land) && !empty($site) && is_array($site) ) {
+				if ( !empty($land['calltouch_id']) ) $site['calltouch_id'] = $land['calltouch_id'];
+				if ( !empty($land['calltouch_sess']) ) $site['calltouch_sess'] = $land['calltouch_sess'];
+				if ( !empty($land['yandex_id']) ) $site['yandex_id'] = trim((string)$land['yandex_id']);
+			}
 			
-			if ( $settings['active'] &&
+			if ( !empty($settings['active']) &&
 				( !$land ||
 					( $land && 
 						( $land['use_lg'] || $land['use_cb'] || $land['use_nv'] || $land['use_cis'] )
@@ -599,9 +611,9 @@
 				$script = str_replace('"%% CB_TIMEOUT %%"', $settings['cb_timeout'], $script);
 				$script = str_replace('"%% LG_TIMEOUT_1 %%"', $settings['lg_timeout_1'], $script);
 				$script = str_replace('"%% LG_TIMEOUT_2 %%"', $settings['lg_timeout_2'], $script);
-				$script = str_replace('%% CT_ID %%', $site['calltouch_id'], $script);
-				$script = str_replace('%% CT_S %%', $site['calltouch_sess'], $script);
-				$script = str_replace('"%% YA_ID %%"', (($site['yandex_id'])?:'""'), $script);
+				$script = str_replace('%% CT_ID %%', $site['calltouch_id'] ?? '', $script);
+				$script = str_replace('%% CT_S %%', $site['calltouch_sess'] ?? '', $script);
+				$script = str_replace('"%% YA_ID %%"', (!empty($site['yandex_id']) ? $site['yandex_id'] : '""'), $script);
 				$script = str_replace('"%% CB %%"', (($settings['use_cb']&&$widget['CB'])?'true':'false'), $script);
 				$script = str_replace('"%% LG %%"', (($settings['use_lg']&&$widget['LG'])?'true':'false'), $script);
 				if ( file_exists( __DIR__.'/../../upload/Widgets3/AddStyles/'.$settings['site_id'].'.js' ) )
