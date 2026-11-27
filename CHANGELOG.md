@@ -1,5 +1,11 @@
 # Changelog - apps.yug-avto.ru (Монолит / Go API)
 
+## [2026-11-27]
+### Fixed
+- **Приоритет ID Яндекс.Метрики лендинга в виджетах v3 (`core/YApps/Widgets3.php`):**
+  - В методе `Widgets3::getScript()` добавлено переопределение `$site['yandex_id']` значением `$land['yandex_id']` при наличии у лендинга собственного счётчика (по аналогии с `calltouch_id` и `calltouch_sess`).
+  - Расширен поиск лендинга: сначала выполняется поиск по точному `$URL`, затем fallback на `'https://' . $host . '/'`, а также добавлены безопасные проверки массивов и ключей под PHP 8.x.
+
 ## [2026-11-25]
 ### Fixed
 - **Синхронизация и генерация алиасов моделей (`go/internal/cis/service.go`, `go/cmd/cron/main.go`, `go/internal/cis/service_test.go`):**
